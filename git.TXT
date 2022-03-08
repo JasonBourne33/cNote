@@ -2,6 +2,8 @@
 git pull --rebase origin master
 git add .
 git commit -m "second commit"
+git config --global user.name "chaos"
+git config --global user.email "1065807387@qq.com"
 git push
 
 
@@ -14,7 +16,7 @@ git remote add origin https://github.com/JasonBourne33/cNote.git
 把readme拉下来
 git pull --rebase origin master
 git push -u origin master
-
+git config --global http.sslVerify "false"
 
 
 
