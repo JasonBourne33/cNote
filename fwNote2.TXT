@@ -28,9 +28,46 @@ nativePollOnce 方法会进行资源是否，避免卡死
  Message next() 里第一次int nextPollTimeoutMillis = 0; 所以for(;;) 里nativePollOnce 不会阻塞，走到nextPollTimeoutMillis = -1;
 再到pendingIdleHandlerCount = mIdleHandlers.size(); 而mIdleHandlers是arrayList，看mIdleHandlers.add(handler); 是在addIdleHandler 调用了
 addIdleHandler 在ActivityThread 里有调用到，第一次mIdleHandlers.size() 的值=0，走continue；
-回到for(;;)后这时候nextPollTimeoutMillis=-1了，就会一直卡在nativePollOnce 方法里
-如果mIdleHandlers.size()大于0，会处理一块逻辑后，走到pendingIdleHandlerCount = 0; 和nextPollTimeoutMillis = 0; 重置
+回到for(;;)后这时候nextPollTimeoutMillis=-1了，就会一直卡在nativePollOnce 方法里（挂起）
+如果mIdleHandlers.size()大于0，会处理一块逻辑后，走到pendingIdleHandlerCount = 0; 和nextPollTimeoutMillis = 0; 重置为0
 01.13.45 第二种情况
+当Message msg = mMessages; 不为空会 msg = msg.next; 获取下一条消息，然后mMessages = msg.next; 把下一条赋值给全局变量
+if (now < msg.when) 的when是Handler类 sendMessageAtTime 里的uptimeMillis ，执行完后还是到continue
+01.26.20 没延时的情况
+MessageQueue里 enqueMessage 里when<p.when满足，会执行mMessages = msg; 消息赋值给全局
+01.31.20 唤醒操作
+在Message next() 里355行 处理消息的时候mBlocked = false; 让新enqueueMessage的消息等待；闲置的时候386行 mBlocked = true;等待消息来处理
+当enqueMessage 的时候调nativeWake(mPtr);
+01.33.20 对象池
+链表结构，最多放50条消息，Message类里void recycleUnchecked() 中sPoolSync 是指针，指向当前第一个Message， sPool是静态的Message，
+next获取下一个Message
+01.41.45
+当when < p.when，调break; 退出
 
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

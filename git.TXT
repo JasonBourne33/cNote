@@ -1,4 +1,12 @@
-4 上传命令
+5 第二次上传命令
+git pull --rebase origin master
+git add .
+git commit -m "second commit"
+git push
+
+
+
+4 第一次上传命令
 git add init
 git add .
 git commit -m "first commit"
@@ -28,6 +36,43 @@ title随便填（公司电脑or家里电脑），把id_rsa.pub内容复制到key
 ssh-keygen -t rsa -C "1065807387@qq.com"
 按四下回车
 在 C:\Users\Administrator\.ssh 目录下用记事本打开 id_rsa.pub 复制里面内容
+
+
+
+
+
+
+
+
+
+
+
+
+
+If we want to remove a branch from Git, we can do it with the following command:
+git branch -d [branch_name]
+
+However, in order to do this, we must not be located on the branch we want to remove. So in this case, we move to the master branch and from there delete the branch we just created:
+git checkout master
+git branch -d test
+
+First, locate the development branch to which the second branch is to be attached. For example, we will attach the test branch to the master branch. Then, we have to place ourselves in the master branch and merge with the command:
+git merge [branch]
+
+https://www.hostinger.com/tutorials/how-to-use-git-branches/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
