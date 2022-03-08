@@ -1,0 +1,3 @@
+q=query(fundamentals.eod_derivative_indicator.pe_ratio)
+    fund=get_fundamentals(q)
+    logger.info(fund)

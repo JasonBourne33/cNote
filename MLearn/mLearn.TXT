@@ -1,0 +1,24 @@
+
+1 随机森林 
+  随机取样，对维度（树）学习出不同的特征，整合得结论
+https://www.bilibili.com/video/BV1H5411e73F/?spm_id_from=333.788.recommend_more_video.3
+
+2 梯度下降
+  预测值一点点靠近true值。 局部最优解，只能求出第一个波谷
+https://www.bilibili.com/video/BV1eC4y187yf?from=search&seid=8846556386753878613&spm_id_from=333.337.0.0
+
+3 svm
+距离样本群最远的线性分类，面对交错的样本可加入容差
+https://www.bilibili.com/video/BV1N54y1q7bQ?spm_id_from=333.999.0.0
+
+4 卷积
+延迟 倍率 叠加
+延迟 升降 叠加 卡农
+
+5 邻近算法KNN
+根据邻近的样品类型分类
+
+
+天色_de
+这个一点也不直观。一个弹簧，给它一个冲击，它会表现为震动。但是如果给它一个连续作用的变化的力，弹簧当下的震动即是过去所有震动的叠加。这才是卷积的根本意思，即过去的响应会影响当下。
+https://www.bilibili.com/video/BV1JX4y1K7Dr/?spm_id_from=autoNext

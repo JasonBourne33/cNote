@@ -1,0 +1,36 @@
+
+20.00 ThreadLocal
+ 第一个threadLocal.get();//get不到，走初始化setInitialValue，输出 jett老师
+第二个String value2 = threadLocal.get();//可以get到，获取到set的内容 输出大卫老师
+说明新Thread 如果没有调threadLocal.set 的话，当get的时候默认会调用到setInitialValue，也就是looper 的theadLoacl
+39.45 app启动 ActivityThread分析
+ app启动时，ActivityThread 里main方法里Looper.prepareMainLooper() 里 prepare() 里 
+sThreadLocal.set(new Looper(quitAllowed));创建了全局唯一主线程looper对象
+45.30 handler源码
+ 在主线程创建handler的时候通过Looper.myLooper()方法下的sThreadLocal.get() 拿到looper对象，
+因为是在主线程，所以能拿到全局唯一的looper对象。mQueue = mLooper.mQueue; 获得消息队列
+46.50 发送消息
+ sendMessage 里sendMessageAtTime 里enqueueMessage 里msg.target的target发现是handler，
+enqueueMessage 里返回的queue.enqueueMessage 里发现mMessages = msg;  把传入的msg赋值给全局变量
+50.20 消息处理
+ ActivityThread 类中main 底部Looper.loop()里 Looper me = myLooper()拿到全局唯一looper对象，
+然后到loopOnce 里Message msg = me.mQueue.next(); 拿消息，然后通过msg.target.dispatchMessage(msg);  返回消息
+dispatchMessage里 handleMessage 里是空的，就是重写的Handler的handleMessage
+55.50 阻塞的实现
+ MessageQueue 类里Message next() 里nativePollOnce(ptr, nextPollTimeoutMillis);
+在线源码  http://androidxref.com/9.0.0_r3/xref/
+58.00 唤醒
+ MessageQueue 类里nativeWake(mPtr);
+59.15 由局部变量nextPollTimeoutMillis 决定是否阻塞，为0不阻塞，为-1阻塞，为数值唤醒
+nativePollOnce 方法会进行资源是否，避免卡死
+
+01.05.30 代码运行（挂起操作）
+ Message next() 里第一次int nextPollTimeoutMillis = 0; 所以for(;;) 里nativePollOnce 不会阻塞，走到nextPollTimeoutMillis = -1;
+再到pendingIdleHandlerCount = mIdleHandlers.size(); 而mIdleHandlers是arrayList，看mIdleHandlers.add(handler); 是在addIdleHandler 调用了
+addIdleHandler 在ActivityThread 里有调用到，第一次mIdleHandlers.size() 的值=0，走continue；
+回到for(;;)后这时候nextPollTimeoutMillis=-1了，就会一直卡在nativePollOnce 方法里
+如果mIdleHandlers.size()大于0，会处理一块逻辑后，走到pendingIdleHandlerCount = 0; 和nextPollTimeoutMillis = 0; 重置
+01.13.45 第二种情况
+
+
+ 

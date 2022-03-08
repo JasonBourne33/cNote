@@ -1,0 +1,334 @@
+5 提取视频中的音频
+ffmpeg -i amazon.mp4 -vn -acodec copy out.m4a
+提取视频中的视频（去掉音频）
+ffmpeg -i amazon.mp4  -vcodec copy -an v.mp4
+
+合并
+ffmpeg -i a.m4a -i v.mp4 -c copy out.mp4
+
+
+4 逆时针90度
+ffmpeg -i in.mp4 -vf "transpose=2" out.mpt
+ffmpeg -i in.mp4  -vf "scale=-1:540,transpose=2,setpts=0.25*PTS"  out.mp4
+origin：
+https://www.cnblogs.com/freedom-try/p/15121884.html
+
+
+3 ffmpeg 视频倍速播放 和 慢速播放
+如果担心会出现丢帧的情况，可以使用 -r 指定输入帧数，如果源视频是30fps，我们想4倍播放：
+ffmpeg -i input.mkv -r 120 -vf "setpts=0.25*PTS" output.mkv
+origin:
+https://blog.csdn.net/ternence_hsu/article/details/85865718
+
+
+1 -1表示按照比例缩放，可保证视屏不会变形
+ffmpeg -i input.mp4 -strict -2 -vf scale=-1:540 output.mp4
+
+2 截取0~30s的视频 
+ffmpeg -ss 00:00:00 -t 00:00:30 -i test.mp4 -vcodec copy -acodec copy output.mp4
+* -ss 指定从什么时间开始
+* -t 指定需要截取多长时间
+* -i 指定输入文件
+
+
+ffmpeg -i MVI_0727.mp4 -vcodec -vf "scale=720:360,setpts=0.25*PTS" -i a.m4a -c copy out.mp4
+
+
+
+最终使用:
+ffmpeg  -i a.m4a -i MVI_0727.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-048.mp4"
+ffmpeg  -i a.m4a -i MVI_0729.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-047.mp4"
+ffmpeg  -i a.m4a -i MVI_0731.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-048-1.mp4"
+ffmpeg  -i a.m4a -i MVI_0733.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-047-1.mp4"
+ffmpeg  -i a.m4a -i MVI_0734.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-072.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0736.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-048-2.mp4"
+ffmpeg  -i a.m4a -i MVI_0737.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-044.mp4"
+ffmpeg  -i a.m4a -i MVI_0738.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-045.mp4"
+ffmpeg  -i a.m4a -i MVI_0742.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-1.mp4"
+ffmpeg  -i a.m4a -i MVI_0743.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-2.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0744.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-3.mp4"
+ffmpeg  -i a.m4a -i MVI_0745.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-4.mp4"
+ffmpeg  -i a.m4a -i MVI_0746.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-5.mp4"
+ffmpeg  -i a.m4a -i MVI_0747.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-121-6.mp4"
+ffmpeg  -i a.m4a -i MVI_0749.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-116.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0750.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-117.mp4"
+ffmpeg  -i a.m4a -i MVI_0751.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-022.mp4"
+ffmpeg  -i a.m4a -i MVI_0752.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-032.mp4"
+ffmpeg  -i a.m4a -i MVI_0758.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-103.mp4"
+ffmpeg  -i a.m4a -i MVI_0759.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-113.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0760.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-093.mp4"
+ffmpeg  -i a.m4a -i MVI_0761.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-014.mp4"
+ffmpeg  -i a.m4a -i MVI_0762.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-119.mp4"
+ffmpeg  -i a.m4a -i MVI_0001.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-107.mp4"
+ffmpeg  -i a.m4a -i MVI_0002.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-074.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0003.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-057.mp4"
+ffmpeg  -i a.m4a -i MVI_0004.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-060.mp4"
+ffmpeg  -i a.m4a -i MVI_0006.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\CG-P150.mp4"
+ffmpeg  -i a.m4a -i MVI_0009.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-051.mp4"
+ffmpeg  -i a.m4a -i MVI_0010.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-122.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0013.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-055.mp4"
+ffmpeg  -i a.m4a -i MVI_0015.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-039.mp4"
+ffmpeg  -i a.m4a -i MVI_0017.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-061.mp4"
+ffmpeg  -i a.m4a -i MVI_0018.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-062.mp4"
+ffmpeg  -i a.m4a -i MVI_0019.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-084.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0020.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-115.mp4"
+ffmpeg  -i a.m4a -i MVI_0033.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-067.mp4"
+ffmpeg  -i a.m4a -i MVI_0034.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-077.mp4"
+ffmpeg  -i a.m4a -i MVI_0035.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-036.mp4"
+ffmpeg  -i a.m4a -i MVI_0036.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-124.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0037.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-106.mp4"
+ffmpeg  -i a.m4a -i MVI_0040.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-050-1.mp4"
+ffmpeg  -i a.m4a -i MVI_0041.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-017.mp4"
+ffmpeg  -i a.m4a -i MVI_0043.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-126.mp4"
+ffmpeg  -i a.m4a -i MVI_0044.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-018-2.mp4"
+ffmpeg  -i a.m4a -i MVI_0045.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-018.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0046.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-029.mp4"
+ffmpeg  -i a.m4a -i MVI_0047.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-031.mp4"
+ffmpeg  -i a.m4a -i MVI_0048.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-027.mp4"
+ffmpeg  -i a.m4a -i MVI_0050.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-092.mp4"
+ffmpeg  -i a.m4a -i MVI_0051.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-035.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0052.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-117.mp4"
+ffmpeg  -i a.m4a -i MVI_0053.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-B-026.mp4"
+ffmpeg  -i a.m4a -i MVI_0054.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-002.mp4"
+ffmpeg  -i a.m4a -i MVI_0056.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-011.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0057.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-005.mp4"
+ffmpeg  -i a.m4a -i MVI_0058.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-120.mp4"
+ffmpeg  -i a.m4a -i MVI_0059.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-034.mp4"
+ffmpeg  -i a.m4a -i MVI_0060.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-088.mp4"
+ffmpeg  -i a.m4a -i MVI_0061.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-108.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0063.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-110.mp4"
+ffmpeg  -i a.m4a -i MVI_0064.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-004.mp4"
+ffmpeg  -i a.m4a -i MVI_0065.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-114.mp4"
+ffmpeg  -i a.m4a -i MVI_0066.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-019.mp4"
+ffmpeg  -i a.m4a -i MVI_0067.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-021.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0068.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-118.mp4"
+ffmpeg  -i a.m4a -i MVI_0069.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-026.mp4"
+ffmpeg  -i a.m4a -i MVI_0070.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-112.mp4"
+ffmpeg  -i a.m4a -i MVI_0071.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-038.mp4"
+ffmpeg  -i a.m4a -i MVI_0072.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-024.mp4"
+ffmpeg  -i a.m4a -i MVI_0074.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-078.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0075.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-102.mp4"
+ffmpeg  -i a.m4a -i MVI_0076.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-101.mp4"
+ffmpeg  -i a.m4a -i MVI_0078.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-058.mp4"
+ffmpeg  -i a.m4a -i MVI_0079.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-009.mp4"
+ffmpeg  -i a.m4a -i MVI_0081.mp4 -vcodec copy  out.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-105.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0082.mp4 -vcodec copy  out 1.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-117.mp4"
+ffmpeg  -i a.m4a -i MVI_0084.mp4 -vcodec copy  out 2.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-065.mp4"
+ffmpeg  -i a.m4a -i MVI_0085.mp4 -vcodec copy  out 3.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-081.mp4"
+ffmpeg  -i a.m4a -i MVI_0086.mp4 -vcodec copy  out 4.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-023.mp4"
+ffmpeg  -i a.m4a -i MVI_0087.mp4 -vcodec copy  out 5.mp4
+ffmpeg  -i out.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-076.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0088.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-033.mp4"
+ffmpeg  -i a.m4a -i MVI_0090.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-010.mp4"
+ffmpeg  -i a.m4a -i MVI_0091.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-068.mp4"
+ffmpeg  -i a.m4a -i MVI_0092.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-066.mp4"
+ffmpeg  -i a.m4a -i MVI_0093.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-082.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0094.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-109.mp4"
+ffmpeg  -i a.m4a -i MVI_0095.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-063.mp4"
+ffmpeg  -i a.m4a -i MVI_0096.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-020.mp4"
+ffmpeg  -i a.m4a -i MVI_0097.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-033-2.mp4"
+ffmpeg  -i a.m4a -i MVI_0098.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-025.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0099.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-137.mp4"
+ffmpeg  -i a.m4a -i MVI_0100.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-079.mp4"
+ffmpeg  -i a.m4a -i MVI_0101.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-059.mp4"
+ffmpeg  -i a.m4a -i MVI_0104.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-138.mp4"
+ffmpeg  -i a.m4a -i MVI_0105.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-042.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0107.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-037.mp4"
+ffmpeg  -i a.m4a -i MVI_0108.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-056.mp4"
+ffmpeg  -i a.m4a -i MVI_0109.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-095.mp4"
+ffmpeg  -i a.m4a -i MVI_0110.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-112.mp4"
+ffmpeg  -i a.m4a -i MVI_0112.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-089.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0113.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-085.mp4"
+ffmpeg  -i a.m4a -i MVI_0114.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-125.mp4"
+ffmpeg  -i a.m4a -i MVI_0115.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-071.mp4"
+ffmpeg  -i a.m4a -i MVI_0116.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-070.mp4"
+ffmpeg  -i a.m4a -i MVI_0117.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-072.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0118.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-096.mp4"
+ffmpeg  -i a.m4a -i MVI_0119.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-094.mp4"
+ffmpeg  -i a.m4a -i MVI_0120.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-069.mp4"
+ffmpeg  -i a.m4a -i MVI_0121.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-028.mp4"
+ffmpeg  -i a.m4a -i MVI_0122.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-012.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0123.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-013.mp4"
+ffmpeg  -i a.m4a -i MVI_0124.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-015.mp4"
+ffmpeg  -i a.m4a -i MVI_0125.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-006.mp4"
+ffmpeg  -i a.m4a -i MVI_0126.mp4 -vcodec copy  out_4.mp4
+ffmpeg  -i out_4.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-007.mp4"
+ffmpeg  -i a.m4a -i MVI_0127.mp4 -vcodec copy  out_5.mp4
+ffmpeg  -i out_5.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-007-2.mp4"
+
+ffmpeg  -i a.m4a -i MVI_0128.mp4 -vcodec copy  out_1.mp4
+ffmpeg  -i out_1.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-007-3.mp4"
+ffmpeg  -i a.m4a -i MVI_0129.mp4 -vcodec copy  out_2.mp4
+ffmpeg  -i out_2.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-003.mp4"
+ffmpeg  -i a.m4a -i MVI_0132.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\ND-WP-123.mp4"
+ffmpeg  -i a.m4a -i MVI_0133.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\HK-P011.mp4"
+ffmpeg  -i a.m4a -i MVI_0135.mp4 -vcodec copy  out_3.mp4
+ffmpeg  -i out_3.mp4 -vf "scale=1280:720" "D:\ProcessingOutput\HK-P003-2.mp4"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
