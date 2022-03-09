@@ -42,7 +42,35 @@ MessageQueue里 enqueMessage 里when<p.when满足，会执行mMessages = msg; �
 链表结构，最多放50条消息，Message类里void recycleUnchecked() 中sPoolSync 是指针，指向当前第一个Message， sPool是静态的Message，
 next获取下一个Message
 01.41.45
-当when < p.when，调break; 退出
+当when < p.when，调break; 退出，最终效果从小到大把Message排列完成
+01.48.00
+MessageQueue里 next()里 nativePollOnce 代码看不了，网页源码打不开
+01.55.00
+手写DnHandler
+
+
+
+对象池队列，阻塞挂起，epoll，优先级队列
+
+
+
+
+B站的解析
+https://www.bilibili.com/video/BV1fv411B7bH?p=2&spm_id_from=pageDriver
+Looper就像传送带的动力：
+Looper.loop里 死循环调用了loopOnce，里面Message msg = me.mQueue.next();
+而mQueue.next() 里从队列中取Message，拿到msg后调dipatchMessage，再调handleMessage
+
+1 一个线程有几个Handler？
+每个Activity都能new，随便new，想new多少new多少
+
+2 一个线程有几个Looper？如何保证？
+只有一个，
+一个线程对应一个ThreadLocalMap，map里面的entry一个key对应一个value，key是threadlocal，value是传进来的looper
+ 源码解析：Looper.prepare()的时候有调用ThreadLocal.set()，里面Thread.currentThread()获取当前线程,
+然后ThreadLocalMap map = getMap(t); 根据当前线程获取对应的用来保存线程上下文的ThreadLocalMap（一个线程对应一个map）
+sThreadLocal是final修饰的 
+
 
 
 

@@ -1,7 +1,7 @@
 5 第二次上传命令
 git pull --rebase origin master
 git add .
-git commit -m "second commit"
+git commit -m "git"
 git config --global user.name "chaos"
 git config --global user.email "1065807387@qq.com"
 git push

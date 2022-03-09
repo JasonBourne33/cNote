@@ -1,0 +1,41 @@
+
+1 恒等式
+Asset=Liability+Owner's Equity
+Owner's Equity=Contributed Capital+Ending Retain Earning
+Ending Retaining Earning=Begin Retain Earning+Net Income+Devided Declare
+Net Income=Revenue-Expense
+
+ 借↑贷↓	     贷↑借↓
+费用+资产= 负债+所有者权益+收入
+
+
+
+
+2 原始票据
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
