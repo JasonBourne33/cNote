@@ -1,4 +1,4 @@
-5 第二次上传命令
+5 第二次上传命令 (可能要翻墙)
 git pull --rebase origin master
 git add .
 git commit -m "git"
