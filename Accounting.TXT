@@ -17,6 +17,13 @@ Net Income=Revenue-Expense
 
 
 
+记账凭证
+总帐凭证 和明细分开平行记账
+
+
+
+
+
 
 
 
