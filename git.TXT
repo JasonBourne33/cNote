@@ -1,3 +1,7 @@
+6 新电脑考下来
+git clone https://github.com/JasonBourne33/cNote.git
+
+
 5 第二次上传命令 (可能要翻墙)
 git pull --rebase origin master
 git add .
