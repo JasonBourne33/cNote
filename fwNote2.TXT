@@ -67,16 +67,15 @@ Looper.loop里 死循环调用了loopOnce，里面Message msg = me.mQueue.next()
 2 一个线程有几个Looper？如何保证？
 只有一个，
 一个线程对应一个ThreadLocalMap，map里面的entry一个key对应一个value，key是threadlocal，value是传进来的looper
-
+prepare方法里判断threadLocal不为空就抛出异常，保证了ThreadLocal的唯一性，也就是Entry里value的唯一
  源码解析：Looper.prepare()的时候有调用ThreadLocal.set()，里面Thread.currentThread()获取当前线程,
 然后ThreadLocalMap map = getMap(t); 根据当前线程获取对应的用来保存线程上下文的ThreadLocalMap（一个线程对应一个map）
-
 ThreadLocalMap里面是一个Entry[]数组，每一个Entry又是key，value结构的键值对，ThreadLocal是类似hashmap的结构
-prepare方法里判断threadLocal不为空就抛出异常，保证了ThreadLocal的唯一性，也就是Entry里value的唯一
+
 
 
 3 Handler内存泄漏的原因？为什么其他的内部类没有这个问题？
-Handler的使用是匿名内部类，会持有activity的引用（jvm定的，是java语法）
+Handler使用的是匿名内部类，会持有activity的引用（jvm定的，是java语法）
 enqueueMessage方法里msg.target = this; ，Message包含Handler，handler持有Activity
 如果有delay的时间5min，那就要5min后才解除持有关系，MessageQueue又放在内存里
 在5min内activity被onDestroy后，但MessageQueue还是持有activity就内存泄漏
@@ -89,9 +88,9 @@ enqueueMessage方法里msg.target = this; ，Message包含Handler，handler持�
 
 
 5 子线程中维护的Looper，消息队列无消息的时候的处理方案是什么？有什么用？
-阻塞： Looper类里 loop里 loopOnce里 queue.next()里 nextPollTimeoutMillis = -1;  然后continue到下一次循环
-到nativePollOnce()就会阻塞，因为nextPollTimeoutMillis 是-1了，nativePollOnce会调用Linux函数，epoll机制进行等待
-处理方案： 调用Looper.quit，removeAllMessagesLocked()把所以变量置为0或null，然后nativeWake(mPtr) 唤醒线程
+阻塞： Looper类里 loop里 loopOnce里 queue.next()里 No more messages.的时候nextPollTimeoutMillis = -1;  然后continue到下一次循环
+因为nextPollTimeoutMillis 是-1了，到nativePollOnce()就会阻塞，nativePollOnce会调用Linux函数，epoll机制进行等待
+处理方案： 调用Looper.quit，removeAllMessagesLocked()把所以变量置为0或null，然后nativeWake(mPtr) 唤醒线程，
 回到MessageQueue类，quit方法里mQuitting = true;  当next方法里的判断mQuitting是true就返回null  L374
 然后Looper的loop里loopOnce里 Message msg = me.mQueue.next(); 中msg为null 返回false，回到loop就return
 调threadhandler.looper.quit() 就释放线程了
