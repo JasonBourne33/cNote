@@ -109,6 +109,16 @@ Looper类里mQueue是final变量，new出后就不能改了
 obtain体现的就是享元设计模式
 Message类 recycleUnchecked是把成员变量都设为0或null
 Message类 obtain获取消息 Message m = sPool; sPool = m.next; 头插
+主队列的MessageQueue用来处理消息，处理完后置0或null再放备用MessageQueue 的头部（头插）
+当有新消息的时候去备用队列里去Message出来赋值，有效减少了JVM分配内存和回收消息，防止出现内存抖动
+
+
+8 Looper死循环为什么不会导致应用卡死？
+MessageQueue类里 next里 nativePollOnce进入睡眠状态，让线程等待，让出cpu给其他线程用 
+卡死就是ANR，消息没有及时处理，没有在规定时间内用handler处理完消息
+
+ANR：5s内没有响应输入的时间，比如按键，触屏等
+广播接收器10s没没有执行完毕
 
 
 
