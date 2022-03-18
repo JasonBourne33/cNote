@@ -33,5 +33,6 @@ http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/jni/AndroidRuntime.cpp
 04.40 android_util_Binder.cpp
 http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/jni/android_util_Binder.cpp
 L1427 register_android_os_Binder  建立了Binder类在Native层与framework层之间的相互调用的桥梁
-int_register_android_os_BinderInternal(env)  建立了BinderInternal类在Native层与framework层之间的相互调用的桥梁
-int_register_android_os_BinderProxy(env)  建立了BinderProxy类在Native层与framework层之间的相互调用的桥梁
+          int_register_android_os_BinderInternal(env)  建立了BinderInternal类在Native层与framework层之间的相互调用的桥梁
+          int_register_android_os_BinderProxy(env)  建立了BinderProxy类在Native层与framework层之间的相互调用的桥梁
+L1079 int_register_
