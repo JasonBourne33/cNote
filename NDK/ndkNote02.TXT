@@ -2,3 +2,21 @@
 Lsn1
 24.10 Int32_t 就是 int
 Int64_t 就是 long long
+typedef signed char int8_t;
+typedef unsigned short  uint16_t;
+typedef int  int32_t;
+typedef unsigned long long   uint64_t;
+
+01.02.40
+%x 输出内存地址，
+%#x 输出16进制内存地址
+main方法里 doMethod(&number1, &number2); 的
+	&number1 取number1的地址
+void doMethod(int *number1, int *number2)里
+	*number1 取number1内存地址的值
+main函数有自己所属空间的内存分配
+main 和 doMethod所属的内存地址是不一样的
+
+01.16.35 画图讲解 main 和 doMethod所属的内存地址是不一样的
+
+
