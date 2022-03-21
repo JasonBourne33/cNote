@@ -19,4 +19,11 @@ main 和 doMethod所属的内存地址是不一样的
 
 01.16.35 画图讲解 main 和 doMethod所属的内存地址是不一样的
 
+01.24.10 顺序调用，test（）要写在main（）前面
+
+01.36.00 add方法 里
+已经不能用char item2 = va_arg(changeList, char); 了因为'char' is promoted to 'int' when passed through '...'
+要用char item2 = va_arg(changeList, int); 才对，
+
+
 
