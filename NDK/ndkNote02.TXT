@@ -1,3 +1,4 @@
+02.12.45
 
 Lsn1
 24.10 Int32_t 就是 int
@@ -25,5 +26,16 @@ main 和 doMethod所属的内存地址是不一样的
 已经不能用char item2 = va_arg(changeList, char); 了因为'char' is promoted to 'int' when passed through '...'
 要用char item2 = va_arg(changeList, int); 才对，
 
+01.49.15 函数指针
+
+01.57.10 指针函数 实战
+bool isLoginOk = 5; 的时候成功，调用 loginSuccess(200, "登陆成功，欢迎回来....");
+bool isLoginOk = 0; 的时候失败，loginError(404, "请检查网络再说...");
+在c语言中0是false，非0就是true
+
+02.09.35 预处理器
+在编译之前执行
+#if 0 下面的不会执行，相当与注释
+ifdef ifndef 不能同时出现,注释掉其中一个测试另一个
 
 
