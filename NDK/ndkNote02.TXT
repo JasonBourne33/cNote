@@ -37,5 +37,53 @@ bool isLoginOk = 0; 的时候失败，loginError(404, "请检查网络再说..."
 在编译之前执行
 #if 0 下面的不会执行，相当与注释
 ifdef ifndef 不能同时出现,注释掉其中一个测试另一个
+#ifdef DEBUG_MODE;   会打印  "配合宏，当前属于Debug模式"
+#ifndef DEBUG_MODE; 会打印  "配合宏，当前属于Release模式"
+预处理器可以做文本的替换
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
