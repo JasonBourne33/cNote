@@ -8,7 +8,7 @@ git commit -m ""
 git push
 
 
-5 第二次上传命令 (可能要翻墙)
+5 第二次上传命令 (要翻墙)
 git pull --rebase origin master
 git add .
 git commit -m ""
@@ -19,7 +19,7 @@ git push
 
 
 4 第一次上传命令
-git add init
+git init
 git add .
 git commit -m "first commit"
 git remote add origin https://github.com/JasonBourne33/cNote.git

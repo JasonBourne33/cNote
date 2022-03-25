@@ -1,0 +1,87 @@
+
+Flutter SDK
+1 下载stable版
+https://flutter.dev/docs/development/tools/sdk/releases#windows
+
+2 解压到没中文的目录中
+
+3 环境变量配置
+Path 下 flutter\bin
+
+4 配置镜像
+flutter-io.cn
+ 环境变量配置
+FLUTTER_STORAGE_BASE_URL        https://storage.flutter-io.cn
+PUB_HOSTED_URL		      https://pub.flutter-io.cn
+
+5 flutter doctor
+把出现的问题复制到谷歌，看stackoverflow 的解答
+Q1：Android SDK cannot be found
+  exporting the ANDROID_HOME with your Android sdk path.
+Q2：cmdline-tools component is missing
+  as的setting里sdk，tools，勾上
+Q3：Visual Studio is missing necessary components.
+        MSVC v142 - VS 2019 C++ x64/x86 build tools
+         - If there are multiple build tool versions available, install the latest
+        C++ CMake tools for Windows
+        Windows 10 SDK
+  下载coummity版vs，在Visual Studio Installer 里，勾选使用c++的桌面开发里的
+MSVC v142 - VS 2019 C++ x64/x86 build tools
+C++ CMake tools for Windows
+Windows 10 SDK
+Q4：How is HTTP Host Availability in flutter
+https://stackoverflow.com/questions/71063780/how-is-http-host-availability-in-flutter-2-10
+
+
+6 AS里Flutter
+Setting-> Plugins-> 搜Flutter，install
+
+
+
+
+
+https://www.bilibili.com/video/BV1S4411E7LY?p=16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
