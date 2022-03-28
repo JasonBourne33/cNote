@@ -16,6 +16,8 @@ PUB_HOSTED_URL		      https://pub.flutter-io.cn
 
 5 flutter doctor
 把出现的问题复制到谷歌，看stackoverflow 的解答
+Q0：Unable to locate the Android SDK
+flutter config --android-sdk D:\androidSDK
 Q1：Android SDK cannot be found
   exporting the ANDROID_HOME with your Android sdk path.
 Q2：cmdline-tools component is missing
