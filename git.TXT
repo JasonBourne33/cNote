@@ -1,3 +1,12 @@
+ 第一行代码上android项目
+1 new新项目，.gitignore template 选 Android，Choose a license 选 Apache License 2.0
+2 在cProject 里 git clone https://github.com/JasonBourne33/cProject.git
+3 把克隆下来的cProject里面的内容复制出父cProject文件夹，再删掉克隆下来的cProject
+4 git add .        git commit -m 'first'         git push
+
+
+
+cNote管理
 6 新电脑考下来
 git clone https://github.com/JasonBourne33/cNote.git
 ssh -T git@github.com，打yes

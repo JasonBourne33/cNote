@@ -1,0 +1,10 @@
+
+https://www.cnblogs.com/pengpengdeyuan/p/14364777.html
+
+名称：any
+证书秘钥：dd987f34-f358-4894-bd0f-21f3f04be9c1
+
+
+2 mysql 
+https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.5/mysql-5.5.62-winx64.msi
+下载安装，有配置导引，装完开服务
