@@ -1,4 +1,3 @@
-
 CREATE DATABASE ssm_crud
 
 CREATE TABLE IF NOT EXISTS `ssm_crud`.`tbl_emp`(  
