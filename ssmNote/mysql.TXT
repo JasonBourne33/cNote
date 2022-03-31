@@ -9,3 +9,6 @@ https://www.cnblogs.com/pengpengdeyuan/p/14364777.html
 2 mysql 
 https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.5/mysql-5.5.62-winx64.msi
 下载安装，有配置导引，装完开服务
+
+3 jdk
+https://mirrors.tuna.tsinghua.edu.cn/AdoptOpenJDK/11/jdk/x64/windows/OpenJDK11U-jdk_x64_windows_hotspot_11.0.14.1_1.msi

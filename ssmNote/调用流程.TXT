@@ -1,0 +1,23 @@
+
+2  
+SpringMVC
+ src/ dispatcherServlet-servlet.xml
+ 
+
+Spring
+ resource/ applicationContext.xml  
+  1 spring里配置mybatis的整合
+  2 dbconfig.properties  配置数据库连接信息
+
+MyBatis
+ mbg.xml     mybatis generation
+ resource/ mybatis-config.xml  
+ test/ MBGTest.java   运行就生成mbg.xml
+
+
+
+1 调用
+开启tomcat 输入网址 http://localhost:8080/ssm-crud/emps
+调用到EmployeeController 的 getEmpsWithJson 里 employeeService.getAll 里
+employeeMapper.selectByExampleWithDept 会映射到 src/main/resources/mapper/EmployeeMapper.xml 里的
+selectByExampleWithDept
