@@ -1,0 +1,106 @@
+ 云服务器上配置tomcat
+0 现在tomcat 9
+
+1 安装上传组件
+yum install -y lrzsz
+
+2 输入rz命令，  分别选java.gz 和 tomcat.gz上传
+
+3 创建目录
+mkdir /usr/java
+mkdir /usr/tomcat
+解压tomcat 9
+tar -zxvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.14.1_1.tar.gz -C /usr/java
+tar -zxvf apache-tomcat-9.0.60.tar.gz /usr/java -C /usr/tomcat
+
+4 配置环境变量
+vim /etc/profile
+按 i 进入编辑模式，复制入
+export JAVA_HOME=/usr/java/jdk-11.0.14.1+1
+export JRE_HOME=/usr/java/jdk-11.0.14.1+1/jre
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JRE_HOME/lib/tools.jar:$CLASSPATH
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+Esc，输入 :wp 保存退出 ，输入 source /etc/profile 让配置生效
+输入java -version 看是否配置成功
+
+
+firewall-cmd --state		//看防火墙状态
+没有启动就打开防火墙
+systemctl start firewalld  	//启动防火墙
+systemctl enable firewalld.service      //开机启动防火墙
+firewall-cmd --reload 	//添加规则后重载防火墙
+
+firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
+
+vim /usr/tomcat/apache-tomcat-9.0.60/conf/server.xml
+
+打开服务器
+cd /usr/tomcat/apache-tomcat-9.0.60/bin/
+./startup.sh
+查看端口
+netstat -tnlp
+
+
+vim /etc/sysconfig/iptables-config
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+source /etc/sysconfig/iptables-config
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+linux命令
+剪切
+mv apache-tomcat-9.0.60 /usr/tomcat
+复制
+cp apache-tomcat-9.0.60 /usr/tomcat
+
+
+https://www.bilibili.com/video/BV1s4411D7sC?spm_id_from=333.337.search-card.all.click
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
