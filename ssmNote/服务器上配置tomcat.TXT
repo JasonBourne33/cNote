@@ -10,14 +10,14 @@ yum install -y lrzsz
 mkdir /usr/java
 mkdir /usr/tomcat
 解压tomcat 9
-tar -zxvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.14.1_1.tar.gz -C /usr/java
-tar -zxvf apache-tomcat-9.0.60.tar.gz /usr/java -C /usr/tomcat
+tar -zxvf jdk-8u202-linux-x64.tar.gz -C /usr/java
+tar -zxvf apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
 
 4 配置环境变量
 vim /etc/profile
 按 i 进入编辑模式，复制入
-export JAVA_HOME=/usr/java/jdk-11.0.14.1+1
-export JRE_HOME=/usr/java/jdk-11.0.14.1+1/jre
+export JAVA_HOME=/usr/java/jdk1.8.0_202
+export JRE_HOME=/usr/java/jdk1.8.0_202/jre
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JRE_HOME/lib/tools.jar:$CLASSPATH
 export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
 Esc，输入 :wp 保存退出 ，输入 source /etc/profile 让配置生效
@@ -41,9 +41,34 @@ cd /usr/tomcat/apache-tomcat-9.0.60/bin/
 netstat -tnlp
 
 
-vim /etc/sysconfig/iptables-config
--A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
-source /etc/sysconfig/iptables-config
+
+
+centos启动tomcat后局域网无法访问，发现8080端口被tcp6占用解决方法
+1 在/etc下的sysctl.conf文件末尾添加如下：
+vim /etc/sysctl.conf
+net.ipv6.confg.all.disable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+net.ipv6.conf.lo.disable_ipv6=1
+然后# reboot，在重新启动tomcat
+
+2 开启8080端口
+firewall-cmd --permanent --add-port=8080/tcp 
+firewall-cmd --reload
+
+3 重定向80端口到8080端口
+firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080
+firewall-cmd --reload
+参考：
+https://blog.csdn.net/Goblin_664/article/details/73885202
+
+
+
+cd /usr/tomcat/apache-tomcat-9.0.60/logs
+tail -1000 /usr/tomcat/apache-tomcat-9.0.60/logs/catalina.out
+vim /usr/tomcat/apache-tomcat-9.0.60/bin/catalina.sh
+生成jre
+bin\jlink --module-path jmods --add-modules java.desktop --output jre
+mv jre ..
 
 
 
@@ -51,9 +76,14 @@ source /etc/sysconfig/iptables-config
 
 
 
-
-
-
+windows 配置tomcat：
+1 在startup.bat用记事本打开，在最后添加一个单词   pause
+运行startup.bat发现问题是Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+2 编辑setclasspath.bat ，在前面加上 
+set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_202
+set JRE_HOME=C:\Program Files\Java\jre1.8.0_202
+3 再次启动 start.up文件就可以了      启动完成后在浏览器中输入  localhost:8080  出现tomcat页面就可以了
+https://blog.csdn.net/tlh002/article/details/95781662
 
 
 
