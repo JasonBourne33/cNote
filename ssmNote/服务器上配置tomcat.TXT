@@ -79,11 +79,58 @@ mv jre ..
 windows 配置tomcat：
 1 在startup.bat用记事本打开，在最后添加一个单词   pause
 运行startup.bat发现问题是Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
-2 编辑setclasspath.bat ，在前面加上 
+2 编辑bin/setclasspath.bat ，在前面加上 
 set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_202
 set JRE_HOME=C:\Program Files\Java\jre1.8.0_202
+set JAVA_HOME=C:\Program Files\Java\jdk-11.0.13
+set JRE_HOME=C:\Program Files\Java\jre
 3 再次启动 start.up文件就可以了      启动完成后在浏览器中输入  localhost:8080  出现tomcat页面就可以了
 https://blog.csdn.net/tlh002/article/details/95781662
+
+
+
+
+http://localhost:8080/ 的 Manager App进不去 ， 403报错
+1 Check the file in <TOMCAT_HOME>/conf named tomcat-users.xml
+</tomcat-users>
+	<role rolename="manager-gui" />
+	<user username="tomcat" password="s3cret" roles="manager-gui" />
+</tomcat-users>
+2 Check the file in <TOMCAT_HOME>/conf named context.xml
+<Context>
+	<role rolename="manager-gui" />
+	<user username="tomcat" password="s3cret" roles="manager-gui" />
+</Context>
+
+
+
+
+pom.xml 报错 web.xml is missing and <failOnMissingWebXml> is set to true
+<properties>
+    <failOnMissingWebXml>false</failOnMissingWebXml>
+</properties>
+https://stackoverflow.com/questions/31835033/web-xml-is-missing-and-failonmissingwebxml-is-set-to-true
+
+
+
+
+ssm-crud右键，run as- Maven install
+打包项目报错
+
+
+Java安装jdk11 没有jre
+cd G:\Program Files\Java\jdk-11.0.3\bin
+jlink.exe --module-path jmods --add-modules java.desktop --output jre
+生成的jre，但是tomcat还是用不了
+在清华镜像下载
+https://mirrors.tuna.tsinghua.edu.cn/AdoptOpenJDK/11/jre/x64/windows/
+下载这个，安装，配置jre环境变了
+OpenJDK11U-jre_x64_windows_hotspot_11.0.14.1_1.msi
+
+
+
+用idea打包出来war，测试用的链接:
+http://localhost:8080/ssm_crud_war/emps
 
 
 
