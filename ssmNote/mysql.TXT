@@ -5,7 +5,7 @@
 4 xshell连阿里云
 主机填： ip地址（公），端口22
 用户填：root
-密码填： 实例密码
+密码填： 实例密码 lSa33
 
 1 sqlyog
 https://www.cnblogs.com/pengpengdeyuan/p/14364777.html
