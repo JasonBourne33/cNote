@@ -10,14 +10,15 @@ yum install -y lrzsz
 mkdir /usr/java
 mkdir /usr/tomcat
 解压tomcat 9
-tar -zxvf jdk-8u202-linux-x64.tar.gz -C /usr/java
-tar -zxvf apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
+tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
+tar -zxvf jre.tar.gz -C /usr/java
+tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
 
 4 配置环境变量
 vim /etc/profile
 按 i 进入编辑模式，复制入
-export JAVA_HOME=/usr/java/jdk1.8.0_202
-export JRE_HOME=/usr/java/jdk1.8.0_202/jre
+export JAVA_HOME=/usr/java/jdk-11.0.13
+export JRE_HOME=/usr/java/jre
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JRE_HOME/lib/tools.jar:$CLASSPATH
 export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
 Esc，输入 :wp 保存退出 ，输入 source /etc/profile 让配置生效
@@ -37,9 +38,9 @@ vim /usr/tomcat/apache-tomcat-9.0.60/conf/server.xml
 打开服务器
 cd /usr/tomcat/apache-tomcat-9.0.60/bin/
 ./startup.sh
+./shutdown.sh
 查看端口
 netstat -tnlp
-
 
 
 
@@ -63,12 +64,22 @@ https://blog.csdn.net/Goblin_664/article/details/73885202
 
 
 
-cd /usr/tomcat/apache-tomcat-9.0.60/logs
-tail -1000 /usr/tomcat/apache-tomcat-9.0.60/logs/catalina.out
-vim /usr/tomcat/apache-tomcat-9.0.60/bin/catalina.sh
-生成jre
-bin\jlink --module-path jmods --add-modules java.desktop --output jre
-mv jre ..
+
+
+
+jdk11没有jre，在linux里生成jre
+/usr/java/jdk-11.0.13/bin/jlink --module-path jmods --add-modules java.base,java.desktop,java.logging --output /usr/java/jre
+
+把能装的module全装的命令
+/usr/java/jdk-11.0.13/bin/jlink --module-path jmods --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.logging,java.management,java.management.rmi,java.naming,java.prefs,java.rmi,java.security.jgss,java.security.sasl,java.smartcardio,java.xml,java.xml.crypto,jdk.accessibility,jdk.charsets,jdk.compiler,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.internal.opt,jdk.jartool,jdk.javadoc,jdk.jdeps,jdk.jfr,jdk.jlink,jdk.localedata,jdk.management,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.security.auth,jdk.security.jgss,jdk.zipfs --output /usr/java/jre
+
+
+rm -rf /usr/java/jre
+/usr/tomcat/apache-tomcat-9.0.60/bin/startup.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin/shutdown.sh
+rm -rf /usr/tomcat/apache-tomcat-9.0.60
+netstat -tnlp
+
 
 
 
@@ -131,7 +142,7 @@ OpenJDK11U-jre_x64_windows_hotspot_11.0.14.1_1.msi
 
 用idea打包出来war，测试用的链接:
 http://localhost:8080/ssm_crud_war/emps
-
+47.112.147.20:8080/ssm_crud_war/emps
 
 
 
