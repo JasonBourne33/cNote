@@ -21,3 +21,62 @@ https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.5/mysql-5.5.62-winx
 3 jdk
 https://mirrors.tuna.tsinghua.edu.cn/AdoptOpenJDK/11/jdk/x64/windows/OpenJDK11U-jdk_x64_windows_hotspot_11.0.14.1_1.msi
 
+
+
+
+
+
+
+在服务器上配置：
+输入rz命令，  选 mysql-5.5.62-linux-glibc2.12-x86_64.tar.gz
+创建目录
+mkdir /usr/mysql
+解压
+tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/mysql
+
+创建用户和组
+groupadd mysql
+useradd -r -g mysql mysql
+
+将安装目录所有者及所属组改为mysql
+chown -R mysql.mysql /usr/mysql
+
+mkdir data
+
+
+https://www.cnblogs.com/shenjianping/p/10984540.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -41,13 +41,14 @@ Setting-> Plugins-> 搜Flutter，install
 
 
 
-
+教程
 https://www.bilibili.com/video/BV1S4411E7LY?p=16
+教程的资料网盘下载地址：https://pan.baidu.com/s/1gRxupvp3I3u7MruJ-RIw0w     提取码：abcd
 
 
-
-
-
+api文档
+https://api.flutter-io.cn/flutter/widgets/Image-class.html
+https://api.flutter-io.cn/flutter/widgets/widgets-library.html
 
 
 

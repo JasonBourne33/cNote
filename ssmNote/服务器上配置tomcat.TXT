@@ -9,6 +9,7 @@ yum install -y lrzsz
 3 创建目录
 mkdir /usr/java
 mkdir /usr/tomcat
+mkdir /usr/mysql
 解压tomcat 9
 tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
 tar -zxvf jre.tar.gz -C /usr/java
@@ -143,6 +144,9 @@ OpenJDK11U-jre_x64_windows_hotspot_11.0.14.1_1.msi
 用idea打包出来war，测试用的链接:
 http://localhost:8080/ssm_crud_war/emps
 47.112.147.20:8080/ssm_crud_war/emps
+http://47.112.147.20:8080/wtf/1.html
+
+47.112.147.20:8080/ssm-crud-0.0.1-SNAPSHOT/emps
 
 
 
