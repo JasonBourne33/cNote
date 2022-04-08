@@ -64,7 +64,9 @@ ssh-keygen -t rsa -C "1065807387@qq.com"
 
 
 
-
+提交的时候报错 OpenSSL SSL_read: Connection was reset, errno 10054
+git config --global user.name "chaos"
+git config --global user.email "1065807387@qq.com"
 
 
 
