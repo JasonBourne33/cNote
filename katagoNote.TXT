@@ -12,3 +12,7 @@ https://github.com/lightvector/KataGo/releases/download/v1.4.5/g170e-b20c256x2-s
 F:\new goAI\katago opencl\katago.exe
 gtp -model model.bin
 time_setting 0 5 1
+
+
+11間高夾
+lS
