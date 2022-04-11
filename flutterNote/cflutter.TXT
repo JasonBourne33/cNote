@@ -8,6 +8,17 @@ https://jd.itying.com/api/pcate
 https://pub.dev/packages/http
 
 
+路由初始化：
+复制 routes 文件夹过去，
+main.dart 里要初始化 和导包
+        initialRoute: '/',
+        onGenerateRoute: onGenerateRoute,
+
+
+
+1 把获取的数据放ListView
+2 请求加header
+3 邮箱注册+登录？
 
 
 
