@@ -19,10 +19,10 @@ git push
 
 5 第二次上传命令 (要翻墙)
 git pull --rebase origin master
-git add .
-git commit -m ""
 git config --global user.name "chaos"
 git config --global user.email "1065807387@qq.com"
+git add .
+git commit -m "comp"
 git push
 
 
