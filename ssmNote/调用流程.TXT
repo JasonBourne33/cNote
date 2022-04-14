@@ -18,6 +18,16 @@ MyBatis
 
 1 调用
 开启tomcat 输入网址 http://localhost:8080/ssm-crud/emps
-调用到EmployeeController 的 getEmpsWithJson 里 employeeService.getAll 里
-employeeMapper.selectByExampleWithDept 会映射到 src/main/resources/mapper/EmployeeMapper.xml 里的
-selectByExampleWithDept
+EmployeeController 			getEmpsWithJson
+employeeService			getAll
+employeeMapper			selectByExampleWithDept 
+resources下的EmployeeMapper 	selectByExampleWithDept
+
+
+
+smdms的调用
+UserController			getUserList
+UserService			getUserList
+UserServiceImpl			selectByExample
+UserMapper			selectByExample
+resources下的UserMapper		selectByExample

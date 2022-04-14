@@ -1,0 +1,12 @@
+
+struts2被 springMVC替代
+Hibernate被 myBatis替代
+
+顺序
+1 MyBatis
+
+2 Spring
+SMBMS
+
+3 SpringMVC 
+https://www.bilibili.com/video/BV1M54y1d7j3?spm_id_from=333.999.0.0
