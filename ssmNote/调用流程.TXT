@@ -30,4 +30,50 @@ UserController			getUserList
 UserService			getUserList
 UserServiceImpl			selectByExample
 UserMapper			selectByExample
-resources下的UserMapper		selectByExample
+resources下的UserMapper		selectByExample  	通过<mapper namespace="com.kgc.dao.UserMapper" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
