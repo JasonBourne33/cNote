@@ -56,6 +56,7 @@ title随便填（公司电脑or家里电脑），把id_rsa.pub内容复制到key
 
 1 在要上传的文件夹右键- git bush here
 ssh-keygen -t rsa -C "1065807387@qq.com"
+ssh-keygen -t rsa -C "ssm_crud key"
 按四下回车
 在 C:\Users\Administrator\.ssh 目录下用记事本打开 id_rsa.pub 复制里面内容
 

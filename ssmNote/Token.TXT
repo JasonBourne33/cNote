@@ -20,6 +20,8 @@ https://www.bilibili.com/video/BV1MD4y1F7Bd?p=3
 https://docs.spring.io/spring-data/redis/docs/current/reference/html/#redis
 https://docs.spring.io/spring-data/redis/docs/current/reference/html/#dependencies
 
+https://www.bilibili.com/video/BV1844y1z7LQ?p=1
+
 
 
 
