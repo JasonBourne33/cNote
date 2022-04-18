@@ -7,7 +7,12 @@ Local respository： C:\Users\Administrator\.m2\repository
 
 在 D:\apache-maven-3.6.3\conf\settings.xml 里可以加镜像
 
-
+<mirror>
+    <id>aliyunmaven</id>
+    <mirrorOf>*</mirrorOf>
+    <name>阿里云公共仓库</name>
+    <url>https://maven.aliyun.com/repository/public</url>
+</mirror>
 
 
 
