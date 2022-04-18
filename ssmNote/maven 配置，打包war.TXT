@@ -1,0 +1,58 @@
+
+项目的maven配置
+settings 搜maven ，
+Maven home path ：D:/apache-maven-3.6.3
+User setting file： D:\apache-maven-3.6.3\conf\settings.xml
+Local respository： C:\Users\Administrator\.m2\repository
+
+在 D:\apache-maven-3.6.3\conf\settings.xml 里可以加镜像
+
+
+
+
+
+
+
+
+
+
+1  项目右键- run as - maven install
+
+
+2 Tomcat HTTP 404报错：源服务器未能找到目标资源的表示或者是不愿公开一个已经存在的资源表示
+https://www.jianshu.com/p/d885f2c38849
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

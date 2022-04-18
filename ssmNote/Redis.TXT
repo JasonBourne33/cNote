@@ -80,11 +80,58 @@ vim /usr/redis/redis-6/bin/redis.conf
 打开desktop manage
 名字aliyun
 地址 47.112.147.20：6379
-
-9 使用
-
+密码 123
 
 
+9 idea使用
+pom下的spring版本改成5.3.10
+        <!--要该版本的spring全家桶 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.3.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.3.10</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--整合springdata-redis 的依赖-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+
+        <!--slf4j   log4j-->
+        <dependency>
+            　　<groupId>org.slf4j</groupId>
+            　　<artifactId>slf4j-simple</artifactId>
+            　　<version>1.7.25</version>
+            　　<scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+
+
+
+RedisConfig.java 配置文件文件
+        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration("47.112.147.20", 6379);
+        standaloneConfiguration.setPassword("123");
 
 
 
@@ -119,6 +166,10 @@ vim /usr/redis/redis-6/bin/redis.conf
 
 
 
+徐庶 redis整合
+https://www.bilibili.com/video/BV1MD4y1F7Bd?p=3
+
+朝月余晖 redis在linux下的配置
 https://www.bilibili.com/video/BV1qE411J7n9?spm_id_from=333.999.0.0
 
 

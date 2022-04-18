@@ -1,5 +1,9 @@
 
 1 github 搜索进入项目Issues看有没提问
 2 StackOverflow
+https://stackoverflow.com/
+
 3 maven repository 找released的版本里面人用的最多的
+https://mvnrepository.com/
+
 4 看官方文档，小心推荐的版本太新
