@@ -7,3 +7,7 @@ https://stackoverflow.com/
 https://mvnrepository.com/
 
 4 看官方文档，小心推荐的版本太新
+
+5 引用的类一直爆红找不到
+import org.junit.jupiter.api.Test;
+看External Libraries找

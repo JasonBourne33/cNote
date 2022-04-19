@@ -1,0 +1,33 @@
+
+
+已经能把生成的随机的token存入Redis了
+接下来员工表生成账号和密码
+先看smbms的User表是怎么做的
+
+
+
+
+
+4.19
+在家只构建ssm_crud报错，但是comp 有构建了springdata，ssm curd和springdata都能运行
+把c盘的.m2 的respostory 放到d盘的maven3.6.3下，单独构建ssm crud报错，springdata不知道怎么开始构建
+但是用回.m2 的respostory 里，先构建springdata再构建ssm crud又能正常运行了
+可能是springdata里的maven包能运行，但是ssm crud不行
+
+
+
+
+报错
+NoClassDefFoundError: com/fasterxml/jackson/databind/exc/InvalidDefinitionException
+https://stackoverflow.com/questions/44718345/java-lang-noclassdeffounderror-com-fasterxml-jackson-databind-exc-invaliddefini
+pom里加上
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.4</version>
+</dependency>
+
+
+
+

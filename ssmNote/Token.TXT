@@ -1,8 +1,11 @@
 
 postman测试
 127.0.0.1:8080/login?userName=系统管理员&password=1234567
+但是我没有本地虚拟机，要连云服务器
+47.112.147.20:8080/login?userName=系统管理员&password=1234567
+要先配置mysql
 https://www.bilibili.com/video/BV1kE411J7JQ?spm_id_from=333.999.0.0
-17.10
+
 
 
 ssm_crud
@@ -19,7 +22,7 @@ employee 和employeeExample 是怎么生成的？
 https://www.bilibili.com/video/BV1MD4y1F7Bd?p=3
 https://docs.spring.io/spring-data/redis/docs/current/reference/html/#redis
 https://docs.spring.io/spring-data/redis/docs/current/reference/html/#dependencies
-
+SpringBoot整合Redis入门案例
 https://www.bilibili.com/video/BV1844y1z7LQ?p=1
 
 
