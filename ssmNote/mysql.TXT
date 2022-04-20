@@ -1,4 +1,111 @@
 
+1 安装上传组件
+yum install -y lrzsz
+
+2  把mysql的名字改成 mysql-5.5.62.tar.gz，不然上传会报错
+cd /usr
+rz 上传 mysql-5.5.62.tar.gz
+
+3 
+解压
+tar -zxvf /usr/mysql-5.5.62.tar.gz -C /usr/local/
+改名
+mv /usr/local/mysql-5.5.62-linux-glibc2.12-x86_64 /usr/local/mysql
+从安装目录把mysql.server 复制到 环境变量
+cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+开启服务
+service mysql start
+service mysql status
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+余晖版
+下载 MySQL-client-5.5.48-1.linux2.6.x86_64.rpm-bundle.tar
+cd /usr
+rz上传，选 MySQL-5.5.62.rpm-bundle.tar
+解压
+mkdir /usr/local/mysqlRpm
+tar -xvf /usr/MySQL-5.5.62.rpm-bundle.tar -C /usr/local/mysqlRpm
+
+查看是否有mariadb
+rpm -qa | grep mariadb
+完全卸载mariadb
+rpm -e mariadb-libs-5.5.68-1.el7.x86_64 --nodeps
+安装依赖
+yum install -y libaio
+安装rpm包
+rpm -ivh /usr/local/mysqlRpm/MySQL-server-5.5.62-1.el7.x86_64.rpm --force --nodeps
+rpm -ivh /usr/local/mysqlRpm/MySQL-client-5.5.62-1.el7.x86_64.rpm 
+
+开启服务
+service mysql start
+service mysql status
+
+修改密码
+/usr/bin/mysql_secure_installation
+Enter current password for root (enter for none):  直接回车，当前本来就没密码
+Set root password? [Y/n] 设置密码，y
+New password: 新密码123
+Remove anonymous users? [Y/n]  移除匿名用户 y
+Disallow root login remotely? [Y/n] 禁止root在远程登录 n
+Remove test database and access to it? [Y/n] 一处测试数据库 y
+Reload privilege tables now? [Y/n] y
+
+测试进入mysql
+mysql -uroot -p123
+mysql -u root -p
+授权远程访问
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY '123' WITH GRANT OPTION;
+查询是否授权
+select * from mysql.user where user='root' \G;
+看到5.row下有Host：%的时候说明成功了
+开放3306端口
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+重启防火墙
+systemctl restart firewalld.service
+查询防火墙开放的端口
+firewall-cmd --list-port
+
+用navicat
+Connection- mysql
+Host：47.112.147.20
+Port：3306
+UserName：root
+Pwd：123
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -47,6 +154,12 @@ mkdir data
 https://www.cnblogs.com/shenjianping/p/10984540.html
 
 
+
+
+
+
+余晖 mysql在linux配置
+https://www.bilibili.com/video/BV1X7411P7sy?spm_id_from=333.999.0.0
 
 
 
