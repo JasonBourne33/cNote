@@ -9,6 +9,7 @@ yum install -y lrzsz
 3 创建目录
 mkdir /usr/java
 mkdir /usr/tomcat
+mkdir /usr/mysql
 解压tomcat 9
 tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
 tar -zxvf jre.tar.gz -C /usr/java

@@ -1,41 +1,5 @@
 
-1 安装上传组件
-yum install -y lrzsz
-
-2  把mysql的名字改成 mysql-5.5.62.tar.gz，不然上传会报错
-cd /usr
-rz 上传 mysql-5.5.62.tar.gz
-
-3 
-解压
-tar -zxvf /usr/mysql-5.5.62.tar.gz -C /usr/local/
-改名
-mv /usr/local/mysql-5.5.62-linux-glibc2.12-x86_64 /usr/local/mysql
-从安装目录把mysql.server 复制到 环境变量
-cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
-开启服务
-service mysql start
-service mysql status
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-余晖版
+余晖版 （成功）
 下载 MySQL-client-5.5.48-1.linux2.6.x86_64.rpm-bundle.tar
 cd /usr
 rz上传，选 MySQL-5.5.62.rpm-bundle.tar
@@ -91,6 +55,34 @@ Pwd：123
 
 
 
+
+
+
+
+
+
+
+
+
+
+手动安装（未成功）
+1 安装上传组件
+yum install -y lrzsz
+
+2  把mysql的名字改成 mysql-5.5.62.tar.gz，不然上传会报错
+cd /usr
+rz 上传 mysql-5.5.62.tar.gz
+
+3 
+解压
+tar -zxvf /usr/mysql-5.5.62.tar.gz -C /usr/local/
+改名
+mv /usr/local/mysql-5.5.62-linux-glibc2.12-x86_64 /usr/local/mysql
+从安装目录把mysql.server 复制到 环境变量
+cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+开启服务
+service mysql start
+service mysql status
 
 
 
