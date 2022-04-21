@@ -1,4 +1,75 @@
- 云服务器上配置tomcat
+ 
+余晖版
+rz 上传 jdk-8u201-linux-x64.rpm 和 apache-tomcat-8.5.39.tar.gz
+创目录
+mkdir java
+mkdir tomcat
+安装
+rpm -ivh --prefix=/usr/java jdk-8u201-linux-x64.rpm
+解压
+tar -zxvf apache-tomcat-8.5.39.tar.gz -C /usr/tomcat
+配置全局变量
+vim /etc/profile 
+export JAVA_HOME=/usr/java/jdk1.8.0_201-amd64
+export JRE_HOME=/usr/java/jdk1.8.0_201-amd64/jre
+export CLASSPATH=$:CLASSPATH:$JAVA_HOME/lib/:$JRE_HOME
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME
+生效
+source /etc/profile
+
+
+打开服务器
+cd /usr/tomcat/apache-tomcat-8.5.39/bin
+/usr/tomcat/apache-tomcat-8.5.39/bin/startup.sh
+/usr/tomcat/apache-tomcat-8.5.39/bin/shutdown.sh
+
+查看端口
+netstat -tnlp
+如果发现没有8080端口
+在/usr/tomcat/apache-tomcat-8.5.39/logs 的Catalina.out 
+看报错内容
+firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
+systemctl restart firewalld.service
+
+测试
+http://47.112.147.20:8080/tt/tt.html
+47.112.147.20:8080/ssm-crud-0.0.1-SNAPSHOT/emps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+云服务器上配置tomcat
 0 现在tomcat 9
 
 1 安装上传组件
@@ -11,7 +82,6 @@ mkdir /usr/java
 mkdir /usr/tomcat
 解压tomcat 9
 tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
-tar -zxvf jre.tar.gz -C /usr/java
 tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
 
 4 配置环境变量
@@ -29,6 +99,7 @@ firewall-cmd --state		//看防火墙状态
 没有启动就打开防火墙
 systemctl start firewalld  	//启动防火墙
 systemctl enable firewalld.service      //开机启动防火墙
+systemctl restart firewalld.service
 firewall-cmd --reload 	//添加规则后重载防火墙
 
 firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
@@ -37,10 +108,30 @@ vim /usr/tomcat/apache-tomcat-9.0.60/conf/server.xml
 
 打开服务器
 cd /usr/tomcat/apache-tomcat-9.0.60/bin/
-./startup.sh
-./shutdown.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin/startup.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin/shutdown.sh
 查看端口
 netstat -tnlp
+
+服务启动了，但是没有开启8080，报错了
+要在/usr/tomcat/apache-tomcat-9.0.60/logs 里可以看到错误日志，可以用xftp打开看
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,7 +249,7 @@ http://47.112.147.20:8080/wtf/1.html
 
 
 
-
+leftSniperj33
 
 
 linux命令

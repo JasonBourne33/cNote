@@ -2,3 +2,8 @@
 jetBrain
 106
 lSj33..
+
+
+oracle
+106
+lSo.33
