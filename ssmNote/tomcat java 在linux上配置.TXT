@@ -12,7 +12,6 @@ mkdir /usr/tomcat
 mkdir /usr/mysql
 解压tomcat 9
 tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
-tar -zxvf jre.tar.gz -C /usr/java
 tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
 
 4 配置环境变量
@@ -38,8 +37,8 @@ vim /usr/tomcat/apache-tomcat-9.0.60/conf/server.xml
 
 打开服务器
 cd /usr/tomcat/apache-tomcat-9.0.60/bin/
-./startup.sh
-./shutdown.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin//startup.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin//shutdown.sh
 查看端口
 netstat -tnlp
 
@@ -91,6 +90,8 @@ netstat -tnlp
 windows 配置tomcat：
 1 在startup.bat用记事本打开，在最后添加一个单词   pause
 运行startup.bat发现问题是Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+直接配置Path JAVA_HOME 和 JRE_HOME
+
 2 编辑bin/setclasspath.bat ，在前面加上 
 set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_202
 set JRE_HOME=C:\Program Files\Java\jre1.8.0_202
