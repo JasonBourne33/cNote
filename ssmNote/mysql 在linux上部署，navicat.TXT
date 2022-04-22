@@ -65,6 +65,28 @@ Pwd：123
 
 
 
+
+
+
+
+
+
+
+
+
+https://space.bilibili.com/27385378/channel/seriesdetail?sid=1241075
+
+
+
+
+
+
+
+
+
+
+
+
 手动安装（未成功）
 1 安装上传组件
 yum install -y lrzsz

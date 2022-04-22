@@ -1,4 +1,29 @@
  
+尝试jdk17
+安装
+rpm -ivh --prefix=/usr/java jdk-17.0.3_linux-x64_bin.rpm
+rpm -ivh --prefix=/usr/java jre-9.0.4_linux-x64_bin.rpm
+这个 jre-9.0.4是能成功给tomcat用的
+这个 jre-9.0.4是能成功给tomcat用的
+这个 jre-9.0.4是能成功给tomcat用的
+配置全局变量
+vim /etc/profile 
+export JAVA_HOME=/usr/java/jdk-17.0.3
+export JRE_HOME=/usr/java/jre-9.0.4
+export CLASSPATH=$:CLASSPATH:$JAVA_HOME/lib/:$JRE_HOME
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME
+生效
+source /etc/profile
+
+
+
+
+
+
+
+
+
+
 余晖版
 rz 上传 jdk-8u201-linux-x64.rpm 和 apache-tomcat-8.5.39.tar.gz
 创目录
@@ -161,8 +186,17 @@ https://blog.csdn.net/Goblin_664/article/details/73885202
 jdk11没有jre，在linux里生成jre
 /usr/java/jdk-11.0.13/bin/jlink --module-path jmods --add-modules java.base,java.desktop,java.logging --output /usr/java/jre
 
-把能装的module全装的命令
+生成jre，把能装的module全装的命令
 /usr/java/jdk-11.0.13/bin/jlink --module-path jmods --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.logging,java.management,java.management.rmi,java.naming,java.prefs,java.rmi,java.security.jgss,java.security.sasl,java.smartcardio,java.xml,java.xml.crypto,jdk.accessibility,jdk.charsets,jdk.compiler,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.internal.opt,jdk.jartool,jdk.javadoc,jdk.jdeps,jdk.jfr,jdk.jlink,jdk.localedata,jdk.management,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.security.auth,jdk.security.jgss,jdk.zipfs --output /usr/java/jre
+
+生成jre17
+/usr/java/jdk-17.0.3/bin/jlink --module-path jmods --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.logging,java.management,java.management.rmi,java.naming,java.prefs,java.rmi,java.security.jgss,java.security.sasl,java.smartcardio,java.xml,java.xml.crypto,jdk.accessibility,jdk.charsets,jdk.compiler,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.internal.opt,jdk.jartool,jdk.javadoc,jdk.jdeps,jdk.jfr,jdk.jlink,jdk.localedata,jdk.management,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.security.auth,jdk.security.jgss,jdk.zipfs,java.sql,java.sql.rowset --output /usr/java/jre
+会报错，这里根本没有导齐包
+我还把bug日志上传github了
+https://github.com/oracle/visualvm/issues/400
+https://github.com/oracle/visualvm/issues/123
+中文搜解决方案是用jlink命令来生成jre，这个思路本来就是错的
+没有jre就找linux版的jre.rpm 来安装
 
 
 rm -rf /usr/java/jre

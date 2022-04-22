@@ -1,0 +1,19 @@
+
+接下来搞linux里连上mysql数据库
+
+
+尝试用jdk17 + tomcat10 在linux里运行
+不是jdk和tomcat的问题，下载个jre 9.rpm 安装上去就行了
+
+
+问https://github.com/oracle/visualvm/issues/123 里的
+已经发了bug日志
+
+
+
+jdk1.8+tomcat8 不能满足spring5.3.10
+
+
+
+
+
