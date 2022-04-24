@@ -1,4 +1,105 @@
 
+入口main.dart
+主页Tabs
+
+打包发布 https://www.bilibili.com/video/BV1EY41177y4?p=12
+生成密钥
+keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+123456
+chaos
+Axe
+会在C:\Users\Administrator 里生成my-release-key.keystore
+复制到 cflutter\android\app目录下
+在cflutter\android 目录下新建 key.properties 文件
+storePassword=123456
+keyPassword=123456
+keyAlias=my-key-alias
+storeFile=my-release-key.keystore
+把下面代码放到app下的build.gradle 的 27行 android{ 上面
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+用这个代码
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+替换 57行
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+在cflutter目录下，右键open cmd，运行flutter build apk
+安装 flutter install
+
+在web发布：
+控制台输入flutter build web
+运行后提示："Missing index.html."
+控制台输入flutter config --enable-web
+在项目根目录执行flutter create . 注意有个英文符号点！
+最后执行flutter build web就能看到web目录创建成功了。
+执行flutter run -d chrome就能在Chrome浏览器中运行Flutter应用了！
+
+
+
+gradle报错
+Cannot resolve symbol for properties and Gradle exception
+https://github.com/flutter/flutter/issues/29608
+调试的时候：warning Mapping new ns to old ns
+https://stackoverflow.com/questions/66722945/android-build-warning-mapping-new-ns-to-old-ns
+把build.gradle 里的 dependencies  里 classpath 'com.android.tools.build:gradle:7.0.2'
+改成7.0.2后，要改gradle,   wrapper,   gradle-wrapper.properties
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 测试接口
 https://jd.itying.com/api/httpGet
@@ -11,11 +112,11 @@ https://pub.dev/packages/http
 路由初始化：
 复制 routes 文件夹过去，
 main.dart 里要初始化 和导包
+        //route init
         initialRoute: '/',
         onGenerateRoute: onGenerateRoute,
 
-
-
+todo
 1 把获取的数据放ListView
 2 请求加header
 3 邮箱注册+登录？
