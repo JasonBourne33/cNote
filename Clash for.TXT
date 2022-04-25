@@ -1,0 +1,6 @@
+
+How to Use Clash on Android
+https://blog.fastssh.com/clash/how-to-use-clash-on-android/
+
+windows的配置文件在
+C:\Users\Administrator\.config\clash\profiles

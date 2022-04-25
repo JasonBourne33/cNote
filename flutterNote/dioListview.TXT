@@ -1,0 +1,7 @@
+ 
+入口
+Home.dart 里 Navigator.pushNamed(context,"/DioListview");
+里面是TabController 分页每一页内容都是EmpsList(),
+EmpsList里 initState()的时候调用_getData() 获取数据，
+_getData() 里用dio请求，这里可以参考解析格式，内容放到mList里
+ListView.builder里显示mList的内容，并点击后传到详情页EmpsDetail
