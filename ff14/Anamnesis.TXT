@@ -1,0 +1,4 @@
+
+报错
+GameDataService Error:Failed to initialize Lumina
+https://github.com/imchillin/Anamnesis/issues/978
