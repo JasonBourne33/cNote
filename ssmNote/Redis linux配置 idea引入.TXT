@@ -58,8 +58,9 @@ vim /usr/redis/redis-6/bin/redis.conf
 /requirepass ,按n找下一个
 找到# requirepass foobared，删掉 # 解开注释
 可以把密码改成123 requirepass 123，保存退出 :wq
-带密码登录 -a 表示授权 123是密码
+带密码登录, -a 表示授权 123是密码
 /usr/redis/redis-6/bin/redis-cli -a 123
+移除临时文件
 rm /usr/redis/redis-6/bin/.redis.conf.swp
 
 
@@ -134,6 +135,13 @@ RedisConfig.java 配置文件文件
         standaloneConfiguration.setPassword("123");
 
 
+
+
+
+报错：
+nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 47.112.147.20:6379
+vim /usr/redis/redis-6/bin/redis.conf，输入/protected-mode搜索，把protected-mode yes改成
+protected-mode no
 
 
 
