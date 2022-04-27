@@ -1,0 +1,57 @@
+b站视频
+https://www.bilibili.com/video/BV1sf4y1L7KE?p=4
+
+mybatis文档
+baomidou.com/guide/generator.html
+
+
+鬼文人的 有sql
+https://gitee.com/guizhizhe/seckill_demo.git
+ 包含sql语句和文档，代码是最后一个版本的，如果想根据视频进度看，可以到document目录下看Java秒杀方案.pdf
+
+https://gitee.com/guizhizhe/code-generator
+代码生成器
+使用的是CodeGenerator.java
+src/main/java/com/generator/generator/CodeGenerator.java 里
+String parentStr = "com.example.cseckill"; 改成自己项目的包名
+strategyConfig 里配置生成的表名
+run main方法来使用，将生成的controller，entity，service，serviceimpl，mapper 五个包全复制到自己项目的com.example.cseckill去
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+没sql
+秒杀资料：：链接：https://pan.baidu.com/s/1sm-5wyytMnJ1FjDAJRIUPQ?pwd=kcqn 
+提取码：kcqn

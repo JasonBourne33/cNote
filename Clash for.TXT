@@ -1,6 +1,19 @@
 
-How to Use Clash on Android
-https://blog.fastssh.com/clash/how-to-use-clash-on-android/
+
+windows
+https://okz2.com/#/subscribe
+quick subscription- export to clash
 
 windows的配置文件在
 C:\Users\Administrator\.config\clash\profiles
+
+
+
+
+
+
+android
+https://okz2.com/subscribe
+quick subscription- export to clash for android，右上角保存图标
+用yml
+profile- 右上角+号，import url，browse file
