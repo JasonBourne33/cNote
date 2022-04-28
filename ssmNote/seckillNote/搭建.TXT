@@ -18,6 +18,13 @@ strategyConfig 里配置生成的表名
 run main方法来使用，将生成的controller，entity，service，serviceimpl，mapper 五个包全复制到自己项目的com.example.cseckill去
 
 
+测试
+http://localhost:8080/login/toLogin
+http://localhost:8080/demo/hello
+
+报错，http://localhost:8080/login/toLogin 找不到
+要用@RestController，给类下面所有方法加上responsebody，
+@Controller用于页面跳转
 
 
 

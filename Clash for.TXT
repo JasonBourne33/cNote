@@ -1,7 +1,7 @@
 
 
 windows
-https://okz2.com/#/subscribe
+https://okz2.com/
 quick subscription- export to clash
 
 windows的配置文件在
@@ -13,7 +13,8 @@ C:\Users\Administrator\.config\clash\profiles
 
 
 android
-https://okz2.com/subscribe
+https://okz2.com/
 quick subscription- export to clash for android，右上角保存图标
 用yml
 profile- 右上角+号，import url，browse file
+点profile，再点右上角+号，点file，Browse Files，右边三点，import，选我发的这个文件

@@ -1,0 +1,81 @@
+
+官网
+rabbimq.com
+b站
+https://www.bilibili.com/video/BV1sf4y1L7KE?p=45
+
+
+linux安装
+把lang语言和rabbitmq包上传到linux，位置 F:\SSM\Seckill\seckill_demo\sftware
+安装lang语言
+  
+安装 rabbitmq
+yum -y install /usr/rabbitmq-server-3.8.5-1.el7.noarch.rpm
+查看rabbitmq 插件
+rabbitmq-plugins list
+安装插件
+rabbitmq-plugins enable rabbitmq_management
+开启rabbitmq 服务
+systemctl start rabbitmq-server.service
+确认rabbitmq服务启动成功
+systemctl status rabbitmq-server.service
+为了让其可以被外部访问，添加配置
+vim /etc/rabbitmq/rabbitmq.config
+输入
+[{rabbit, [{loopback_users,[]}]}].
+systemctl restart rabbitmq-server.service
+
+firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
+systemctl restart firewalld.service
+
+访问
+47.112.147.20:15672
+默认的用户名 guest
+默认的密码 guest
+
+添加用户test，并授权成管理员
+rabbitmqctl add_user test test
+rabbitmqctl set_user_tags test administrator
+rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+用test登录
+
+
+
+
+查看端口
+netstat -tnlp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
