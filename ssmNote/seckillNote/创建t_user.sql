@@ -11,6 +11,8 @@ CREATE TABLE t_user(
 	PRIMARY KEY(`id`)
 )
 COMMENT '用户表';
+INSERT INTO `t_user` (`id`, `nickname`, `password`, `salt`, `head`, `register_date`, `last_login_date`, `login_count`) VALUES('18012345678','admin','b7797cce01b4b131b433b6acf4add449','1a2b3c4d',NULL,NULL,NULL,'0');
+SELECT * FROM t_user;
 
 CREATE TABLE t_goods(
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '商品ID',

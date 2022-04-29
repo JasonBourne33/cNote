@@ -26,6 +26,10 @@ http://localhost:8080/demo/hello
 要用@RestController，给类下面所有方法加上responsebody，
 @Controller用于页面跳转
 
+秒杀网页，用户登录 手机号，密码
+180123456
+123456
+先要在mysql数据库要添加用户
 
 
 

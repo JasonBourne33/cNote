@@ -48,6 +48,47 @@ netstat -tnlp
 
 
 
+spring整合
+  rabbitmq:
+    #服务器
+    host: 47.112.147.20
+    #用户名
+    username: guest
+    #密码
+    password: guest
+    #虚拟主机
+    virtual-host: /
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
