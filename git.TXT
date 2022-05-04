@@ -26,7 +26,7 @@ git pull和git push 一直超时
 https://ericclose.github.io/git-proxy-config.html
  git config --global http.proxy http://127.0.0.1:7890
 注意：7890 为 Clash for Windows 的 http 代理端口。
-调回去（gitee用到）
+调回去（gitee用到, 当提示Connection refused 的时候）
  git config --global http.proxy ''
 
 提交的时候报错 OpenSSL SSL_read: Connection was reset, errno 10054

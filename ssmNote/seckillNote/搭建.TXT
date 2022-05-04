@@ -1,3 +1,14 @@
+
+application.yml 里
+mysql
+redis
+rabbitmq
+mybatis-plus 包
+
+
+
+
+
 b站视频
 https://www.bilibili.com/video/BV1sf4y1L7KE?p=4
 
