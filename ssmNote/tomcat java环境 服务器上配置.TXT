@@ -21,6 +21,31 @@ mkdir /usr/tomcat
 解压tomcat 9
 tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
 
+firewall-cmd --state		//看防火墙状态
+没有启动就打开防火墙
+systemctl start firewalld  	//启动防火墙
+systemctl enable firewalld.service      //开机启动防火墙
+systemctl restart firewalld.service
+firewall-cmd --reload 	//添加规则后重载防火墙
+
+firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
+
+vim 
+
+打开服务器
+cd /usr/tomcat/apache-tomcat-9.0.60/bin/
+/usr/tomcat/apache-tomcat-9.0.60/bin/startup.sh
+/usr/tomcat/apache-tomcat-9.0.60/bin/shutdown.sh
+查看端口
+netstat -tnlp
+
+服务启动了，但是没有开启8080，报错了
+要在/usr/tomcat/apache-tomcat-9.0.60/logs 里可以看到错误日志，可以用xftp打开看
+
+
+
+
+
 
 
 
