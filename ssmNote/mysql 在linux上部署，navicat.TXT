@@ -38,7 +38,7 @@ mysql -u root -p
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY '123' WITH GRANT OPTION;
 查询是否授权
 select * from mysql.user where user='root' \G;
-看到5.row下有Host：%的时候说明成功了
+看到5.row下有Host：% 的时候说明成功了
 开放3306端口
 firewall-cmd --zone=public --add-port=3306/tcp --permanent
 重启防火墙
@@ -48,7 +48,7 @@ firewall-cmd --list-port
 
 用navicat
 Connection- mysql
-Host：47.112.147.20
+Host：comp 192.168.174.130	    home 192.168.138.128	
 Port：3306
 UserName：root
 Pwd：123

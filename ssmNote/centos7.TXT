@@ -10,7 +10,7 @@ Xshell和Xftp连接VMware中的centos 7 （启动网卡）
 输入 vi  /etc/sysconfig/network-scripts/ifcfg-ens33  按i进入编辑，把no改成yes，输入 :wq保存退出
 输入 sudo service network restart 重启网络
 输入 ip addr 查看ip地址 192.168 开头的
-用xftp连入 192.168.174.130 的地址端口 22
+用xftp连入 192.168.174.130 的地址端口 22           home:   192.168.138.128
 root
 123456
 
@@ -33,11 +33,12 @@ yum install -y lrzsz
 yum -y install vim*
 用netstat 要装      -bash: netstat: command not found     
 yum install net-tools
+用cp复制就要装 tools 
+yum install open-vm-tools
 
 
 
-
-
+修改密码  passwd
 
 
 

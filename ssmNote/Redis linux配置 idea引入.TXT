@@ -9,13 +9,8 @@ cd /usr
 rz 上传
 
 3 创建目录
-mkdir /usr/java
-mkdir /usr/tomcat
 mkdir /usr/redis
-解压tomcat 9
-tar -zxvf jdk-11.0.13_linux-x64_bin.tar.gz -C /usr/java
-tar -zxvf jre.tar.gz -C /usr/java
-tar -zxvf /usr/apache-tomcat-9.0.60.tar.gz -C /usr/tomcat
+解压redis
 tar -zxvf /usr/redis-6.2.6.tar.gz -C /usr/redis
 
 4 安装c语言依赖
@@ -38,7 +33,7 @@ cp /usr/redis/redis-6.2.6/redis.conf /usr/redis/redis-6/bin
 cd /usr/redis/redis-6/bin
 yum install vim -y
 vim redis.conf
-/daemon可以查找 deamon的位置，按 i 进入编辑 改为 daemonize yes
+/daemon 可以查找 deamon的位置，按 i 进入编辑 改为 daemonize yes
 用命令后端启动
 /usr/redis/redis-6/bin/redis-server redis.conf
 
@@ -60,7 +55,7 @@ vim /usr/redis/redis-6/bin/redis.conf
 可以把密码改成123 requirepass 123，保存退出 :wq
 带密码登录, -a 表示授权 123是密码
 /usr/redis/redis-6/bin/redis-cli -a 123
-移除临时文件
+移除临时文件（如果需要)
 rm /usr/redis/redis-6/bin/.redis.conf.swp
 
 
@@ -80,8 +75,9 @@ vim /usr/redis/redis-6/bin/redis.conf
 
 打开desktop manage
 名字aliyun
-地址 47.112.147.20：6379
+地址 47.112.147.20：6379     comp 192.168.174.130      home 192.168.138.128
 密码 123
+
 
 
 9 idea使用
@@ -138,6 +134,9 @@ RedisConfig.java 配置文件文件
 
 
 
+
+
+
 报错：
 nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 47.112.147.20:6379
 vim /usr/redis/redis-6/bin/redis.conf，输入/protected-mode搜索，把protected-mode yes改成
@@ -149,9 +148,12 @@ protected-mode no
 
 
 
+b站
+https://www.bilibili.com/video/BV1sf4y1L7KE?p=15&spm_id_from=pageDriver
+set 和 get 用redis的命令
 
-
-
+https://www.bilibili.com/video/BV1sf4y1L7KE?p=17
+分布式session，用单独一个服务器放redis，redis里统一存用户信息，其他tomcat服务器去统一的redis拿用户信息
 
 
 

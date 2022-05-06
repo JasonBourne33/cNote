@@ -25,6 +25,10 @@ CREATE TABLE t_goods(
 	PRIMARY KEY(id)
 )
 COMMENT '商品表';
+INSERT INTO t_goods VALUE(1,'IPHONE12 64GB','IPHONE12 64GB','/img/iphone12.png','IPHONE12 64GB','6299.00',1000);
+INSERT INTO t_goods VALUE(2,'IPHONE12 PRO 128GB','IPHONE12 PRO 128GB','/img/iphone12pro.png','IPHONE12 64GB','9299.00',900);
+# drop table t_goods;
+SELECT * FROM t_goods;
 
 CREATE TABLE `t_order` (
 	`id` BIGINT(20) NOT NULL  AUTO_INCREMENT COMMENT '订单ID',
@@ -40,8 +44,7 @@ CREATE TABLE `t_order` (
 	`pay_date` DATETIME DEFAULT NULL  COMMENT '支付时间',
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=12 DEFAULT CHARSET = utf8mb4;
-COMMENT '订单表'
-;
+COMMENT '订单表';
 
 
 CREATE TABLE `t_seckill_goods`(
@@ -53,8 +56,12 @@ CREATE TABLE `t_seckill_goods`(
 	`end_date` DATETIME NOT NULL COMMENT '秒杀结束时间',
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
-COMMENT '秒杀商品表'
-;
+COMMENT '秒杀商品表';
+INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-11-01 08:00:00','2022-11-01 09:00:00');
+INSERT INTO t_seckill_goods VALUE(2,2,'929',9,'2022-11-01 08:00:00','2022-11-01 09:00:00');
+SELECT * FROM t_seckill_goods;
+
+
 
 CREATE TABLE `t_seckill_order` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '秒杀订单ID',
@@ -63,8 +70,8 @@ CREATE TABLE `t_seckill_order` (
 	`goods_id` BIGINT(20) NOT NULL  COMMENT '商品ID',
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
-COMMENT '秒杀订单表'
-;
+COMMENT '秒杀订单表';
+
 
 -- 添加索引，讲到时在加
 ALTER TABLE `seckill`.`t_seckill_order` 
