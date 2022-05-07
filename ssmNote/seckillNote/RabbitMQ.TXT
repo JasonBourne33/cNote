@@ -10,26 +10,30 @@ linux安装
 安装lang语言
   
 安装 rabbitmq
+yum -y install /usr/esl-erlang_23.0.2-1_centos_7_amd64.rpm     erl 验证
 yum -y install /usr/rabbitmq-server-3.8.5-1.el7.noarch.rpm
 查看rabbitmq 插件
 rabbitmq-plugins list
 安装插件
 rabbitmq-plugins enable rabbitmq_management
-开启rabbitmq 服务
+开启rabbitmq 服务 （如果主机名是数字开头会报错，拉下去看解决）
 systemctl start rabbitmq-server.service
+journalctl -xe
 确认rabbitmq服务启动成功
 systemctl status rabbitmq-server.service
 为了让其可以被外部访问，添加配置
 vim /etc/rabbitmq/rabbitmq.config
 输入
 [{rabbit, [{loopback_users,[]}]}].
+重启
 systemctl restart rabbitmq-server.service
 
-firewall-cmd --zone=public --add-port=8080/tcp --permanent		//检查是否放行端口
+firewall-cmd --zone=public --add-port=15672/tcp --permanent		//放行端口
+firewall-cmd --zone=public --add-port=5672/tcp --permanent		//放行端口
 systemctl restart firewalld.service
 
 访问
-47.112.147.20:15672
+192.168.174.130:15672			47.112.147.20
 默认的用户名 guest
 默认的密码 guest
 
@@ -38,6 +42,7 @@ rabbitmqctl add_user test test
 rabbitmqctl set_user_tags test administrator
 rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
 用test登录
+
 
 
 
@@ -80,13 +85,32 @@ spring整合
 
 
 
+ inet 192.168.174.130/24 brd 192.168.174.255 scope global noprefixroute dynamic ens33
+       valid_lft 1729sec preferred_lft 1729sec
+brd 192.168.174.255 就是  broadcast address 
 
 
 
 
+rpm卸载 
+rpm -qa | grep rabbitmq
+rpm -e rabbitmq-server-3.8.5-1.el7.noarch
+rpm -qa | grep lang
+rpm -e esl-erlang-23.0.2-1.x86_64
 
 
 
+主机名是数字，装rabbitmq就会报错
+源 https://www.jianshu.com/p/493640df9790
+查看主机名
+hostnamectl status
+改主机名
+hostnamectl set-hostname chaos
+保存到host文件
+vim /etc/hosts
+后面加上  
+192.168.174.130  chaos
+保存退出 :wq    重启虚拟机
 
 
 

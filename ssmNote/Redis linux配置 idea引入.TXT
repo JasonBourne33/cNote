@@ -30,33 +30,31 @@ make install PREFIX=/usr/redis/redis-6
 把conf配置 文件复制过来
 cp /usr/redis/redis-6.2.6/redis.conf /usr/redis/redis-6/bin
 把redis.config 里的属性
-cd /usr/redis/redis-6/bin
-yum install vim -y
-vim redis.conf
-/daemon 可以查找 deamon的位置，按 i 进入编辑 改为 daemonize yes
-用命令后端启动
-/usr/redis/redis-6/bin/redis-server redis.conf
-
-看进程中，筛选出redis相关的
-ps -aux | grep redis
-强行关闭进程
-kill -9 13211
-正常关闭 
-/usr/redis/redis-6/bin/redis-cli shutdown
-
-进入客户端
-/usr/redis/redis-6/bin/redis-cli
-
-7 配置密码
 vim /usr/redis/redis-6/bin/redis.conf
+/daemon 可以查找 deamon的位置，按 i 进入编辑 改为 daemonize yes
 找到requirepass
 /requirepass ,按n找下一个
 找到# requirepass foobared，删掉 # 解开注释
 可以把密码改成123 requirepass 123，保存退出 :wq
 带密码登录, -a 表示授权 123是密码
 /usr/redis/redis-6/bin/redis-cli -a 123
+
 移除临时文件（如果需要)
 rm /usr/redis/redis-6/bin/.redis.conf.swp
+
+用命令后端启动
+/usr/redis/redis-6/bin/redis-server redis.conf
+
+
+看进程中，筛选出redis相关的
+ps -aux | grep redis
+正常关闭 
+/usr/redis/redis-6/bin/redis-cli shutdown
+
+进入客户端
+/usr/redis/redis-6/bin/redis-cli
+
+
 
 
 8 redis destop manage登录
@@ -75,7 +73,7 @@ vim /usr/redis/redis-6/bin/redis.conf
 
 打开desktop manage
 名字aliyun
-地址 47.112.147.20：6379     comp 192.168.174.130      home 192.168.138.128
+地址 192.168.174.130：6379     
 密码 123
 
 

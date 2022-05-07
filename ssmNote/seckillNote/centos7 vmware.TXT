@@ -1,16 +1,33 @@
 
+每次启动vmware都要启动 redis , tomcat , rabbitmq 服务
+/usr/redis/redis-6/bin/redis-server redis.conf
+/usr/tomcat/apache-tomcat-9.0.60/bin/startup.sh
+systemctl start rabbitmq-server.service
+
+
+
+
+
 下载dvd版本的centos，会有图形界面
 https://mirrors.tuna.tsinghua.edu.cn/centos/7.9.2009/isos/x86_64/
 
 
-Xshell和Xftp连接VMware中的centos 7 （启动网卡）
+Xshell和Xftp连接VMware中的centos 7 （启动网卡，静态ip配置）
 源 https://blog.csdn.net/qq_39559641/article/details/104484560
 用root用户登录到centos
 输入 cat /etc/sysconfig/network-scripts/ifcfg-ens33 看到onboot=no
-输入 vi  /etc/sysconfig/network-scripts/ifcfg-ens33  按i进入编辑，把no改成yes，输入 :wq保存退出
+输入 vi  /etc/sysconfig/network-scripts/ifcfg-ens33  按i进入编辑，把no改成yes，
+把bootproto=dhcp 改成bootproto=static
+最后加上
+IPADDR=192.168.174.130
+NETMASK=255.255.255.0
+GATEWAY=192.168.174.254
+DNS1=114.114.114.114
+DNS2=8.8.8.8
+输入 :wq保存退出
 输入 sudo service network restart 重启网络
 输入 ip addr 查看ip地址 192.168 开头的
-用xftp连入 192.168.174.130 的地址端口 22           home:   192.168.138.128
+用xftp连入 192.168.1.130 的地址端口 22
 root
 123456
 
@@ -38,8 +55,22 @@ yum install open-vm-tools
 
 
 
-修改密码  passwd
+修改当前用户的密码  passwd
 
+
+
+
+主机名是数字，装rabbitmq就会报错
+源 https://www.jianshu.com/p/493640df9790
+查看主机名
+hostnamectl status
+改主机名
+hostnamectl set-hostname chaos
+保存到host文件
+vim /etc/hosts
+后面加上  
+192.168.174.130  chaos
+保存退出 :wq    重启虚拟机
 
 
 

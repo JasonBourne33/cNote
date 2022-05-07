@@ -48,7 +48,7 @@ firewall-cmd --list-port
 
 用navicat
 Connection- mysql
-Host：comp 192.168.174.130	    home 192.168.138.128	
+Host：192.168.174.130	    home 192.168.138.128	
 Port：3306
 UserName：root
 Pwd：123

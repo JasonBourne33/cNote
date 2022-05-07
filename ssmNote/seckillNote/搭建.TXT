@@ -31,6 +31,7 @@ run main方法来使用，将生成的controller，entity，service，serviceimp
 
 测试
 http://localhost:8080/login/toLogin
+http://192.168.174.130/login/toLogin
 http://localhost:8080/demo/hello
 
 报错，http://localhost:8080/login/toLogin 找不到

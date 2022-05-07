@@ -57,10 +57,11 @@ CREATE TABLE `t_seckill_goods`(
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
 COMMENT '秒杀商品表';
-INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-11-01 08:00:00','2022-11-01 09:00:00');
+INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-05-7 17:00:00','2022-05-07 18:00:00');
 INSERT INTO t_seckill_goods VALUE(2,2,'929',9,'2022-11-01 08:00:00','2022-11-01 09:00:00');
 SELECT * FROM t_seckill_goods;
 
+# drop table `t_seckill_goods`;
 
 
 CREATE TABLE `t_seckill_order` (
