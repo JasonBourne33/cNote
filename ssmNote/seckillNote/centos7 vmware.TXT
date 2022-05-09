@@ -27,12 +27,12 @@ DNS2=8.8.4.4
 输入 :wq保存退出
 输入 sudo service network restart 重启网络
 输入 ip addr 查看ip地址 192.168 开头的
-用xftp连入 192.168.1.130 的地址端口 22
+在vm里 编辑- 虚拟网络编辑器- 选中当前的子网地址- 子网ip改成192.168.174.0- 确定
+用xftp连入 192.168.174.130 的地址端口 22
 root
 123456
 
-ip r add default via 192.168.218.2 dev ens33
-ping www.baidu.com
+
 
 
 
