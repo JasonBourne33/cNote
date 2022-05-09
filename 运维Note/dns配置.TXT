@@ -1,0 +1,64 @@
+
+源 https://www.bilibili.com/video/BV1pz4y1D73n?p=182
+启动 NetworkManager
+systemctl restart NetworkManager
+查看网卡
+nmcli connection show
+
+查看dns
+vi /etc/resolv.conf
+
+vi  /etc/sysconfig/network-scripts/ifcfg-ens33
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

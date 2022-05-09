@@ -1,4 +1,36 @@
 
+qps: query per second 
+每秒查询率
+
+tps；transaction per second
+每秒事务
+
+
+
+前台运行seckill
+java -jar /usr/seckill-demo-0.0.1-SNAPSHOT.jar
+测试 
+http://192.168.174.130:8080/login/toLogin
+解压jmeter
+tar zxvf apache-jmeter-5.4.3.gz -C /usr/local/
+编辑配置文件
+vim /usr/local/apache-jmeter-5.4.3/bin/jmeter.properties
+找 /sampleresult.default.encoding 可以改成utf-8 （如果要中文）
+sampleresult.default.encoding=ISO-8859-1
+把windows的jmeter打包出来的 .jmx 复制到/usr/local/apache-jmeter-5.4.3/bin/ 下
+
+
+运行
+cd /usr/local/apache-jmeter-5.4.3/bin
+/usr/local/apache-jmeter-5.4.3/bin/jmeter.sh -n -t seckill.jmx -l result.jtl
+-n: no gui mode        -t: testplan	-l: logout file
+
+top 激活命令
+看load average 负载均衡    值：5min，10min，15min
+看结果
+cd /usr/local/apache-jmeter-5.4.3/bin/
+ls
+
 
 
 

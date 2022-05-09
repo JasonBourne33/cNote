@@ -21,15 +21,18 @@ Xshell和Xftp连接VMware中的centos 7 （启动网卡，静态ip配置）
 最后加上
 IPADDR=192.168.174.130
 NETMASK=255.255.255.0
-GATEWAY=192.168.174.254
-DNS1=114.114.114.114
-DNS2=8.8.8.8
+GATEWAY=192.168.174.2
+DNS1=8.8.8.8
+DNS2=8.8.4.4
 输入 :wq保存退出
 输入 sudo service network restart 重启网络
 输入 ip addr 查看ip地址 192.168 开头的
 用xftp连入 192.168.1.130 的地址端口 22
 root
 123456
+
+ip r add default via 192.168.218.2 dev ens33
+ping www.baidu.com
 
 
 
@@ -78,7 +81,16 @@ vim /etc/hosts
 
 
 
-
+tomcat启动报错
+The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+源 https://www.jianshu.com/p/72c92ebe8867
+mkdir /usr/tomcat-native
+tar -zxvf /usr/tomcat-native-1.2.23-src.tar.gz -C /usr/tomcat-native
+cd /usr/tomcat-native/tomcat-native-1.2.23-src/native
+/usr/tomcat-native/tomcat-native-1.2.23-src/native/configure --with-apr=/usr/bin/apr-1-config --prefix=$CATALINA_HOME
+make && make install
+配置catalina
+vim /usr/tomcat/apache-tomcat-9.0.60/bin/catalina.sh
 
 
 
