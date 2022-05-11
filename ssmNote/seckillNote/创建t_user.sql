@@ -1,4 +1,6 @@
 CREATE DATABASE seckill;
+
+DROP TABLE t_user;
 CREATE TABLE t_user(
 	`id` BIGINT(20) NOT NULL COMMENT '用户ID,手机号码',
 	`nickname` VARCHAR(255) NOT NULL,
@@ -13,6 +15,8 @@ CREATE TABLE t_user(
 COMMENT '用户表';
 INSERT INTO `t_user` (`id`, `nickname`, `password`, `salt`, `head`, `register_date`, `last_login_date`, `login_count`) VALUES('18012345678','admin','b7797cce01b4b131b433b6acf4add449','1a2b3c4d',NULL,NULL,NULL,'0');
 SELECT * FROM t_user;
+SELECT * FROM t_user WHERE id=13000000001;
+
 
 CREATE TABLE t_goods(
 	id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '商品ID',

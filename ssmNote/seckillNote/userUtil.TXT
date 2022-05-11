@@ -2,3 +2,28 @@
 String urlString="http://192.168.174.130:8080/login/toLogin";
  Connection refused: connect
 在74行 OutputStream out = co.getOutputStream();
+
+
+
+
+respone=== {"code":500,"message":"服务端异常","object":null}
+原因：UserUtil里请求的url应该是 doLogin
+String urlString="http://localhost:8080/login/doLogin";
+
+
+
+
+
+"code": 500210,"message": "用户名或者密码不正确",
+原因： 请求参数的时候要这样写
+String params="mobile="+user.getId()+"&password="+MD5Util.inputPassToDBPass("123456",user.getSalt());
+TUserServiceImpl 里的密码校验要这样写
+if (!MD5Util.inputPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
+
+
+
+
+
+
+只有13000000000 的是能登录的
+13000000001 往后全是 用户名或者密码不正确
