@@ -36,6 +36,9 @@ ls
 
 
 
+执行后 result.jtl 文件显示 404
+https://www.bilibili.com/video/BV1sf4y1L7KE?p=35
+
 
 
 

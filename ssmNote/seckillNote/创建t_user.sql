@@ -15,7 +15,6 @@ CREATE TABLE t_user(
 COMMENT '用户表';
 INSERT INTO `t_user` (`id`, `nickname`, `password`, `salt`, `head`, `register_date`, `last_login_date`, `login_count`) VALUES('18012345678','admin','b7797cce01b4b131b433b6acf4add449','1a2b3c4d',NULL,NULL,NULL,'0');
 SELECT * FROM t_user;
-SELECT * FROM t_user WHERE id=13000000001;
 
 
 CREATE TABLE t_goods(
@@ -61,7 +60,7 @@ CREATE TABLE `t_seckill_goods`(
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
 COMMENT '秒杀商品表';
-INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-05-7 17:00:00','2022-05-07 18:00:00');
+INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-05-12 14:00:00','2022-05-12 16:00:00');
 INSERT INTO t_seckill_goods VALUE(2,2,'929',9,'2022-11-01 08:00:00','2022-11-01 09:00:00');
 SELECT * FROM t_seckill_goods;
 
@@ -76,6 +75,7 @@ CREATE TABLE `t_seckill_order` (
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
 COMMENT '秒杀订单表';
+SELECT * FROM t_seckill_order;
 
 
 -- 添加索引，讲到时在加
