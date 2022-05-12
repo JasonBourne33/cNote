@@ -50,6 +50,7 @@ CREATE TABLE `t_order` (
 COMMENT '订单表';
 
 
+DROP TABLE t_seckill_goods
 CREATE TABLE `t_seckill_goods`(
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '秒杀商品ID',
 	`goods_id` BIGINT(20) NOT NULL COMMENT '商品ID',
