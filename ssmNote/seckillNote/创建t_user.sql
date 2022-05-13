@@ -50,7 +50,7 @@ CREATE TABLE `t_order` (
 COMMENT '订单表';
 
 
-DROP TABLE t_seckill_goods
+DROP TABLE t_seckill_goods;
 CREATE TABLE `t_seckill_goods`(
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '秒杀商品ID',
 	`goods_id` BIGINT(20) NOT NULL COMMENT '商品ID',
@@ -61,7 +61,7 @@ CREATE TABLE `t_seckill_goods`(
 	PRIMARY KEY(`id`)
 )ENGINE = INNODB AUTO_INCREMENT=3 DEFAULT CHARSET = utf8mb4
 COMMENT '秒杀商品表';
-INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-05-12 14:00:00','2022-05-12 16:00:00');
+INSERT INTO t_seckill_goods VALUE(1,1,'629',10,'2022-05-12 14:00:00','2022-05-17 16:00:00');
 INSERT INTO t_seckill_goods VALUE(2,2,'929',9,'2022-11-01 08:00:00','2022-11-01 09:00:00');
 SELECT * FROM t_seckill_goods;
 

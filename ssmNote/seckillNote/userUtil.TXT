@@ -45,17 +45,21 @@ if (!MD5Util.inputPassToDBPass(password, user.getSalt()).equals(user.getPassword
 
 
 
-
+http://192.168.174.130:8080/goodsDetail.html?goodsId=1
 验证码图片出不来
+要用 http://localhost:8080/login/toLogin 登录
 
 
 用户SESSION不存在
 SeKillController类 getPath 获取秒杀地址 方法里tusr为null
-goodsDeatil 类里 getSeckillPath 里 url: "/seckill/path" 请求的data里没有user
+goodsDeatil.html 里 getSeckillPath 里 url: "/seckill/path" 请求的data里没有user
 可能user是redis里设置成全局有值了
 在这一讲
 https://www.bilibili.com/video/BV1sf4y1L7KE?p=18
 
+
+点秒杀后一直在处理中
+SecKillController 类里 doSecKill 里 把注释的代码解注释掉
 
 
 
