@@ -1,0 +1,99 @@
+
+https://www.bilibili.com/video/BV1834y1v75k?p=46
+
+1 安装python3开放环境的依赖
+yum install python3 python3-devel python3-pip -y
+
+2 通过python的包管理工具，安装连接mysql的模块
+pip3 install pymysql 
+
+3 开发python连接mysql的代码，注意python的代码数量是严格把控的
+
+vim test_python_mysql.py
+可以直接在idea里写好，再xftp拷到服务器
+
+运行
+python3 test_python_mysql.py
+
+
+
+安装php环境依赖
+yum remove php-mysql
+yum install php-mysqlnd php -y
+运行
+php mysql_test.php
+
+
+
+安装 lsof
+yum install lsof -y
+运行shell脚本
+bash test_mysql.sh
+
+
+
+
+安装rsync
+yum install rsync -y
+看 rsync 是否存在
+rpm -qa rsync
+ls -l /etc/rsyncd.conf
+检查配置文件是否存在
+vim /usr/lib/systemd/system/rsyncd.service
+后台运行rsync服务
+/usr/bin/rsync --daemon
+检查是否有rsync服务
+netstat -tunlp|grep 873
+
+
+开发脚本
+vim /etc/init.d/cc_rsync
+授权
+chmod +x /etc/init.d/cc_rsync
+执行
+/etc/init.d/cc_rsync start
+/etc/init.d/cc_rsync stop
+
+如果出现 -bash: killall: command not found
+yum install psmisc -y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

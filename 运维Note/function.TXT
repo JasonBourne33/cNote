@@ -1,0 +1,68 @@
+
+创建目录
+mkdir /shell_program
+mkdir /shell_program/learn_func/
+
+编辑函数文件
+cd /shell_program/learn_func/
+vim /shell_program/learn_func/my_func.sh
+
+检查当前的shell环境变量
+set |grep ^chao
+
+加载变量到当前shell环境中
+source /shell_program/learn_func/my_func.sh
+执行
+bash /shell_program/learn_func/my_func.sh
+
+
+创建func3 来调用my_func
+vim /shell_program/learn_func/func3.sh
+bash /shell_program/learn_func/func3.sh
+
+在 set |grep ^chao 没有chao() 的情况下
+执行 source /shell_program/learn_func/func3.sh，可以让my_func 也加载到当前shell
+再执行set |grep ^chao 就有chao() 了
+
+但是执行 bash /shell_program/learn_func/func3.sh 不会把my_func 加载到当前shell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
