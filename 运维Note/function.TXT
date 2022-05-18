@@ -2,42 +2,80 @@
 创建目录
 mkdir /shell_program
 mkdir /shell_program/learn_func/
-
 编辑函数文件
 cd /shell_program/learn_func/
 vim /shell_program/learn_func/my_func.sh
-
 检查当前的shell环境变量
 set |grep ^chao
-
 加载变量到当前shell环境中
 source /shell_program/learn_func/my_func.sh
 执行
 bash /shell_program/learn_func/my_func.sh
 
 
+
+
+
 创建func3 来调用my_func
 vim /shell_program/learn_func/func3.sh
 bash /shell_program/learn_func/func3.sh
-
 在 set |grep ^chao 没有chao() 的情况下
 执行 source /shell_program/learn_func/func3.sh，可以让my_func 也加载到当前shell
 再执行set |grep ^chao 就有chao() 了
-
 但是执行 bash /shell_program/learn_func/func3.sh 不会把my_func 加载到当前shell
 
 
 
 
 
+创建用于测试网页格式的func
+vim /shell_program/learn_func/check_url_func.sh
+bash /shell_program/learn_func/check_url_func.sh
+测试
+bash /shell_program/learn_func/check_url_func.sh www.bing.com
+bash check_url_func.sh www.bing.com
+如果出现 wget: command not found
+yum install wget -y
+
+
+
+
+
+在/etc/rc.d/init.d/mysql 的93行有美化代码
+/etc/rc.d/init.d/mysql status   可以看效果
 
 
 
 
 
 
+vim /etc/init.d/my_rsync
+cd /etc/init.d/
+测试
+netstat -tunlp|grep 873
+chmod +x /etc/init.d/my_rsync
+/etc/init.d/my_rsync 
+/etc/init.d/my_rsync start
+/etc/init.d/my_rsync stop
+/etc/init.d/my_rsync restart
+
+如果报错 bad interpreter: No such file or directory
+重新复制，
+也可以尝试不复制，而是vim /etc/init.d/my_rsync 
+i进入编辑模式再复制内容
 
 
+
+
+mysql 自动化运维：
+netstat -tunlp|grep mysql
+vim /etc/init.d/mysqlAuto
+chmod +x /etc/init.d/mysqlAuto
+测试
+/etc/init.d/mysqlAuto start
+netstat -tunlp|grep mysql
+/etc/init.d/mysqlAuto stop
+/etc/init.d/mysqlAuto restart
 
 
 

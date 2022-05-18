@@ -1,0 +1,26 @@
+
+https://www.bilibili.com/video/BV1NY411P7V4?p=67
+
+1 找出含有root的行
+grep "root" /etc/passwd
+
+2 找出root用户的行
+grep "^root" /etc/passwd
+
+3 匹配以root开头或者以 rabbit 开头的行
+grep -E "^(root|rabbit)" /etc/passwd
+
+4 找出 root用户 和 rabbitmq 用户的行
+grep -E "^(root|rabbitmq)\>" /etc/passwd
+
+
+
+
+
+
+
+
+
+
+
+
