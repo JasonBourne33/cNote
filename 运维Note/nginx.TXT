@@ -1,7 +1,0 @@
-
-mkdir /usr/nginx
-cd /usr/nginx
-
-tar xf /usr/nginx/nginx-1.20.2.tar.gz
-/usr/nginx/nginx-1.20.2/configure --prefix=/usr/nginx && make && make install
-/usr/nginx/nginx-1.20.2

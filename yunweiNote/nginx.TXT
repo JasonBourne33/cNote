@@ -1,0 +1,117 @@
+
+https://www.bilibili.com/video/BV1yS4y1N76R?p=7
+
+装依赖
+yum install -y gcc
+yum install -y pcre pcre-devel
+yum install -y zlib zlib-devel
+
+cd /usr
+tar zxvf nginx-1.20.2.tar.gz
+cd /usr/nginx-1.20.2
+./configure --prefix=/usr/local/nginx
+make
+cd /usr/local/nginx/sbin
+./nginx
+把nginx.conf 的service里的 80 改为 81
+cd /usr/local/nginx/conf
+防火墙放行端口
+firewall-cmd --zone=public --add-port=81/tcp --permanent
+systemctl stop firewalld.service
+测试
+192.168.174.130:81
+ps -ef | grep nginx
+./niginx -s stop
+
+编写服务脚本
+vim /usr/lib/systemd/system/nginx.service
+重启系统服务
+systemctl daemon-reload
+以后操作nginx就可以
+systemctl start nginx.service
+systemctl status nginx.service
+
+
+
+
+
+
+
+
+报错
+nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+netstat -ntlp
+发现redis已经占用了80端口
+cd /usr/local/nginx/conf
+把nginx.conf 的 80 改为 81
+192.168.174.130:81
+网页没响应 took too long to respond.
+放行端口
+firewall-cmd --zone=public --add-port=81/tcp --permanent
+systemctl stop firewalld.service
+
+systemctl status nginx.service报错，没写对
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://zhuanlan.zhihu.com/p/63147856 (能装，但是不知道怎么用)
+先装依赖环境
+yum -y install make zlib-devel gcc-c++ libtool openssl openssl-devel
+更新系统
+yum install epel-release -y
+yum update
+安装yum-utils
+yum -y install yum-utils
+编辑yum源
+vi /etc/yum.repos.d/nginx.repo
+内容
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+:wq 保存退出
+查看yum源
+yum list | grep nginx
+yum安装nginx
+yum install nginx
+
+
+看在哪
+whereis nginx
+cd /etc/nginx
+cat nginx.conf

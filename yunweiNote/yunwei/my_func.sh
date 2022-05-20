@@ -5,21 +5,8 @@ chao(){
 }
 
 helloPyyu(){
-  echo "your enter parameter is : $1 $2 $3 , sum of parameters are $#"
+  echo "your enter parameter is : $1 ,$2 ,$3 , sum of parameters are $# ."
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

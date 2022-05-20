@@ -4,7 +4,8 @@
 [ -f /shell_program/learn_func/my_func.sh ] && . /shell_program/learn_func/my_func.sh || exit
 
 #execute function
-chao
+#chao
+helloPyyu $1 $2 $3
 
 
 
