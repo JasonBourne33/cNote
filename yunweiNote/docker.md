@@ -47,7 +47,15 @@ docker images 		#查看所以镜像
 
 docker rmi				镜像名：版本号/镜像id
 
+docker run --name=mynginx nginx 	启动
 
+docker ps				看正在运行中的容器
+
+curl 192.168.174.130:80		测试连接
+
+docker rm mynginx		杀死正在运行的容器
+
+docker run --name=mynginx -d nginx		以后台方式运行
 
 
 

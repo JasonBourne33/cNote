@@ -31,7 +31,7 @@ make install PREFIX=/usr/redis/redis-6
 cp /usr/redis/redis-6.2.6/redis.conf /usr/redis/redis-6/bin
 把redis.config 里的属性
 vim /usr/redis/redis-6/bin/redis.conf
-/daemon 可以查找 deamon的位置，按 i 进入编辑 改为 daemonize yes
+/daemon 可以查找 deamon/的位置，按 i 进入编辑 改为 daemonize yes
 找到requirepass
 /requirepass ,按n找下一个
 找到# requirepass foobared，删掉 # 解开注释
