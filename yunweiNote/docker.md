@@ -47,19 +47,17 @@ docker images 		#查看所以镜像
 
 docker rmi				镜像名：版本号/镜像id
 
-docker run --name=mynginx nginx 	启动
-
-docker ps -a				看正在运行中的容器
-
-curl 192.168.174.130:88		测试连接
-
 docker rm -f mynginx		杀死正在运行的容器
 
 docker run --name=mynginx -d --restart=always -p 88:80 nginx
 
 -d 以后台方式运行	--restart重启还在	-p 把主机的88端口映射到80端口
 
+docker ps -a				看正在运行中的容器
+
 要在安全组规则里设置放行88端口
+
+curl 192.168.174.130:88		测试连接
 
 docker update 0d0 --restart=always
 
@@ -71,7 +69,7 @@ docker pull redis
 
 mkdir data	然后	mkdir data/redis	cd data/redis
 
-vi redis.conf	编辑内容
+vim data/redis/redis.conf	编辑内容
 
 appendonly yes
 requirepass 123
