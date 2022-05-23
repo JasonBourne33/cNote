@@ -37,7 +37,7 @@ sudo systemctl restart docker
 
 
 
-去hb.docker.com找软件
+去hub.docker.com找软件
 
 docker pull nginx   	#下载最新版
 
@@ -49,13 +49,58 @@ docker rmi				镜像名：版本号/镜像id
 
 docker run --name=mynginx nginx 	启动
 
-docker ps				看正在运行中的容器
+docker ps -a				看正在运行中的容器
 
-curl 192.168.174.130:80		测试连接
+curl 192.168.174.130:88		测试连接
 
-docker rm mynginx		杀死正在运行的容器
+docker rm -f mynginx		杀死正在运行的容器
 
-docker run --name=mynginx -d nginx		以后台方式运行
+docker run --name=mynginx -d --restart=always -p 88:80 nginx
+
+-d 以后台方式运行	--restart重启还在	-p 把主机的88端口映射到80端口
+
+要在安全组规则里设置放行88端口
+
+docker update 0d0 --restart=always
+
+
+
+装redis	https://www.bilibili.com/video/BV13Q4y1C7hS?p=20
+
+docker pull redis
+
+mkdir data	然后	mkdir data/redis	cd data/redis
+
+vi redis.conf	编辑内容
+
+appendonly yes
+requirepass 123
+
+redis自定义配置文件启动命令
+
+```console
+docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
+-v /data/redis/data:/data \
+-d --name myredis \
+-p 6379:6379 \
+redis:latest redis-server /etc/redis/redis.conf
+```
+
+在安全组放行6379
+
+docker exec -it  myredis /bin/bash		进入容器
+
+docker rm -f myredis
+
+
+
+
+
+踩坑
+1 要先把 linux 的 redis 停掉再去启动 docker 的 redis
+/usr/redis/redis-6/bin/redis-cli shutdown
+
+
 
 
 
