@@ -49,7 +49,9 @@ docker rmi				镜像名：版本号/镜像id
 
 docker rm -f mynginx		杀死正在运行的容器
 
+```sh
 docker run --name=mynginx -d --restart=always -p 88:80 nginx
+```
 
 -d 以后台方式运行	--restart重启还在	-p 把主机的88端口映射到80端口
 
@@ -76,7 +78,7 @@ requirepass 123
 
 redis自定义配置文件启动命令
 
-```console
+```sh
 docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 -v /data/redis/data:/data \
 -d --name myredis \
@@ -90,13 +92,22 @@ docker exec -it  myredis /bin/bash		进入容器
 
 docker rm -f myredis
 
-
+http://localhost:8080/count	统计人数测试地址，放seckill了
 
 
 
 踩坑
 1 要先把 linux 的 redis 停掉再去启动 docker 的 redis
 /usr/redis/redis-6/bin/redis-cli shutdown
+
+2 docker run 的时候显示 IPv4 forwarding is disabled. Networking will not work.
+https://cloud.tencent.com/developer/article/1552661
+vim /etc/sysctl.conf	添加代码
+net.ipv4.ip_forward=1 
+systemctl restart network  	重启服务
+sysctl net.ipv4.ip_forward  	看是否成功
+
+
 
 
 

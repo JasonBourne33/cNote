@@ -72,7 +72,7 @@ vim /usr/redis/redis-6/bin/redis.conf
 /usr/redis/redis-6/bin/redis-server redis.conf
 
 打开desktop manage
-名字aliyun
+名字 174.130
 地址 192.168.174.130：6379     
 密码 123
 

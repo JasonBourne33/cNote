@@ -30,7 +30,7 @@ run main方法来使用，将生成的controller，entity，service，serviceimp
 
 
 测试
-http://localhost:8080/login/toLogin
+http://localhost:8080/login/toLogin	 在idea里启动，这个能用
 http://192.168.174.130/login/toLogin
 http://localhost:8080/demo/hello
 
