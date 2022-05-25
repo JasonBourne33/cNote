@@ -13,7 +13,6 @@ http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 安装
 
 yum install -y docker-ce docker-ce-cli containerd.io
-
 systemctl enable docker --now
 
 配置加速器，直接复制粘贴下面代码
@@ -40,13 +39,9 @@ sudo systemctl restart docker
 去hub.docker.com找软件
 
 docker pull nginx   	#下载最新版
-
 docker pull nginx:1.20.1
-
 docker images 		#查看所以镜像
-
 docker rmi				镜像名：版本号/镜像id
-
 docker rm -f mynginx		杀死正在运行的容器
 
 ```sh

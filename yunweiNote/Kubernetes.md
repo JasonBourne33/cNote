@@ -1,38 +1,25 @@
-在seckill项目里创建 Dockerfile
 
-把target和Dockerfile放入aaa文件中传到linux的root
 
-cd /root/aaa/
-执行命令
+Docker	容器
 
-```sh
-docker build -t seckill:v1.0 -f Dockerfile . 
-```
+Kubernetes	管理容器
+https://www.bilibili.com/video/BV13Q4y1C7hS?p=69&spm_id_from=pageDriver
 
-docker images		查看
+KubeSphere	K8s的钥匙
 
-启动
+DevOps	自动化部署 Developers Operations|
+https://www.bilibili.com/video/BV13Q4y1C7hS?p=106
 
- ```sh
- docker run -d -p 8080:8080  seckill:v1.0 \
- --name=seckill
- ```
-
-docker rm -f 
+青云创建三天按需服务器	（可以用vmware 虚拟机）
+cat  /etc/redhat-release		 查看centos版本
 
 
 
+kubesphere.com.cn		官网
+
+给三台虚拟机装
+
+用xshell的
 
 
 
-
-
-
-
-
-
-
-踩坑
-1 启动时爆错 8080接口已经用了
-netstat -tnlp 	杀掉占用的的进程
-kill -[pid]
