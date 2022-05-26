@@ -19,21 +19,21 @@ Xshell和Xftp连接VMware中的centos 7 （启动网卡，静态ip配置）
 输入 vi  /etc/sysconfig/network-scripts/ifcfg-ens33  按i进入编辑，把no改成yes，
 把bootproto=dhcp 改成bootproto=static
 最后加上
-IPADDR=192.168.174.130
+IPADDR=192.169.0.3
 NETMASK=255.255.255.0
-GATEWAY=192.168.174.2
+GATEWAY=192.169.0.2
 DNS1=8.8.8.8
 DNS2=8.8.4.4
 输入 :wq保存退出
 输入 sudo service network restart 重启网络
 输入 ip addr 查看ip地址 192.168 开头的
-在vm里 编辑- 虚拟网络编辑器- 选中当前的子网地址- 子网ip改成192.168.174.0- 确定
-用xftp连入 192.168.174.130 的地址端口 22
+在vm里 编辑- 虚拟网络编辑器- 选中当前的子网地址- 子网ip改成192.169.0.0- 确定
+用xftp连入 192.169.0.3 的地址端口 22
 root
 123456
 
-第二台 CentOS 7 1 	192.168.174.131
-第三台 CentOS 7 2 	192.168.174.132
+第二台 CentOS 7 1 	192.169.0.4
+第三台 CentOS 7 2 	192.169.0.5
 如果还是连不上网络，用 ipaddr 没看到ens33有ip地址
 ifup ens33
 
