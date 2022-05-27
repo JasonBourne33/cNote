@@ -198,11 +198,86 @@ sudo ip link del flannel.1
 rm -rf $HOME/.kube/config
 ```
 
-安装网络组件
+安装网络组件 (master节点 )
+
+```sh
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
 kubectl apply -f calico.yaml		根据配置文件，给集群创建资源
 kubectl get pods -A		查看部署了哪些应用 ( 相当于docker ps)
+kubectl delete -f calico.yaml		如果要删除
+
+# calico-kube-controllers 没有 CrashLoopBackOff
+```
+
+
 
 如果令牌过期了：
 kubeadm token create --print-join-command
+
+当挂起再开虚拟机后报错
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+
+```sh
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+
+
+
+
+Dashboard
+
+```sh
+#部署
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+vi dashboard.yaml 
+#把recommended.yaml的内容复制到 dashboard.yaml
+kubectl apply -f dashboard.yaml
+#如果要删除
+kubectl delete -f dashboard.yaml
+
+#设置访问端口
+kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
+/type搜索，把值改了 type:NodePort
+
+#开放端口30753（云服务器在控制台也要操作）
+firewall-cmd --zone=public --add-port=30753/tcp --permanent	
+systemctl restart firewalld.service
+firewall-cmd --reload 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
