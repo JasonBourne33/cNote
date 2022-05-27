@@ -202,11 +202,20 @@ rm -rf $HOME/.kube/config
 
 ```sh
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
-kubectl apply -f calico.yaml		根据配置文件，给集群创建资源
-kubectl get pods -A		查看部署了哪些应用 ( 相当于docker ps)
-kubectl delete -f calico.yaml		如果要删除
+#根据配置文件，给集群创建资源
+kubectl apply -f calico.yaml		
+#查看部署了哪些应用 ( 相当于docker ps)
+kubectl get pods -A		
+#如果要删除
+kubectl delete -f calico.yaml		
 
 # calico-kube-controllers 没有 CrashLoopBackOff
+# Calico networking (BGP)
+firewall-cmd --zone=public --add-port=179/tcp --permanent
+# Calico networking with Typha enabled
+firewall-cmd --zone=public --add-port=5473/tcp --permanent
+# flannel networking (VXLAN)
+firewall-cmd --zone=public --add-port=4789/udp --permanent
 ```
 
 
