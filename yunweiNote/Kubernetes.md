@@ -33,15 +33,14 @@ yum-config-manager \
 http://download.docker.com/linux/centos/docker-ce.repo
 ```
 
-安装Docker
+```sh
+#安装Docker
 sudo yum install -y docker-ce-20.10.7 docker-ce-cli-20.10.7 containerd.io-1.4.6
 
-启动
+#启动
 systemctl enable docker --now
 
-配置镜像加速
-
-```sh
+#配置镜像加速
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
@@ -64,20 +63,24 @@ hostnamectl set-hostname slave1
 hostnamectl set-hostname slave2
 hostname		查看
 
-禁用掉linux的一些安全设置
+```sh
+#禁用掉linux的一些安全设置
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
-关闭swap分区
+#关闭swap分区
 swapoff -a
 sed -ri 's/.*swap.*/#&/' /etc/fstab
 
-把ipv6的桥接到ipv4，方便统计
+#把ipv6的桥接到ipv4，方便统计
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
+```
+
+
 
 安装三大件
 
@@ -119,15 +122,15 @@ done
 EOF
    
 chmod +x ./images.sh && ./images.sh
-```
-
-初始化主节点
-
-```sh
 #所有机器添加master域名映射，以下需要修改为自己的
 echo "192.169.0.3  cluster-endpoint" >> /etc/hosts
 #验证
 ping cluster-endpoint
+```
+
+初始化主节点 (只master节点装)
+
+```sh
 
 #主节点初始化
 kubeadm init \
@@ -168,13 +171,17 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join cluster-endpoint:6443 --token 4bdd8g.ff8akpvxzzvjnu1f \
     --discovery-token-ca-cert-hash sha256:df8535e23d6d34024fef77d2f1753f1a644a6d1ac8487531d9bbbe38c9ba2ca0
     
-    #按照上面的提示，在master服务器
-    export KUBECONFIG=/etc/kubernetes/admin.conf
+#按照上面的提示，在master服务器
+export KUBECONFIG=/etc/kubernetes/admin.conf
    #sha256 每一次init都是不一样的，如果是slave节点就用woker的代码，要加入董事会的节点就用cotrol-plane的代码
+#如果令牌过期了：
+kubeadm token create --print-join-command
+#查看节点
+kubectl get nodes
 
 ```
 
-kubectl get nodes		查看节点
+
 kubeadm reset		重置 的时候报错
 
 ```sh
@@ -198,30 +205,35 @@ sudo ip link del flannel.1
 rm -rf $HOME/.kube/config
 ```
 
-安装网络组件 (master节点 )
+安装网络组件calico (master节点 )
 
 ```sh
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
+wget https://docs.projectcalico.org/manifests/calico.yaml 
 #根据配置文件，给集群创建资源
 kubectl apply -f calico.yaml		
 #查看部署了哪些应用 ( 相当于docker ps)
 kubectl get pods -A		
-#如果要删除
-kubectl delete -f calico.yaml		
 
-# calico-kube-controllers 没有 CrashLoopBackOff
+#如果要删除
+kubectl delete https://docs.projectcalico.org/manifests/calico.yaml
+kubectl delete -f calico.yaml	
+
+
+# calico-kube-controllers 有 CrashLoopBackOff
 # Calico networking (BGP)
 firewall-cmd --zone=public --add-port=179/tcp --permanent
 # Calico networking with Typha enabled
 firewall-cmd --zone=public --add-port=5473/tcp --permanent
 # flannel networking (VXLAN)
 firewall-cmd --zone=public --add-port=4789/udp --permanent
+
+#calico-kube-controllers 有 ImagePullBackOff
 ```
 
 
 
-如果令牌过期了：
-kubeadm token create --print-join-command
+
 
 当挂起再开虚拟机后报错
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
