@@ -162,21 +162,25 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token 4bdd8g.ff8akpvxzzvjnu1f \
-    --discovery-token-ca-cert-hash sha256:df8535e23d6d34024fef77d2f1753f1a644a6d1ac8487531d9bbbe38c9ba2ca0 \
+  kubeadm join cluster-endpoint:6443 --token vfzvjx.w9wwbked7uppurtc \
+    --discovery-token-ca-cert-hash sha256:df347a3bac5912d839e29f7603b88650e1a4193ec20faef6f3b89042518a019d \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token 4bdd8g.ff8akpvxzzvjnu1f \
-    --discovery-token-ca-cert-hash sha256:df8535e23d6d34024fef77d2f1753f1a644a6d1ac8487531d9bbbe38c9ba2ca0
+kubeadm join cluster-endpoint:6443 --token vfzvjx.w9wwbked7uppurtc \
+    --discovery-token-ca-cert-hash sha256:df347a3bac5912d839e29f7603b88650e1a4193ec20faef6f3b89042518a019d 
+
     
 #按照上面的提示，在master服务器
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=/etc/kubernetes/admin.conf
    #sha256 每一次init都是不一样的，如果是slave节点就用woker的代码，要加入董事会的节点就用cotrol-plane的代码
 #如果令牌过期了：
 kubeadm token create --print-join-command
-#查看节点
+#查看节点 (要有子节点连上，master才会ready)
 kubectl get nodes
 
 ```
@@ -204,6 +208,36 @@ sudo ip link del flannel.1
 #删除 $HOME/.kube/config
 rm -rf $HOME/.kube/config
 ```
+
+Kubernetes join 的时候卡住 
+certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
+
+```sh
+rm -rf /etc/cni/net.d
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+sysctl net.bridge.bridge-nf-call-iptables=1
+sudo ip link del cni0
+sudo ip link del flannel.1
+rm -rf $HOME/.kube/config
+
+rm -rf /etc/kubernetes/bootstrap-kubelet.conf
+rm -rf /etc/kubernetes/pki/ca.crt
+
+kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
+kubectl logs -f calico-node-qqd5r
+#修改calico.yaml
+            - name: IP
+              value: "autodetect"
+            - name: IP_AUTODETECTION_METHOD
+              value: "interface=ens33"
+            # Enable IPIP
+            - name: CALICO_IPV4POOL_IPIP
+#可能是因为 calico-node 没ready 
+kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
+cat /etc/calico/confd/config/bird.cfg
+```
+
+
 
 安装网络组件calico (master节点 )
 
