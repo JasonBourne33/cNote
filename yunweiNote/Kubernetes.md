@@ -123,7 +123,7 @@ EOF
    
 chmod +x ./images.sh && ./images.sh
 #所有机器添加master域名映射，以下需要修改为自己的
-echo "192.169.0.3  cluster-endpoint" >> /etc/hosts
+echo "193.169.0.3  cluster-endpoint" >> /etc/hosts
 #验证
 ping cluster-endpoint
 ```
@@ -134,7 +134,7 @@ ping cluster-endpoint
 
 #主节点初始化
 kubeadm init \
---apiserver-advertise-address=192.169.0.3 \
+--apiserver-advertise-address=193.169.0.3 \
 --control-plane-endpoint=cluster-endpoint \
 --image-repository registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images \
 --kubernetes-version v1.20.9 \
@@ -162,14 +162,14 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token vfzvjx.w9wwbked7uppurtc \
-    --discovery-token-ca-cert-hash sha256:df347a3bac5912d839e29f7603b88650e1a4193ec20faef6f3b89042518a019d \
+  kubeadm join cluster-endpoint:6443 --token njeyvk.wqfp1hou1i7v6tml \
+    --discovery-token-ca-cert-hash sha256:66aaf9de588bf3268ac69cd5f9f8a5c952b67a2f0a649962bb5e41cc26e6ff16 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token vfzvjx.w9wwbked7uppurtc \
-    --discovery-token-ca-cert-hash sha256:df347a3bac5912d839e29f7603b88650e1a4193ec20faef6f3b89042518a019d 
+kubeadm join cluster-endpoint:6443 --token njeyvk.wqfp1hou1i7v6tml \
+    --discovery-token-ca-cert-hash sha256:66aaf9de588bf3268ac69cd5f9f8a5c952b67a2f0a649962bb5e41cc26e6ff16 
 
     
 #按照上面的提示，在master服务器
@@ -183,10 +183,11 @@ kubeadm token create --print-join-command
 #查看节点 (要有子节点连上，master才会ready)
 kubectl get nodes
 
+
 ```
 
 
-kubeadm reset		重置 的时候报错
+kubeadm reset 		重置 的时候报错 [](#bug1)
 
 ```sh
 The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
@@ -209,7 +210,8 @@ sudo ip link del flannel.1
 rm -rf $HOME/.kube/config
 ```
 
-Kubernetes join 的时候卡住 
+Kubernetes  	 join 的时候卡住 (没解决)
+
 certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
 
 ```sh
@@ -235,6 +237,38 @@ kubectl logs -f calico-node-qqd5r
 #可能是因为 calico-node 没ready 
 kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
 cat /etc/calico/confd/config/bird.cfg
+```
+
+master节点 init 的时候报错 
+
+```sh
+[kubelet-check] Initial timeout of 40s passed.
+
+	Unfortunately, an error has occurred:
+		timed out waiting for the condition
+
+	This error is likely caused by:
+		- The kubelet is not running
+		- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)
+
+	If you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:
+		- 'systemctl status kubelet'
+		- 'journalctl -xeu kubelet'
+
+	Additionally, a control plane component may have crashed or exited when started by the container runtime.
+	To troubleshoot, list all containers using your preferred container runtimes CLI.
+
+	Here is one example how you may list all Kubernetes containers running in docker:
+		- 'docker ps -a | grep kube | grep -v pause'
+		Once you have found the failing container, you can inspect its logs with:
+		- 'docker logs CONTAINERID'
+
+error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster
+To see the stack trace of this error execute with --v=5 or higher
+
+#没解决,重装系统才行
+
+
 ```
 
 
@@ -316,6 +350,7 @@ firewall-cmd --reload
 
 
 
+[](#bug1r)
 
 
 
@@ -327,12 +362,21 @@ firewall-cmd --reload
 
 
 
+子node join 的时候报错
+
+```sh
+[preflight] Running pre-flight checks
+	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.7. Latest validated version: 19.03
+	[WARNING Hostname]: hostname "slave1" could not be reached
+	[WARNING Hostname]: hostname "slave1": lookup slave1 on 8.8.8.8:53: no such host
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+
+#改文件
+echo "1" > /proc/sys/net/ipv4/ip_forward
 
 
-
-
-
-
-
-
+```
 

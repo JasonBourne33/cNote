@@ -19,14 +19,14 @@ Xshell和Xftp连接VMware中的centos 7 （启动网卡，静态ip配置）
 输入 vi  /etc/sysconfig/network-scripts/ifcfg-ens33  按i进入编辑，把no改成yes，
 把bootproto=dhcp 改成bootproto=static
 最后加上
-IPADDR=192.169.0.3
+IPADDR=193.169.0.3
 NETMASK=255.255.255.0
-GATEWAY=192.169.0.2
+GATEWAY=193.169.0.2
 DNS1=8.8.8.8
 DNS2=8.8.4.4
 输入 :wq保存退出
 输入 sudo service network restart 重启网络
-输入 ip addr 查看ip地址 192.168 开头的
+输入 ip addr 查看ip地址 193.169 开头的
 在vm里 编辑- 虚拟网络编辑器- 选中当前的子网地址- 子网ip改成192.169.0.0- 确定
 用xftp连入 192.169.0.3 的地址端口 22
 root
