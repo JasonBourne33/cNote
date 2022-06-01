@@ -1,5 +1,7 @@
 
 
+
+
 Docker	容器
 
 Kubernetes	管理容器
@@ -99,6 +101,7 @@ exclude=kubelet kubeadm kubectl
 EOF
 
 sudo yum install -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9 --disableexcludes=kubernetes
+sudo yum remove -y kubeadm-1.20.9 
 sudo systemctl enable --now kubelet
 ```
 
@@ -186,90 +189,18 @@ kubectl get nodes
 
 ```
 
-
-kubeadm reset 		重置 的时候报错 [](#bug1)
-
-```sh
-The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
-
-The reset process does not reset or clean up iptables rules or IPVS tables.
-If you wish to reset iptables, you must do so manually by using the "iptables" command.
-
-If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
-to reset your system's IPVS tables.
-
-#删除net.d
-rm -rf /etc/cni/net.d
-#重置iptables
-iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
-sysctl net.bridge.bridge-nf-call-iptables=1
-#清除对应的残余网卡信息
-sudo ip link del cni0
-sudo ip link del flannel.1
-#删除 $HOME/.kube/config
-rm -rf $HOME/.kube/config
-```
-
+kubeadm reset 		重置 的时候报错
+ [](#bug1)	[bug1r]()	
 Kubernetes  	 join 的时候卡住 (没解决)
+[](#b2)	[b2r]()	
 
 certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
 
-```sh
-rm -rf /etc/cni/net.d
-iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
-sysctl net.bridge.bridge-nf-call-iptables=1
-sudo ip link del cni0
-sudo ip link del flannel.1
-rm -rf $HOME/.kube/config
 
-rm -rf /etc/kubernetes/bootstrap-kubelet.conf
-rm -rf /etc/kubernetes/pki/ca.crt
-
-kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
-kubectl logs -f calico-node-qqd5r
-#修改calico.yaml
-            - name: IP
-              value: "autodetect"
-            - name: IP_AUTODETECTION_METHOD
-              value: "interface=ens33"
-            # Enable IPIP
-            - name: CALICO_IPV4POOL_IPIP
-#可能是因为 calico-node 没ready 
-kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
-cat /etc/calico/confd/config/bird.cfg
-```
 
 master节点 init 的时候报错 
 
-```sh
-[kubelet-check] Initial timeout of 40s passed.
-
-	Unfortunately, an error has occurred:
-		timed out waiting for the condition
-
-	This error is likely caused by:
-		- The kubelet is not running
-		- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)
-
-	If you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:
-		- 'systemctl status kubelet'
-		- 'journalctl -xeu kubelet'
-
-	Additionally, a control plane component may have crashed or exited when started by the container runtime.
-	To troubleshoot, list all containers using your preferred container runtimes CLI.
-
-	Here is one example how you may list all Kubernetes containers running in docker:
-		- 'docker ps -a | grep kube | grep -v pause'
-		Once you have found the failing container, you can inspect its logs with:
-		- 'docker logs CONTAINERID'
-
-error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster
-To see the stack trace of this error execute with --v=5 or higher
-
-#没解决,重装系统才行
-
-
-```
+[](#b3)	[b3r]()	
 
 
 
@@ -340,21 +271,87 @@ firewall-cmd --reload
 
 
 
+[](#bug1r) [bug1]()
 
+```sh
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
 
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the "iptables" command.
 
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
 
+#删除net.d
+rm -rf /etc/cni/net.d
+#重置iptables
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+sysctl net.bridge.bridge-nf-call-iptables=1
+#清除对应的残余网卡信息
+sudo ip link del cni0
+sudo ip link del flannel.1
+#删除 $HOME/.kube/config
+rm -rf $HOME/.kube/config
+```
 
+[](#b2r)	[b2]()
 
+```sh
+certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
 
+rm -rf /etc/cni/net.d
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+sysctl net.bridge.bridge-nf-call-iptables=1
+sudo ip link del cni0
+sudo ip link del flannel.1
+rm -rf $HOME/.kube/config
 
+rm -rf /etc/kubernetes/bootstrap-kubelet.conf
+rm -rf /etc/kubernetes/pki/ca.crt
 
+kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
+kubectl logs -f calico-node-qqd5r
+#修改calico.yaml
+            - name: IP
+              value: "autodetect"
+            - name: IP_AUTODETECTION_METHOD
+              value: "interface=ens33"
+            # Enable IPIP
+            - name: CALICO_IPV4POOL_IPIP
+#可能是因为 calico-node 没ready 
+kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
+cat /etc/calico/confd/config/bird.cfg
+```
 
-[](#bug1r)
+[](#b3r)	[b3]()
 
+```sh
+[kubelet-check] Initial timeout of 40s passed.
 
+	Unfortunately, an error has occurred:
+		timed out waiting for the condition
 
+	This error is likely caused by:
+		- The kubelet is not running
+		- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)
 
+	If you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:
+		- 'systemctl status kubelet'
+		- 'journalctl -xeu kubelet'
+
+	Additionally, a control plane component may have crashed or exited when started by the container runtime.
+	To troubleshoot, list all containers using your preferred container runtimes CLI.
+
+	Here is one example how you may list all Kubernetes containers running in docker:
+		- 'docker ps -a | grep kube | grep -v pause'
+		Once you have found the failing container, you can inspect its logs with:
+		- 'docker logs CONTAINERID'
+
+error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster
+To see the stack trace of this error execute with --v=5 or higher
+
+#没解决,重装系统才行
+```
 
 
 
