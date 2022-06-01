@@ -57,6 +57,8 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
+
+yum remove docker-ce-20.10.7
 ```
 
 配置每个主机名不一样
@@ -101,7 +103,7 @@ exclude=kubelet kubeadm kubectl
 EOF
 
 sudo yum install -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9 --disableexcludes=kubernetes
-sudo yum remove -y kubeadm-1.20.9 
+sudo yum remove y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9
 sudo systemctl enable --now kubelet
 ```
 
