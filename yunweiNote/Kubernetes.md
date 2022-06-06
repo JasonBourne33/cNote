@@ -29,10 +29,28 @@ kubesphere.com.cn		官网
 基础环境（工具和镜像）
 
 ```sh
+#配置每个主机名不一样
+hostnamectl set-hostname k8s-master
+hostnamectl set-hostname slave1
+hostnamectl set-hostname slave2
+hostname		查看
+
 yum install -y yum-utils
 yum-config-manager \
 --add-repo \
 http://download.docker.com/linux/centos/docker-ce.repo
+#yuchao
+systemctl stop firewalld
+sustemctl disable firewalld
+systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service
+systemctl stop postfix.service
+systemctl disable postfix.service
+wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+yum install -y bash-completion.noarch
+yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
+
+
 ```
 
 ```sh
@@ -58,16 +76,8 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-yum remove -y docker-ce-20.10.7
-```
+# yum remove -y docker-ce-20.10.7
 
-配置每个主机名不一样
-hostnamectl set-hostname k8s-master
-hostnamectl set-hostname slave1
-hostnamectl set-hostname slave2
-hostname		查看
-
-```sh
 #禁用掉linux的一些安全设置
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
@@ -82,14 +92,8 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl --system
-```
 
-
-
-安装三大件
-
-
-```sh
+#安装三大件
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -103,13 +107,10 @@ exclude=kubelet kubeadm kubectl
 EOF
 
 sudo yum install -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9 --disableexcludes=kubernetes
-sudo yum remove -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9
+#sudo yum remove -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9
 sudo systemctl enable --now kubelet
-```
 
-下载各个机器需要的镜像
-
-```sh
+#下载各个机器需要的镜像
 sudo tee ./images.sh <<-'EOF'
 #!/bin/bash
 images=(
@@ -132,6 +133,8 @@ echo "193.169.0.3  cluster-endpoint" >> /etc/hosts
 #验证
 ping cluster-endpoint
 ```
+
+
 
 初始化主节点 (只master节点装)
 
@@ -167,14 +170,15 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token njeyvk.wqfp1hou1i7v6tml \
-    --discovery-token-ca-cert-hash sha256:66aaf9de588bf3268ac69cd5f9f8a5c952b67a2f0a649962bb5e41cc26e6ff16 \
+  kubeadm join cluster-endpoint:6443 --token yc32sp.ozd48jm23qozpjo4 \
+    --discovery-token-ca-cert-hash sha256:0c37c7f1ce56fa3e69b89139406a5d9e9b27c4a1537e84de0a24765ae8230ad3 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token njeyvk.wqfp1hou1i7v6tml \
-    --discovery-token-ca-cert-hash sha256:66aaf9de588bf3268ac69cd5f9f8a5c952b67a2f0a649962bb5e41cc26e6ff16 
+kubeadm join cluster-endpoint:6443 --token yc32sp.ozd48jm23qozpjo4 \
+    --discovery-token-ca-cert-hash sha256:0c37c7f1ce56fa3e69b89139406a5d9e9b27c4a1537e84de0a24765ae8230ad3 
+
 
     
 #按照上面的提示，在master服务器
@@ -188,37 +192,28 @@ kubeadm token create --print-join-command
 #查看节点 (要有子节点连上，master才会ready)
 kubectl get nodes
 
-
 ```
 
-kubeadm reset 		重置 的时候报错
- [](#bug1)	[bug1r]()	
-Kubernetes  	 join 的时候卡住 (没解决)
-[](#b2)	[b2r]()	
-
-certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
 
 
-
-master节点 init 的时候报错 
-
-[](#b3)	[b3r]()	
-
-
-
-安装网络组件calico (master节点 )
+calico 
 
 ```sh
-curl https://docs.projectcalico.org/manifests/calico.yaml -O
-wget https://docs.projectcalico.org/manifests/calico.yaml 
+https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
+Install calicoctl as a Kubernetes pod
+# 安装网络组件calico (master节点 )
+#curl https://docs.projectcalico.org/manifests/calico.yaml -O
+curl https://docs.projectcalico.org/v3.9/manifests/calico.yaml -O
+wget https://docs.projectcalico.org/v3.9/manifests/calico.yaml
 #根据配置文件，给集群创建资源
-kubectl apply -f calico.yaml		
+kubectl apply -f calico.yaml	
+kubectl edit -f calico.yaml	
 #查看部署了哪些应用 ( 相当于docker ps)
 kubectl get pods -A		
 
 #如果要删除
-kubectl delete https://docs.projectcalico.org/manifests/calico.yaml
-kubectl delete -f calico.yaml	
+#kubectl delete https://docs.projectcalico.org/v3.9/manifests/calico.yaml
+#kubectl delete -f calico.yaml	
 
 
 # calico-kube-controllers 有 CrashLoopBackOff
@@ -228,21 +223,9 @@ firewall-cmd --zone=public --add-port=179/tcp --permanent
 firewall-cmd --zone=public --add-port=5473/tcp --permanent
 # flannel networking (VXLAN)
 firewall-cmd --zone=public --add-port=4789/udp --permanent
-
+systemctl restart firewalld.service
+firewall-cmd --reload 
 #calico-kube-controllers 有 ImagePullBackOff
-```
-
-
-
-
-
-当挂起再开虚拟机后报错
-The connection to the server localhost:8080 was refused - did you specify the right host or port?
-
-```sh
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 
@@ -259,23 +242,32 @@ vi dashboard.yaml
 #把recommended.yaml的内容复制到 dashboard.yaml
 kubectl apply -f dashboard.yaml
 #如果要删除
-kubectl delete -f dashboard.yaml
+#kubectl delete -f dashboard.yaml
 
 #设置访问端口
 kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
 /type搜索，把值改了 type:NodePort
+kubectl get svc -A |grep kubernetes-dashboard
 
 #开放端口30753（云服务器在控制台也要操作）
-firewall-cmd --zone=public --add-port=30753/tcp --permanent	
+#firewall-cmd --zone=public --add-port=30753/tcp --permanent	
+firewall-cmd --zone=public --add-port=31671/tcp --permanent	
 systemctl restart firewalld.service
 firewall-cmd --reload 
+# 访问 193.169.0.3:31671
 ```
 
 
 
-[](#bug1r) [bug1]()
+
+
+
+
+Bug
 
 ```sh
+#1 kubeadm reset 		重置 的时候报错
+
 The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
 
 The reset process does not reset or clean up iptables rules or IPVS tables.
@@ -294,11 +286,9 @@ sudo ip link del cni0
 sudo ip link del flannel.1
 #删除 $HOME/.kube/config
 rm -rf $HOME/.kube/config
-```
 
-[](#b2r)	[b2]()
 
-```sh
+#2 Kubernetes  	 join 的时候卡住 (没解决)
 certificate has expired or is not yet valid: current time 2022-05-26T22:40:29-04:00 is before 2022-05-29T09:55:50Z
 
 rm -rf /etc/cni/net.d
@@ -323,11 +313,10 @@ kubectl logs -f calico-node-qqd5r
 #可能是因为 calico-node 没ready 
 kubectl exec -ti calico-node-qqd5r -n kube-system -- bash
 cat /etc/calico/confd/config/bird.cfg
-```
 
-[](#b3r)	[b3]()
 
-```sh
+
+#3 master节点 init 的时候报错 
 [kubelet-check] Initial timeout of 40s passed.
 
 	Unfortunately, an error has occurred:
@@ -353,17 +342,8 @@ error execution phase wait-control-plane: couldn't initialize a Kubernetes clust
 To see the stack trace of this error execute with --v=5 or higher
 
 #没解决,重装系统才行
-```
 
-
-
-
-
-
-
-子node join 的时候报错
-
-```sh
+#4 子node join 的时候报错
 [preflight] Running pre-flight checks
 	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.7. Latest validated version: 19.03
 	[WARNING Hostname]: hostname "slave1" could not be reached
@@ -377,5 +357,18 @@ To see the stack trace of this error execute with --v=5 or higher
 echo "1" > /proc/sys/net/ipv4/ip_forward
 
 
+
+#当挂起再开虚拟机后报错
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+
+#6 pods calico-node on worker nodes with 'Running' but not Ready 0/1
+https://github.com/projectcalico/calico/issues/4197
 ```
+
+
 

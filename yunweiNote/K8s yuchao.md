@@ -8,11 +8,12 @@ systemctl stop firewalld
 sustemctl disable firewalld
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
+systemctl stop postfix.service
+systemctl disable postfix.service
 wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 yum install -y bash-completion.noarch
 yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
-systemctl stop postfix.service
-systemctl disable postfix.service
+
 #操作系统 cat /etc/redhat-release	CentOS Linux release 7.4.1708
 
 hostname k8s-master
