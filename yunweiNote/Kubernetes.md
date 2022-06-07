@@ -170,14 +170,14 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token yc32sp.ozd48jm23qozpjo4 \
-    --discovery-token-ca-cert-hash sha256:0c37c7f1ce56fa3e69b89139406a5d9e9b27c4a1537e84de0a24765ae8230ad3 \
+  kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
+    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token yc32sp.ozd48jm23qozpjo4 \
-    --discovery-token-ca-cert-hash sha256:0c37c7f1ce56fa3e69b89139406a5d9e9b27c4a1537e84de0a24765ae8230ad3 
+kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
+    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906
 
 
     
@@ -199,12 +199,12 @@ kubectl get nodes
 calico 
 
 ```sh
-https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
-Install calicoctl as a Kubernetes pod
+# https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
+# Install calicoctl as a Kubernetes pod
 # 安装网络组件calico (master节点 )
 #curl https://docs.projectcalico.org/manifests/calico.yaml -O
-curl https://docs.projectcalico.org/v3.9/manifests/calico.yaml -O
-wget https://docs.projectcalico.org/v3.9/manifests/calico.yaml
+#curl https://docs.projectcalico.org/v3.9/manifests/calico.yaml -O
+wget https://docs.projectcalico.org/v3.9/manifests/calico.yaml --no-check-certificate
 #根据配置文件，给集群创建资源
 kubectl apply -f calico.yaml	
 kubectl edit -f calico.yaml	
@@ -222,8 +222,7 @@ firewall-cmd --zone=public --add-port=179/tcp --permanent
 # Calico networking with Typha enabled
 firewall-cmd --zone=public --add-port=5473/tcp --permanent
 # flannel networking (VXLAN)
-firewall-cmd --zone=public --add-port=4789/udp --permanent
-systemctl restart firewalld.service
+firewall-cmd --zone=public --add-port=4789/udp --permane
 firewall-cmd --reload 
 #calico-kube-controllers 有 ImagePullBackOff
 ```
@@ -236,7 +235,7 @@ Dashboard
 
 ```sh
 #部署
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
 vi dashboard.yaml 
 #把recommended.yaml的内容复制到 dashboard.yaml
@@ -251,10 +250,43 @@ kubectl get svc -A |grep kubernetes-dashboard
 
 #开放端口30753（云服务器在控制台也要操作）
 #firewall-cmd --zone=public --add-port=30753/tcp --permanent	
-firewall-cmd --zone=public --add-port=31671/tcp --permanent	
+firewall-cmd --zone=public --add-port=32025/tcp --permanent	
 systemctl restart firewalld.service
 firewall-cmd --reload 
-# 访问 193.169.0.3:31671
+# 访问  https://193.169.0.3:32025/#/login
+# advance ， 继续前往，提示要token
+# 在root目录下创建用户配置的yaml
+vi dash.yaml
+#内容
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+#创建
+kubectl apply -f dash.yaml
+  
+
+ 
+
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+#复制token进去登录，我的是
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhqTjRudDQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXQ3NWw5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlYmM5ZTFhNy0zMzYyLTRiNDEtODg4NS1lOTBiN2ZjMzQ0ODIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ch7yKEgVWwVm9Pc8xWRur00lif0IK9e29Gu9dugB7OTI65CFg5vxapfWGILvHVBOvG7CPgL1RnLvkTRzWaZBPJ3260hJS4L0nWFWIVy9Qx3amnycMa1yHv_W6F7yFbxw8tIZNJOajIHzDm8WosN4W02uXpJQA29noQztAunfHlyA34ZZRbbAHHMQl9bpsafIY6ygKt8shtt12-Iu9KOgB6hx8m87AwbNO8f7yC0oDB9vbYwSe0TrD9I08b81sHZKnzQeXk8hPkUYPl9KZT0Iig0IraRv2LzjIeHI4dudofkhwCwCf4ldVpKEVV35sWO__6WAplfPnbr5TVLZPpagDg
+
+
 ```
 
 
