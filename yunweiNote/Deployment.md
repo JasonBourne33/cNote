@@ -44,5 +44,23 @@ spec:
 kubectl apply -f nginx_r5.yaml
 
 
+
+```
+
+
+
+扩缩容量
+
+```sh
+#扩成5份（原来3份，流量高峰的时候扩容）
+kubectl scale deploy/my-dep --replicas=5
+#缩成2份
+kubectl scale deploy/my-dep --replicas=2
+
+#模拟故障	https://www.bilibili.com/video/BV13Q4y1C7hS?p=50&spm_id_from=pageDriver
+kubectl get pod -0wide	#如果在node2，就去node2
+docker ps|grep my-dep-5b7868d854-2p6v2	
+docker stop cad46c2e05d2
+#返回master 看已经completed，然后过一会等自愈，变running
 ```
 
