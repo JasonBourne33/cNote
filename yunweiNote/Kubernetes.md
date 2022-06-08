@@ -278,15 +278,92 @@ subjects:
   namespace: kubernetes-dashboard
 #创建
 kubectl apply -f dash.yaml
-  
-
- 
 
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 #复制token进去登录，我的是
 eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhqTjRudDQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXQ3NWw5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlYmM5ZTFhNy0zMzYyLTRiNDEtODg4NS1lOTBiN2ZjMzQ0ODIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ch7yKEgVWwVm9Pc8xWRur00lif0IK9e29Gu9dugB7OTI65CFg5vxapfWGILvHVBOvG7CPgL1RnLvkTRzWaZBPJ3260hJS4L0nWFWIVy9Qx3amnycMa1yHv_W6F7yFbxw8tIZNJOajIHzDm8WosN4W02uXpJQA29noQztAunfHlyA34ZZRbbAHHMQl9bpsafIY6ygKt8shtt12-Iu9KOgB6hx8m87AwbNO8f7yC0oDB9vbYwSe0TrD9I08b81sHZKnzQeXk8hPkUYPl9KZT0Iig0IraRv2LzjIeHI4dudofkhwCwCf4ldVpKEVV35sWO__6WAplfPnbr5TVLZPpagDg
 
+```
 
+
+
+实战
+
+```sh
+kubectl get ns
+kubectl get pods -A
+kubectl get pod -n kubernetes-dashsboard
+kubectl create ns hello
+kubectl get ns
+kubectl delete ns hello
+
+#用yaml的创建和删除
+vi hello.yaml
+#内容
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello
+  
+kubectl apply -f hello.yaml
+kubectl delete -f hello.yaml
+```
+
+pod
+
+```sh
+kubectl run mynginx --image=nginx
+kubectl get pod
+kubectl describe pod mynginx
+kubectl delete pod mynginx 
+#用yaml方式创建pod
+vi niginxPod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: mynginx
+  name: mynginx
+  namespace: default
+spec:
+  containers:
+  - image: nginx
+    name: mynginx
+# kubectl apply -f niginxPod.yaml
+# kubectl delete -f niginxPod.yaml
+    
+kubectl logs mynginx
+echo "193.169.0.4  slave1" >> /etc/hosts #也没用，还是报connect: no route to host
+
+kubectl get pod -owide 		#打印完善信息
+curl 192.168.140.200
+kubectl exec -it mynginx -- /bin/bash 		#进入控制台
+# 如果报错 connect: no route to host ，把防火墙关了，或者开放端口
+ls
+cd /usr/share/nginx/html/
+echo "111122233" > index.html
+exit
+kubectl get pod -owide
+curl 192.168.140.200
+
+#tomcat的pod
+vi multicontainer-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: myapp
+  name: myapp
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  - image: tomcat:8.5.68
+    name: tomcat
+    
+kubectl apply -f multicontainer-pod.yaml
+curl 192.168.140.201
+curl 192.168.140.201:8080
 ```
 
 
