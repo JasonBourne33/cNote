@@ -1,6 +1,11 @@
 
 
 ```sh
+# 语雀云笔记
+https://www.yuque.com/leifengyang/oncloud/ctiwgo
+# https://193.169.0.3:32025/#/login
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhqTjRudDQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXQ3NWw5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlYmM5ZTFhNy0zMzYyLTRiNDEtODg4NS1lOTBiN2ZjMzQ0ODIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ch7yKEgVWwVm9Pc8xWRur00lif0IK9e29Gu9dugB7OTI65CFg5vxapfWGILvHVBOvG7CPgL1RnLvkTRzWaZBPJ3260hJS4L0nWFWIVy9Qx3amnycMa1yHv_W6F7yFbxw8tIZNJOajIHzDm8WosN4W02uXpJQA29noQztAunfHlyA34ZZRbbAHHMQl9bpsafIY6ygKt8shtt12-Iu9KOgB6hx8m87AwbNO8f7yC0oDB9vbYwSe0TrD9I08b81sHZKnzQeXk8hPkUYPl9KZT0Iig0IraRv2LzjIeHI4dudofkhwCwCf4ldVpKEVV35sWO__6WAplfPnbr5TVLZPpagDg
+
 #传统的删法和创建
 kubectl delete pod myapp mynginx -n default
 kubectl run mynginx --image=nginx
@@ -49,7 +54,7 @@ kubectl apply -f nginx_r5.yaml
 
 
 
-扩缩容量
+扩缩容量 scale
 
 ```sh
 #扩成5份（原来3份，流量高峰的时候扩容）
@@ -62,5 +67,41 @@ kubectl get pod -0wide	#如果在node2，就去node2
 docker ps|grep my-dep-5b7868d854-2p6v2	
 docker stop cad46c2e05d2
 #返回master 看已经completed，然后过一会等自愈，变running
+kubectl get pod -owide
+
+#滚动更新 (先创建，后删掉旧的，一个接着一个地更新)
+kubectl get deploy my-dep -oyaml
+kubectl set image deploy/my-dep nginx=nginx:1.16.1 --record
+kubectl set image deployment/my-dep nginx=nginx:1.16.1 --record
+
+#回滚版本
+kubectl rollout history deployment/my-dep
+#查看某个历史详情
+kubectl rollout history deployment/my-dep --revision=2 
+#回滚(回到上次)
+kubectl rollout undo deployment/my-dep
+kubectl get pod -w
+kubectl get deploy/my-dep -oyaml|grep image
+#回滚(回到指定版本)
+kubectl rollout undo deployment/my-dep --to-revision=2
+
+#service实验，分别在三个nginx里（在dashboard里操作）
+cd /usr/share/nginx/html/
+echo 1111 > index.html
+echo 2222 > index.html
+echo 3333 > index.html
+#回到master里 
+kubectl get pod -owide
+curl 192.168.140.77:80
+curl 192.168.140.78:80
+curl 192.168.140.79:80
+# 用8000端口代替80端口暴露在外(默认是type=ClusterIp，只能集群内访问)
+kubectl expose deploy my-dep --port=8000 --target-port=80
+kubectl get service
+curl 10.96.57.147:8000 		#连续多次会发现有1111，2222，3333，这就是一个负载均衡的访问
+
+# nodeport模式，集群外也可以访问
+kubectl expose deploy my-dep --port=8000 --target-port=80 --type=NodePort
+
 ```
 
