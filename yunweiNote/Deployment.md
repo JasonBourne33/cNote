@@ -3,6 +3,7 @@
 ```sh
 # 语雀云笔记
 https://www.yuque.com/leifengyang/oncloud/ctiwgo
+https://www.bilibili.com/video/BV13Q4y1C7hS?p=56&vd_source=ca1d80d51233e3cf364a2104dcf1b743
 # https://193.169.0.3:32025/#/login
 eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhqTjRudDQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXQ3NWw5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlYmM5ZTFhNy0zMzYyLTRiNDEtODg4NS1lOTBiN2ZjMzQ0ODIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ch7yKEgVWwVm9Pc8xWRur00lif0IK9e29Gu9dugB7OTI65CFg5vxapfWGILvHVBOvG7CPgL1RnLvkTRzWaZBPJ3260hJS4L0nWFWIVy9Qx3amnycMa1yHv_W6F7yFbxw8tIZNJOajIHzDm8WosN4W02uXpJQA29noQztAunfHlyA34ZZRbbAHHMQl9bpsafIY6ygKt8shtt12-Iu9KOgB6hx8m87AwbNO8f7yC0oDB9vbYwSe0TrD9I08b81sHZKnzQeXk8hPkUYPl9KZT0Iig0IraRv2LzjIeHI4dudofkhwCwCf4ldVpKEVV35sWO__6WAplfPnbr5TVLZPpagDg
 
@@ -95,13 +96,29 @@ kubectl get pod -owide
 curl 192.168.140.77:80
 curl 192.168.140.78:80
 curl 192.168.140.79:80
-# 用8000端口代替80端口暴露在外(默认是type=ClusterIp，只能集群内访问)
+# 用8000端口代替80端口暴露在外(默认不写是type=ClusterIp，只能集群内访问)
 kubectl expose deploy my-dep --port=8000 --target-port=80
 kubectl get service
 curl 10.96.57.147:8000 		#连续多次会发现有1111，2222，3333，这就是一个负载均衡的访问
 
 # nodeport模式，集群外也可以访问
 kubectl expose deploy my-dep --port=8000 --target-port=80 --type=NodePort
+# 操作青云开放公网端口 30000~32767，再通过公网IP访问  bilibili p56
+# 安装ingress 	去云笔记把ingress.yaml 的内容复制到
+vi ingress.yaml
+kubectl apply -f ingress.yaml
+
+# 处理http的  	http://193.169.0.3:31651
+# 处理https的 	https://193.169.0.3:32583/
+
+
+#开始测试
+# 去 https://www.yuque.com/leifengyang/oncloud/ctiwgo 复制测试用的yaml
+vi test.yaml
+kubectl apply -f test.yaml
+kubectl get svc 
+curl 10.96.5.185:8000		#访问nginx-demo的
+curl 10.96.225.218:8000		# hello-server 的
 
 ```
 
