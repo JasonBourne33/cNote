@@ -55,7 +55,7 @@ kubectl apply -f nginx_r5.yaml
 
 
 
-扩缩容量 scale
+扩缩容量 scale,滚动更新, 回滚版本
 
 ```sh
 #扩成5份（原来3份，流量高峰的时候扩容）
@@ -86,6 +86,14 @@ kubectl get deploy/my-dep -oyaml|grep image
 #回滚(回到指定版本)
 kubectl rollout undo deployment/my-dep --to-revision=2
 
+
+```
+
+
+
+service, ingress, test.yaml
+
+```sh
 #service实验，分别在三个nginx里（在dashboard里操作）
 cd /usr/share/nginx/html/
 echo 1111 > index.html
@@ -107,7 +115,7 @@ kubectl expose deploy my-dep --port=8000 --target-port=80 --type=NodePort
 # 安装ingress 	去云笔记把ingress.yaml 的内容复制到
 vi ingress.yaml
 kubectl apply -f ingress.yaml
-
+kubectl get svc -A
 # 处理http的  	http://193.169.0.3:31651
 # 处理https的 	https://193.169.0.3:32583/
 
@@ -119,6 +127,19 @@ kubectl apply -f test.yaml
 kubectl get svc 
 curl 10.96.5.185:8000		#访问nginx-demo的
 curl 10.96.225.218:8000		# hello-server 的
+
+#定义规则，hello开头的去hello-server，demo开头的去nginx
+vi ingress-rule.yaml
+kubectl apply -f ingress-rule.yaml
+vi /etc/hosts
+# 在C:\Windows\System32\drivers\etc
+#加上
+193.169.0.3 hello.atguigu.com
+193.169.0.3  demo.atguigu.com
+
+curl hello.atguigu.com:31651
+curl demo.atguigu.com:31651
+ 
 
 ```
 
