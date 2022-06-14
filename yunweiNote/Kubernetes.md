@@ -20,13 +20,18 @@ cat  /etc/redhat-release		 查看centos版本
 
 
 
+
+初始化主节点
+[dashboard](#dashboard)
+[bug](#bug)
+
 kubesphere.com.cn		官网
 
 给三台虚拟机装
 
 用xshell的批量输入（编辑，文本编辑器，全部）
 
-基础环境（工具和镜像）
+# 基础环境，工具和镜像（三节点）
 
 ```sh
 #配置每个主机名不一样
@@ -136,7 +141,7 @@ ping cluster-endpoint
 
 
 
-初始化主节点 (只master节点装)
+# 初始化主节点 (只master节点装)
 
 ```sh
 
@@ -196,7 +201,7 @@ kubectl get nodes
 
 
 
-calico 
+## calico （master）
 
 ```sh
 # https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install
@@ -231,7 +236,7 @@ firewall-cmd --reload
 
 
 
-Dashboard
+# Dashboard
 
 ```sh
 #部署
@@ -254,6 +259,7 @@ firewall-cmd --zone=public --add-port=32025/tcp --permanent
 systemctl restart firewalld.service
 firewall-cmd --reload 
 # 访问  https://193.169.0.3:32025/#/login
+#		https://193.169.0.4:32025/#/login
 # advance ， 继续前往，提示要token
 # 在root目录下创建用户配置的yaml
 vi dash.yaml
@@ -287,7 +293,7 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhq
 
 
 
-实战
+# 实战
 
 ```sh
 kubectl get ns
@@ -309,7 +315,7 @@ kubectl apply -f hello.yaml
 kubectl delete -f hello.yaml
 ```
 
-pod
+# pod
 
 ```sh
 kubectl run mynginx --image=nginx
@@ -372,7 +378,7 @@ curl 192.168.140.201:8080
 
 
 
-Bug
+# Bug
 
 ```sh
 #1 kubeadm reset 		重置 的时候报错

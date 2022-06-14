@@ -1,10 +1,10 @@
-
+# Deployment（有自愈能力）
 
 ```sh
 # 语雀云笔记
 https://www.yuque.com/leifengyang/oncloud/ctiwgo
 https://www.bilibili.com/video/BV13Q4y1C7hS?p=56&vd_source=ca1d80d51233e3cf364a2104dcf1b743
-# https://193.169.0.3:32025/#/login
+# https://193.169.0.4:32025/#/login
 eyJhbGciOiJSUzI1NiIsImtpZCI6ImFRWldIV3NfQ21kcFVoUmF2ZmNIZEtnWlh3TDRwb2VIUnFlZVhqTjRudDQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXQ3NWw5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlYmM5ZTFhNy0zMzYyLTRiNDEtODg4NS1lOTBiN2ZjMzQ0ODIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ch7yKEgVWwVm9Pc8xWRur00lif0IK9e29Gu9dugB7OTI65CFg5vxapfWGILvHVBOvG7CPgL1RnLvkTRzWaZBPJ3260hJS4L0nWFWIVy9Qx3amnycMa1yHv_W6F7yFbxw8tIZNJOajIHzDm8WosN4W02uXpJQA29noQztAunfHlyA34ZZRbbAHHMQl9bpsafIY6ygKt8shtt12-Iu9KOgB6hx8m87AwbNO8f7yC0oDB9vbYwSe0TrD9I08b81sHZKnzQeXk8hPkUYPl9KZT0Iig0IraRv2LzjIeHI4dudofkhwCwCf4ldVpKEVV35sWO__6WAplfPnbr5TVLZPpagDg
 
 #传统的删法和创建
@@ -55,7 +55,7 @@ kubectl apply -f nginx_r5.yaml
 
 
 
-扩缩容量 scale,滚动更新, 回滚版本
+# 扩缩容量 scale,滚动更新, 回滚版本
 
 ```sh
 #扩成5份（原来3份，流量高峰的时候扩容）
@@ -64,7 +64,7 @@ kubectl scale deploy/my-dep --replicas=5
 kubectl scale deploy/my-dep --replicas=2
 
 #模拟故障	https://www.bilibili.com/video/BV13Q4y1C7hS?p=50&spm_id_from=pageDriver
-kubectl get pod -0wide	#如果在node2，就去node2
+kubectl get pod -owide	#如果在node2，就去node2
 docker ps|grep my-dep-5b7868d854-2p6v2	
 docker stop cad46c2e05d2
 #返回master 看已经completed，然后过一会等自愈，变running
@@ -91,7 +91,7 @@ kubectl rollout undo deployment/my-dep --to-revision=2
 
 
 
-service, ingress, test.yaml
+# service（负载均衡）, ingress, test.yaml
 
 ```sh
 #service实验，分别在三个nginx里（在dashboard里操作）
@@ -132,14 +132,70 @@ curl 10.96.225.218:8000		# hello-server 的
 vi ingress-rule.yaml
 kubectl apply -f ingress-rule.yaml
 vi /etc/hosts
-# 在C:\Windows\System32\drivers\etc
+kubectl get ingress #看到address 是 193.169.0.4
+# 在C:\Windows\System32\drivers\etc\hosts
 #加上
-193.169.0.3 hello.atguigu.com
-193.169.0.3  demo.atguigu.com
-
+193.169.0.4 hello.atguigu.com
+193.169.0.4  demo.atguigu.com
+#在浏览器上访问
+193.169.0.4:31651
 curl hello.atguigu.com:31651
-curl demo.atguigu.com:31651
+# 给nginx 注水
+cd /usr/share/nginx/html
+echo 11111 > nginx
+curl demo.atguigu.com:31651/nginx	#访问
  
 
+```
+
+# ingress 限流功能
+
+[p61](https://www.bilibili.com/video/BV13Q4y1C7hS?p=61&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[限流功能](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#rate-limiting)
+
+```sh
+#ingress 限流， 防止ddos攻击
+# C:\Windows\System32\drivers\etc\hosts  	 vi /etc/hosts
+193.169.0.4 haha.atguigu.com
+vi ingress-rule-2.yaml
+kubectl apply -f ingress-rule-2.yaml
+
+# 连续刷新 haha.atguigu.com:31651 ，流量过大会相应503
+```
+
+
+
+# 存储抽象
+
+```sh
+# 存储抽象，把存的数据抽出来（比如mysql），这样mysql挂了重启后也能有原来的数据
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Bug
+
+```sh
+# 1 dashboard里进入pods，nginx-demo 失败
+error sending request: Post "https://10.96.0.1:443/api/v1/namespaces/default/pods/nginx-demo-7d56b74b84-rcxhx/exec?command=cmd&container=nginx&stderr=true&stdin=true&stdout=true&tty=true": dial tcp 10.96.0.1:443: connect: no route to host
 ```
 
