@@ -120,7 +120,7 @@ kubectl get svc -A
 # 处理https的 	https://193.169.0.3:32583/
 
 
-#开始测试
+#开始测试 test.yaml
 # 去 https://www.yuque.com/leifengyang/oncloud/ctiwgo 复制测试用的yaml
 vi test.yaml
 kubectl apply -f test.yaml
@@ -166,9 +166,92 @@ kubectl apply -f ingress-rule-2.yaml
 
 # 存储抽象
 
+[bug](#bug)	
+
 ```sh
 # 存储抽象，把存的数据抽出来（比如mysql），这样mysql挂了重启后也能有原来的数据
+# 全部会话 （3个node全装）
+yum install -y nfs-utils
+# master 节点
+echo "/nfs/data/ *(insecure,rw,sync,no_root_squash)" > /etc/exports
+mkdir -p /nfs/data/
+systemctl enable rpcbind --now
+systemctl enable nfs-server --now
+exportfs -r
+exportfs 
+# node1 和 2 
+showmount -e 193.169.0.3
+mkdir -p /nfs/data/
+mount -t nfs 193.169.0.3:/nfs/data /nfs/data
+
+#测试环节 现在master
+cd /nfs/data
+echo 1111 > a
+cat a
+#能在node1 和 2 里看到 cat a 是1111， 在node1 里修改
+cd /nfs/data/
+echo 2222 >> a		# >>是追加
+cat a
+#能在master 和node2 里看到 cat a 是1111 2222	（xshell要刷新才能ls出来）
+
+#原生方式数据挂载(master)
+mkdir -p /nfs/data/nginx-pv
+vi deploy.yaml
+kubectl apply -f deploy.yaml
+kubectl get pod 
+kubectl describe pod nginx-pv-demo-586d58bf84-lv94z
+kubectl delete -f deploy.yaml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -195,6 +278,11 @@ kubectl apply -f ingress-rule-2.yaml
 # Bug
 
 ```sh
+# 2 在node1 showmount -e 193.169.0.3 的时候
+clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)
+关掉master的防火墙
+
+
 # 1 dashboard里进入pods，nginx-demo 失败
 error sending request: Post "https://10.96.0.1:443/api/v1/namespaces/default/pods/nginx-demo-7d56b74b84-rcxhx/exec?command=cmd&container=nginx&stderr=true&stdin=true&stdout=true&tty=true": dial tcp 10.96.0.1:443: connect: no route to host
 ```
