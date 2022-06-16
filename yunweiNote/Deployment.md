@@ -201,11 +201,43 @@ kubectl apply -f deploy.yaml
 kubectl get pod 
 kubectl describe pod nginx-pv-demo-586d58bf84-lv94z
 kubectl delete -f deploy.yaml
+
+#实验，在master 里创建文件index.html，在nginx-pv1 和 2 都会同步到文件index.html
+cd /nfs/data/nginx-pv
+echo 1111222 > index.html
+#在dashboard - pods - nginx pv
+cd /usr/share/nginx/html
+cat index.html
+
+# 创建pv（场地），指定占用空间
+vi pv.yaml
+kubectl apply -f pv.yaml
+kubectl get persistentvolume 
+kubectl delete -f pv.yaml		#如果要删
+# pvc（活动申请书，申请去用场地）
+vi pvc.yaml
+kubectl apply -f pvc.yaml
+kubectl get pv
+kubectl delete -f pvc.yaml		#如果要删
+#pod和pv绑定
+vi dep02.yaml		
+kubectl apply -f dep02.yaml
+kubectl pvc,pv
+
 ```
 
 
 
+# Map
 
+```sh
+# 
+vi redis.config
+# appendonly :wq保存退出
+kubectl create cm redis-conf --from-file=redis.conf
+kubectl get cm
+kubectl get cm redis-conf -oyaml
+```
 
 
 
