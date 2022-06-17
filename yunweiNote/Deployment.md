@@ -228,15 +228,36 @@ kubectl pvc,pv
 
 
 
-# Map
+# ConfigMap
 
 ```sh
-# 
-vi redis.config
-# appendonly :wq保存退出
+# 配置集
+vi redis.conf
+# appendonly yes           :wq保存退出
 kubectl create cm redis-conf --from-file=redis.conf
 kubectl get cm
 kubectl get cm redis-conf -oyaml
+# kubectl delete cm redis-conf		如果要删
+vi redis.yaml
+kubectl apply -f redis.yaml
+kubectl edit cm redis-conf
+# 在appendonly下加上一句 requrepass 123456， :wq保存退出
+cat redis.conf
+# 在dashboard ， redis 
+cd /redis-master
+cat redis.conf
+redis-cli	#进入redis客户端
+CONFIG GET appendonly
+CONFIG GET requirepass
+```
+
+# Secret
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=66&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+#用来保存敏感信息，例如密码、OAuth 令牌和 SSH 密钥。
+
 ```
 
 
