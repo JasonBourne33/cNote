@@ -257,7 +257,7 @@ CONFIG GET requirepass
 
 ```sh
 #用来保存敏感信息，例如密码、OAuth 令牌和 SSH 密钥。
-
+docker pull leifengyang/guignginx:v1.0
 ```
 
 
