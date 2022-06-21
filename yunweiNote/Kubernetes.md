@@ -11,7 +11,7 @@ https://www.yuque.com/leifengyang/oncloud/ghnb83
 KubeSphere	K8s的钥匙
 https://www.bilibili.com/video/BV13Q4y1C7hS?p=69&spm_id_from=pageDriver
 
-DevOps	自动化部署 Developers Operations|
+DevOps	自动化部署 Developers Operations
 https://www.bilibili.com/video/BV13Q4y1C7hS?p=106
 
 青云创建三天按需服务器	（可以用vmware 虚拟机）

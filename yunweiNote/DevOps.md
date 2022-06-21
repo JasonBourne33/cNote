@@ -1,7 +1,10 @@
-https://www.bilibili.com/video/BV13Q4y1C7hS?p=140
 
-在linux安装git
-yum -y install git
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=106&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+```
+
 
 
 

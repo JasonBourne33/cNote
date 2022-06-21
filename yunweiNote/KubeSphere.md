@@ -154,29 +154,97 @@ kubectl get nodes
 # kubeSphere
 
 ```sh
-# 在每个机器。
+# 装nfs，在每个机器。
 yum install -y nfs-utils
-
-
 # 在master 执行以下命令 
 echo "/nfs/data/ *(insecure,rw,sync,no_root_squash)" > /etc/exports
-
-
 # 执行以下命令，启动 nfs 服务;创建共享目录
 mkdir -p /nfs/data
-
-
 # 在master执行
 systemctl enable rpcbind
 systemctl enable nfs-server
 systemctl start rpcbind
 systemctl start nfs-server
-
 # 使配置生效
 exportfs -r
-
-
 #检查配置是否生效
 exportfs
+
+
+## 创建了一个存储类 （配置默认存储）
+vi sc.yaml
+kubectl apply -f sc.yaml
+kubectl get sc
+
+vi pvc.yaml
+kubectl apply -f pvc.yaml
+kubectl get pvc
+
+# 集群指标监控组件
+vi metrics.yaml
+kubectl apply -f metrics.yaml
+kubectl get pod -A
+kubectl top node
+kubectl top pods -A
+
+
+
+# 安装kubesphere 核心文件
+wget https://github.com/kubesphere/ks-installer/releases/download/v3.1.1/kubesphere-installer.yaml
+wget https://github.com/kubesphere/ks-installer/releases/download/v3.1.1/cluster-configuration.yaml
+vim cluster-configuration.yaml
+#要改
+    monitoring: true
+    endpointIps: 193.169.0.3
+    common:
+    	redis:
+    		enabled: true
+    	openldap:
+   		 	enabled: true
+   	alerting: 
+   		enabled: true
+   	auditing:
+    	enabled: true
+    devops:                
+    	enabled: true 
+    metrics_server:
+    	enabled: true 
+    networkpolicy:
+    	enabled: true
+    openpitrix:
+    	store:
+    		enabled: true
+    servicemesh:
+    	enabled: true
+    	
+    	
+kubectl apply -f kubesphere-installer.yaml
+kubectl apply -f cluster-configuration.yaml
+kubectl get pod -A
+#查看安装进度
+kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=ks-install -o jsonpath='{.items[0].metadata.name}') -f
+# http://193.169.0.5:30880/login	还访问不了，没跑通
+```
+
+
+
+## 单点部署
+
+[文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+
+```sh
+export KKZONE=cn
+curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
+chmod +x kk
+yum install -y conntrack
+./kk create cluster --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
+```
+
+## 多节点部署
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=75&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+
 ```
 
