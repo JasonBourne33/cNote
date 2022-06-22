@@ -240,11 +240,45 @@ yum install -y conntrack
 ./kk create cluster --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
 ```
 
+
+
 ## 多节点部署
 
-[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=75&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=75&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[文档](https://kubesphere.io/zh/docs/installing-on-linux/introduction/multioverview/)
 
 ```sh
+export KKZONE=cn
+curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
+chmod +x kk
+yum install -y conntrack
+
+# 配置节点，用户root 密码 "123456"
+vim config-sample.yaml
+./kk create cluster -f config-sample.yaml
+
+#访问 193.169.0.3：30880
+kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
+kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
+
+kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-system delete job minio-make-bucket-job
+```
+
+
+
+# Bug
+
+[亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)
+
+```sh
+#2 ./kk create cluster -f config-sample.yaml的时候卡在
+#Please wait for the installation to complete:
+kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
+kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
+
+
+#1 多节点部署./kk create cluster -f config-sample.yaml的时候
+#The connection to the server lb.kubesphere.local:6443 was refused - did you specify the #right host or port?
+重新执行 ./kk create cluster -f config-sample.yaml 又没了
 
 ```
 
