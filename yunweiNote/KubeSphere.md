@@ -267,13 +267,20 @@ kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-sys
 
 # Bug
 
-[亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)
+[亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)
 
 ```sh
 #2 ./kk create cluster -f config-sample.yaml的时候卡在
 #Please wait for the installation to complete:
 kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
 kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
+kubectl logs -f ks-installer-769994b6ff-k5lf4 -n kubesphere-system
+
+# HOW TO REMOVE EVICTED PODS IN KUBERNETES
+kubectl get pod -n kube-system | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n kube-system
+kubectl get pod -n kubesphere-system | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n kubesphere-system
+kubectl get pod -n kubesphere-monitoring-system  | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n kubesphere-monitoring-system 
+
 
 
 #1 多节点部署./kk create cluster -f config-sample.yaml的时候
