@@ -20,6 +20,8 @@ Xshell和Xftp连接VMware中的centos 7 （启动网卡，静态ip配置）
 把bootproto=dhcp 改成bootproto=static
 最后加上
 IPADDR=193.169.0.3
+#IPADDR=193.169.0.4
+#IPADDR=193.169.0.5
 NETMASK=255.255.255.0
 GATEWAY=193.169.0.2
 DNS1=8.8.8.8

@@ -1,5 +1,34 @@
 
 
+
+
+# 基础环境，工具和镜像（三节点）
+
+```sh
+#配置每个主机名不一样
+hostnamectl set-hostname k8s-master
+hostnamectl set-hostname node1
+hostnamectl set-hostname node2
+hostname		查看
+
+yum install -y yum-utils
+yum-config-manager \
+--add-repo \
+http://download.docker.com/linux/centos/docker-ce.repo
+#yuchao
+systemctl stop firewalld
+sustemctl disable firewalld
+systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service
+systemctl stop postfix.service
+systemctl disable postfix.service
+wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+yum install -y bash-completion.noarch
+yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
+```
+
+
+
 # 安装 docker 
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=69&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743) 	[官网](https://kubesphere.com.cn/)	[语雀笔记](https://www.yuque.com/leifengyang/oncloud/gz1sls)
@@ -237,6 +266,7 @@ export KKZONE=cn
 curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
 chmod +x kk
 yum install -y conntrack
+#单节点安装
 ./kk create cluster --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
 ```
 
@@ -256,7 +286,12 @@ yum install -y conntrack
 vim config-sample.yaml
 ./kk create cluster -f config-sample.yaml
 
-#访问 193.169.0.3：30880
+#访问 http://193.169.0.3:30880/
+Console: http://193.169.0.3:30880
+Account: admin
+Password: P@88w0rd
+999Zzz...
+
 kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
 kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
 
@@ -281,6 +316,7 @@ kubectl get pod -n kube-system | grep Evicted | awk '{print $1}' | xargs kubectl
 kubectl get pod -n kubesphere-system | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n kubesphere-system
 kubectl get pod -n kubesphere-monitoring-system  | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n kubesphere-monitoring-system 
 
+解决：每一台node 必须要有4G的内存才能装
 
 
 #1 多节点部署./kk create cluster -f config-sample.yaml的时候

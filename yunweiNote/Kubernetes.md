@@ -36,8 +36,8 @@ kubesphere.com.cn		官网
 ```sh
 #配置每个主机名不一样
 hostnamectl set-hostname k8s-master
-hostnamectl set-hostname slave1
-hostnamectl set-hostname slave2
+hostnamectl set-hostname node1
+hostnamectl set-hostname node2
 hostname		查看
 
 yum install -y yum-utils
