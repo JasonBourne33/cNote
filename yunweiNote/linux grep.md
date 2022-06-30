@@ -56,8 +56,26 @@ grep -E "^([^:]+\>).*\1$" /etc/passwd	#找出用户名和解析器名相同的
 ```sh
 cp /etc/passwd /root/pwd2.txt
 cat /etc/pwd2.txt
-grep 'root' pwd2.txt 
-sed 's/root/chaoge/' pwd2.txt 
+grep 'root' pwd2.txt	 #找出包含root的
+sed 's/root/chaoge/' pwd2.txt 	#s/// 是替换
+sed 's/root/chaoge/gp' pwd2.txt -n #把所有root都换成chaoge输出（不会改源文件）
+sed -n '1,10s/^bin/C/p' pwd2.txt	#把1到10行的bin改为C，打印出来（-n取消默认输出）
+#把1到10行的bin改为C，并把m开头的行改为M
+sed -n -e '1,10s/^bin/C/p' -e 's/^m/M/p' pwd2.txt
+sed '5,$d' pwd2.txt		#删除4行后面所有的，（输出前4行）
+sed '1,5d' pwd2.txt		#删除1到5行,输出后面的
+sed '/^root/,/^ftp/d' pwd2.txt	#删除从root开头到ftp的行
+sed 's/^[[:space:]]/#/g'  lovers.txt  #空白字符的开头的行，添加注释符
+sed 's/^[[:space:]]/#/g' -i lovers.txt  #空白字符的开头的行，添加注释符(-i修改源文件)
+#空白字符的开头的行，添加注释符,空行加#
+sed -e 's/^[[:space:]]/#/g' -e 's/^$/#/g' lovers.txt 
+sed -e '/^#/d' -e '/^$/d' lovers.txt	 #删除文件的空白和注释行
+sed -r 's/(^.)/@\1/' lovers.txt		#给文件每行前加@符号
+sed -r '1,3s/(^.)/@\1/' lovers.txt	#给文件前三行的每行前加@符号
+ifconfig ens33|sed '2p' 
+ifconfig ens33|sed '2p' -n
+ifconfig ens33|sed '2p' -n | sed 's/^.*inet//'
+ifconfig ens33|sed '2p' -n | sed 's/^.*inet//' | sed 's/netmask.*//'
 ```
 
 

@@ -18,7 +18,7 @@
 
 
 确认信：
-Thank you for your support of our store!
+ 
 
 Pls confirm if the shipment info is correct
 
@@ -260,8 +260,11 @@ It is very urgent. Thank you so much！
  Hello friend, the style of this product has been updated.
  The 8-arm tree percolator style inside is shown in the figure.
  Please confirm if we can deliver this item?
-
-
+您订的烟枪只有透明色，没有粉红色 的
+ Hello friend 
+ Thank you for your support of our store!
+ The bong you ordered is only clear, not pink
+ Please confirm if we can deliver this item?
 
 
 
@@ -286,7 +289,9 @@ Thank you!
 
 
 
-
+Hello friend
+The package is on the way
+Please wait patiently
 
 
 
