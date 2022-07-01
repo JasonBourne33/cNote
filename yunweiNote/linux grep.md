@@ -73,9 +73,74 @@ sed -e '/^#/d' -e '/^$/d' lovers.txt	 #删除文件的空白和注释行
 sed -r 's/(^.)/@\1/' lovers.txt		#给文件每行前加@符号
 sed -r '1,3s/(^.)/@\1/' lovers.txt	#给文件前三行的每行前加@符号
 ifconfig ens33|sed '2p' 
-ifconfig ens33|sed '2p' -n
-ifconfig ens33|sed '2p' -n | sed 's/^.*inet//'
-ifconfig ens33|sed '2p' -n | sed 's/^.*inet//' | sed 's/netmask.*//'
+ifconfig ens33|sed '2p' -n	#只显示第二行
+ifconfig ens33|sed '2p' -n | sed 's/^.*inet[[:space:]]//'  #去掉inet前面和空格
+ifconfig ens33|sed '2p' -n | sed 's/^.*inet//' | sed 's/netmask.*//'  #去掉netmask后面
+#只输出版本号的7
+cat /etc/centos-release
+sed -r 's/^.*release//p' /etc/centos-release -n		#去掉release之前的内容
+sed -r 's/^.*release[[:space:]]*//p' /etc/centos-release -n  #去掉前面空格
+# \1 表示输出（）里的内容    ([^.]).* 表示输出小数点以外的内容
+sed -r 's / ^.*release[[:space:]] ([^.]).* */ \1 /p' /etc/centos-release -n
+
+```
+
+
+
+
+
+# awk
+
+```sh
+cat /etc/passwd
+#-F指定分隔符  $1指定第一列  NF是最后一列(number of fills)  $(NF-1)是倒水第二列
+awk -F ":" '{print $1 ,$(NF-1)}' /etc/passwd  
+#找出普通用户（uid>=1000的）
+awk -F ":" '$3>=1000{print $1 ,$(NF-1)}' /etc/passwd
+awk -F ":" '$3>500{print $1 ,$(NF-1)}' /etc/passwd  #没有用户就用这个
+vi /tmp/chaoge.txt
+爱的魔力转圈圈1 爱的魔力转圈圈2 爱的魔力转圈圈3
+爱的魔力转圈圈4 爱的魔力转圈圈5 爱的魔力转圈圈6
+爱的魔力转圈圈7 爱的魔力转圈圈8 爱的魔力转圈圈9
+爱的魔力转圈圈10 爱的魔力转圈圈11 爱的魔力转圈圈12
+爱的魔力转圈圈13 爱的魔力转圈圈14 爱的魔力转圈圈15
+爱的魔力转圈圈16 爱的魔力转圈圈17 爱的魔力转圈圈18
+爱的魔力转圈圈19 爱的魔力转圈圈20
+awk 'NR<6{print "#" $0}' /tmp/chaoge.txt  #打印前5行  NR是索引号（number of recourse）
+vi tel.txt 			(page87)
+Mike Harrington:[510] 548-1278:250:100:175
+Christian Dobbins:[408] 538-2358:155:90:201
+Susan Dalsass:[206] 654-6279:250:60:50
+Archie McNichol:[206] 548-1348:250:100:175
+Jody Savage:[206] 548-1278:15:188:150
+Guy Quigley:[916] 343-6410:250:100:175
+Dan Savage:[406] 298-7744:450:300:275
+Nancy McNeil:[206] 548-1278:250:80:75
+John Goldenrod:[916] 348-4278:250:100:175
+Chet Main:[510] 548-5258:50:95:135
+Tom Savage:[408] 926-3456:250:168:200
+Elizabeth Stachelin:[916] 440-1763:175:75:300
+awk -F ":" '{print $2}' tel.txt  #输出第二列
+awk -F ":" '{print $1,$2,$3}' tel.txt	#输出3列
+awk -F "[ :]" '{print $4}' tel.txt 	 #输出电话号码（空格和：为分隔符）
+awk -F "[ :]" '/^Tom/{print $1,$4}' tel.txt  #显示tom的电话
+awk -F "[ :]" '/^Nancy/{print $1,$2,$3,$4}' tel.txt  #显示Nancy的全名，区号，电话
+awk -F "[ :]" '$2~/^D/' tel.txt  #姓以D开头的  ~是匹配正则//里面的
+awk -F "[ :]" '$3~/\[916\]/' tel.txt  #电话区号是916的
+#显示mike的捐款信息，前面加上$
+awk -F "[ :]" '/^Mike/{print "$"$(NF-2),"$"$(NF-1),"$"$(NF)}' tel.txt
+awk -F "[ :]" '{print $2","$1}' tel.txt  #显示所有人的 姓,名
+#显示所有人的 姓,名 !/^$/是匹配非空  -v OFS=","修改内置变量逗号
+awk -F "[ :]" -v OFS="," '!/^$/{print $2,$1}' tel.txt  
+awk '!/^$/' tel.txt  #删除文件空白行
+
+
+
+
+
+
+
+
 ```
 
 
@@ -108,7 +173,4 @@ ifconfig ens33|sed '2p' -n | sed 's/^.*inet//' | sed 's/netmask.*//'
 
 
 
-
-
-
-
+ 
