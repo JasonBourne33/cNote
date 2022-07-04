@@ -300,16 +300,20 @@ kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-sys
 
 
 
+[bili 355](https://www.bilibili.com/video/BV1np4y1C7Yf?p=355&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[wordpress](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	
+
 ```sh
 hr user-manager 可创建用户
-ws-manager workspace-manager 可创建工作空间，把gulimail的管理员分配给ws-admin
+ws-manager     workspace-manager 可创建工作空间，把gulimail的管理员分配给ws-admin
 ws-admin 	    platform-regular 项目的leader，可邀请用户
 project-admin   platform-regular 常规用户
 project-regular platform-regular 普通用户
 
 1 在gulimail， ws-manager指派 ws-admin 为管理员（workspace-admin）
- 指定 project-admin 为 workspace-regular
- 指定 project-regular 为 workspace-viewer
+ 指定 project-admin 为   workspace-regular (能增删查改项目)
+ 指定 project-regular 为 workspace-viewer （只能看，比如销售）
+2 进项目gulimail项目，邀请project-regular作为项目的operater维护者
+3 在gulimail 工作空间里创建 gulimail-devops项目 （没有找到DevOps）
  
 ```
 
