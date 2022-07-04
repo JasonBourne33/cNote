@@ -300,6 +300,21 @@ kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-sys
 
 
 
+```sh
+hr user-manager 可创建用户
+ws-manager workspace-manager 可创建工作空间，把gulimail的管理员分配给ws-admin
+ws-admin 	    platform-regular 项目的leader，可邀请用户
+project-admin   platform-regular 常规用户
+project-regular platform-regular 普通用户
+
+1 在gulimail， ws-manager指派 ws-admin 为管理员（workspace-admin）
+ 指定 project-admin 为 workspace-regular
+ 指定 project-regular 为 workspace-viewer
+ 
+```
+
+
+
 # Bug
 
 [亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)
