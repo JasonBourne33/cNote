@@ -300,7 +300,9 @@ kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-sys
 
 
 
-[bili 355](https://www.bilibili.com/video/BV1np4y1C7Yf?p=355&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[wordpress](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	
+# kubesphere	多租户
+
+[bili 355](https://www.bilibili.com/video/BV1np4y1C7Yf?p=355&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 hr user-manager 可创建用户
@@ -314,16 +316,39 @@ project-regular platform-regular 普通用户
  指定 project-regular 为 workspace-viewer （只能看，比如销售）
 2 进项目gulimail项目，邀请project-regular作为项目的operater维护者
 3 在gulimail 工作空间里创建 gulimail-devops项目 （没有找到DevOps）
- 
+ 多谢您的确认，您的货物将很快发出
+```
+
+# wordpress 界面操作
+
+[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	
+
+```sh
+gulimail项目里
+配置中心- 创建密匙- 名称mysql-secret，下一步- 添加数据，key是 MYSQL_ROOT_PASSWORD，value是 123456
+配置中心- 创建密匙- 名称wordpress-secret，下一步- 添加数据，key是 WORDPRESS_DB_PASSWORD，value是 123456
+存储管理- 存储卷- 名称wordpress-pvc,下一步- 单个节点读写
+存储管理- 存储卷- 名称mysql-pvc,下一步- 单个节点读写
+应用负载- 应用- 部署示例应用- 应用名称wordpress-application,下一步，
+	（1 mysql）添加服务- 添加有状态服务- 名称是mysql，下一步- 添加容器镜像，搜mysql:5.6,使用默认端口，往下拉，勾选环境变量，点应用配置文件或密匙，选mysql-secret和MYSQL_ROOT_PASSWORD，点√，下一步- 添加存储卷，选mysql-pvc，选读写，填入/var/lib/mysql，点√，下一步，添加
+	（2 wordpress）添加服务- 无状态服务- 名称wordpress，下一步，添加容器镜像，搜wordpress:4.8-apache，使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选wordpress-secret和WORDPRESS_DB_PASSWORD，点添加环境变量，名称WORDPRESS_DB_HOST,值是mysql，点√，下一步- 添加存储卷，选wordpress-pvc，选读写，填入/var/www/html，点√，下一步，添加
+
+wordpress-pvc  /var/www/html
 ```
 
 
 
 # Bug
 
-[亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)
+[2 亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)	[3 github](https://github.com/calebhailey/homelab/issues/3)
 
 ```sh
+#4 创建wordpress-application后 running PreBind plugin "VolumeBinding": binding volumes: timed out waiting for the condition
+
+#3 创建wordpress-application后 0/3 nodes are available: 1 node(s) had taints that the pod didn't tolerate.
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+
 #2 ./kk create cluster -f config-sample.yaml的时候卡在
 #Please wait for the installation to complete:
 kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
