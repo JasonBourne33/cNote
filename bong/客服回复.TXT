@@ -22,14 +22,14 @@
 
 Pls confirm if the shipment info is correct
 
-Contact Name:Joshua white
-Address Line 1:14520 HUNTERS GROVE AVE
+Contact Name:Chris Keller
+Address Line 1:656 Washington st
 Address Line 2:
-City:EL PASO
-State:Texas
+City:Brighton
+State:Massachusetts
 Country:United States
-Postal Code:79938
-Phone Number:1-9155030413
+Postal Code:02135
+Phone Number:1-3392378962
 
 
 
@@ -81,14 +81,13 @@ Thank  you.
 
 
 未付款
-Hello Armandina Inclan
+Hello Yessi B
 
 Thank you for your support of our store.
 
 We noticed you placed an order but did not pay.
 The item is available and can be shipped ASAP once payment is made.
 
-We can ship to 1977 Harrisburg Pike.
 
 If there is any problem, please do not hesitate to contact us.
 
@@ -142,7 +141,7 @@ towergod22
 
 Hello Karlen Mueller,
 
-Thank you for your support!
+Thank you for your support of our store.
 
 We have left messages below the order details dated June 15th.
 The tracking number will be updated after getting your approval.
@@ -235,6 +234,7 @@ Your April 30 order for 24 3.2" Silicone Captain Shield Pipe has been updated to
 There was a problem with the platform's system, resulting in an error in the unit.
 平台系统出现问题，导致单元出现错误。
 
+
 Please confirm that the delivery quantity is a total of one piece
 请确认发货数量为一共一件
 
@@ -272,7 +272,7 @@ It is very urgent. Thank you so much！
 
 
 
-
+对不起，这件产品是50个起订，工厂那边是要收到50个的订单才能开生产线
 
 
 
@@ -280,7 +280,7 @@ It is very urgent. Thank you so much！
 
 Hello towergod22,
 
-Thank you for your support!
+Thank you for your support of our store.
 
 Your package has arrived in Los Angeles in April, please contact the post to pick it up.
 
@@ -292,6 +292,24 @@ Thank you!
 Hello friend
 The package is on the way
 Please wait patiently
+
+
+
+
+
+
+Hello friend
+Thank you for your support of our store.
+
+There was a problem with the platform's system, resulting in an error in the customize SKU.
+
+Could you please cancel and place a new order?
+
+Sorry for any inconvenience that might cause.
+Thank you!
+
+
+
 
 
 

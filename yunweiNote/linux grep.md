@@ -16,10 +16,10 @@ grep "root" /etc/passwd		#有关root的行
 grep "^root" /etc/passwd	# 找出root用户(开头)的行
 grep -E "^(root|yu)" /etc/passwd	#以root或yu开头的行
 grep -E "^(root|nobody)\>" /etc/passwd	#找出root用户和nobody用户的行
-grep -n "^bin" /etc/passwd	#找出带有bin的行并显示行号
-grep -v "^root" /etc/passwd		#过滤掉root开头的行
-grep -c "^root" /etc/passwd		#打印出现的次数
-grep -m 2 "^yu" /etc/passwd		#只显示yu的前两条信息
+grep -n "^bin" /etc/passwd	#找出带有bin的行并显示行号 -n显示行号
+grep -v "^root" /etc/passwd		#过滤掉root开头的行 -v过滤
+grep -c "^root" /etc/passwd		#打印出现的次数 	-行数
+grep -m 2 "^yu" /etc/passwd		#只显示yu的前两条信息  -m 2 前面两条
 grep "root" /etc/passwd /data/pwd.txt 	#匹配多文件
 grep "/bin/bash$" /etc/passwd		#在/etc/passwd 中以binbash结尾的行
 grep "/bin/bash$" /etc/passwd -v -n		#不以binbash结尾的行
