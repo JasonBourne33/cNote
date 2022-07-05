@@ -280,7 +280,7 @@ yum install -y conntrack
 export KKZONE=cn
 curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
 chmod +x kk
-yum install -y conntrack
+yum install -y conntrack  #这句三节点
 
 # 配置节点，用户root 密码 "123456"
 vim config-sample.yaml
@@ -297,6 +297,21 @@ kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
 
 kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-system delete job minio-make-bucket-job
 ```
+
+
+
+# 角色
+
+[官方文档](https://kubesphere.com.cn/docs/v3.3/quick-start/create-workspace-and-project/)
+
+```sh
+cluster-admin 集群管理员，管理所有资源
+workspaces-manager 管理企业空间
+cluster-regular	 普通用户
+
+```
+
+
 
 
 
