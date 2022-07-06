@@ -330,10 +330,12 @@ gulimail项目里
 存储管理- 存储卷- 名称wordpress-pvc,下一步- 单个节点读写
 存储管理- 存储卷- 名称mysql-pvc,下一步- 单个节点读写
 应用负载- 应用- 部署示例应用- 应用名称wordpress-application,下一步，
-	（1 mysql）添加服务- 添加有状态服务- 名称是mysql，下一步- 添加容器镜像，搜mysql:5.6,使用默认端口，往下拉，勾选环境变量，点应用配置文件或密匙，选mysql-secret和MYSQL_ROOT_PASSWORD，点√，下一步- 添加存储卷，选mysql-pvc，选读写，填入/var/lib/mysql，点√，下一步，添加
+	（1 mysql）添加服务- 添加有状态服务- 名称是mysql，下一步- 添加容器镜像，搜mysql:5.6,使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选mysql-secret和MYSQL_ROOT_PASSWORD，点√，下一步- 添加存储卷，选mysql-pvc，选读写，填入/var/lib/mysql，点√，下一步，添加
 	（2 wordpress）添加服务- 无状态服务- 名称wordpress，下一步，添加容器镜像，搜wordpress:4.8-apache，使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选wordpress-secret和WORDPRESS_DB_PASSWORD，点添加环境变量，名称WORDPRESS_DB_HOST,值是mysql，点√，下一步- 添加存储卷，选wordpress-pvc，选读写，填入/var/www/html，点√，下一步，添加
 
-wordpress-pvc  /var/www/html
+#外网访问
+gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
+gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 ```
 
 
@@ -344,6 +346,10 @@ wordpress-pvc  /var/www/html
 
 ```sh
 #4 创建wordpress-application后 running PreBind plugin "VolumeBinding": binding volumes: timed out waiting for the condition
+要把node1和node2也全启动，如果觉得卡
+kubectl delete node node1
+kubectl delete node node2
+kubectl get nodes
 
 #3 创建wordpress-application后 0/3 nodes are available: 1 node(s) had taints that the pod didn't tolerate.
 kubectl taint nodes --all node-role.kubernetes.io/master-
