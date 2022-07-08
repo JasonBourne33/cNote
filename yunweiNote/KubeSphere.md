@@ -17,7 +17,7 @@ yum-config-manager \
 http://download.docker.com/linux/centos/docker-ce.repo
 #yuchao
 systemctl stop firewalld
-sustemctl disable firewalld
+systemctl disable firewalld
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 systemctl stop postfix.service
@@ -266,8 +266,21 @@ export KKZONE=cn
 curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
 chmod +x kk
 yum install -y conntrack
-#单节点安装
+
+#单节点安装（默认最小化安装方式）
 ./kk create cluster --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
+
+# 创建集群配置文件 config-sample.yaml 再安装
+./kk create config --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
+rn config-sample.yaml singleNode-config-sample.yaml
+vim singleNode-config.yaml
+把devops改为 true
+#自定义的安装yaml，devops为 true
+./kk create cluster -f singleNode-config-sample.yaml
+
+#如果要删除
+./kk delete cluster
+./kk delete cluster -f singleNode-config-sample.yaml
 ```
 
 
@@ -282,6 +295,8 @@ curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
 chmod +x kk
 yum install -y conntrack
 
+# 创建集群配置文件 config-sample.yaml
+./kk create config --with-kubernetes v1.20.4 --with-kubesphere v3.1.1
 # 配置节点，用户root 密码 "123456"
 vim config-sample.yaml
 ./kk create cluster -f config-sample.yaml
@@ -321,7 +336,7 @@ project-regular platform-regular 普通用户
 
 # wordpress 界面操作
 
-[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	
+[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 gulimail项目里
@@ -337,6 +352,20 @@ gulimail项目里
 gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
 gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 ```
+
+# 流水线
+
+```sh
+vi devops-config.yaml
+devops:
+  enabled: true 
+kubectl apply -f devops-config.yaml
+
+```
+
+
+
+
 
 
 

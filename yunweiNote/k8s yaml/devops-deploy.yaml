@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: devops-deploy
+  namespace: kubesphere-sample-dev
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: devops-deploy-role
+  namespace: kubesphere-sample-dev
+rules:
+  - apiGroups:
+      - "*"
+    resources:
+      - "*"
+    verbs:
+      - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devops-deploy-rolebinding
+  namespace: kubesphere-sample-dev
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: devops-deploy-role
+subjects:
+  - kind: ServiceAccount
+    name: devops-deploy
+    namespace: kubesphere-sample-dev

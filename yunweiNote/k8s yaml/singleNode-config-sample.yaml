@@ -5,22 +5,19 @@ metadata:
 spec:
   hosts:
     - {name: master, address: 193.169.0.3, internalAddress: 193.169.0.3, user: root, password: "123456"}
-    - {name: node1, address: 193.169.0.4, internalAddress: 193.169.0.4, user: root, password: "123456"}
-    - {name: node2, address: 193.169.0.5, internalAddress: 193.169.0.5, user: root, password: "123456"}
   roleGroups:
     etcd:
       - master
     master:
       - master
     worker:
-      - node1
-      - node2
+      - master
   controlPlaneEndpoint:
     domain: lb.kubesphere.local
     address: ""
     port: 6443
   kubernetes:
-    version: v1.20.4
+    version: v1.21.5
     imageRepo: kubesphere
     clusterName: cluster.local
   network:

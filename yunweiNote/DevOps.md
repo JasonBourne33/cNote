@@ -10,6 +10,11 @@ https://gitee.com/leifengyang/yygh-site
 
 #打包的sentinel
 hub.docker.com/r/leifengyang/sentinel
+
+
+
+vim devops-deploy.yaml
+kubectl apply -f devops-deploy.yaml
 ```
 
 
