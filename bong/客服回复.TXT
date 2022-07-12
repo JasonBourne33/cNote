@@ -101,7 +101,7 @@ We noticed you just opened a refund submission.
 
 Actually, this item can be shipped within the delivery timeline.
 
-If you don't want it anymore. can you please modify the request to "item not now required"?
+If you don't want it anymore. Could you please modify the request to "item not now required"?
 So that we can handle the refund immediately!!!
 
 Thank you!
@@ -315,8 +315,7 @@ Hello friend
 LW241552936CN is the transfer order number, it will take a few days to see the updated information. The package was returned, so the tracking number was changed
 
 
-
-
+We noticed the previous order you made have not been handle in time. Could you please modify the reason to "item not noew required" so as to refund you the first order?
 
 
 

@@ -1,6 +1,9 @@
 
 
+# dashboard
 
+#复制token进去登录，我的是
+eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ5NEhVLXByNkRCaktJd3oxVlFLRnQ3YXJrb0l4cDNJTm9oUUxxZnUtYm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTZuajlzIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2ZjJmNDQzNC1lZTNkLTQ1YzEtOGFmMC00Y2QyMzA4NzA3NWEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.jbqikUCRpFFUNBVE4pmC2LYkd5-kCJ8uTERUJJIKGU76osPn-Hgg8Yf81Wfuju8q0s90s7dsj3dmMijfYUWSkrv6Yt4G0BOKSIlSPB-JZRN08BDME2ANpYZk69HD678_rhxmb3d805M2kQYVaAZErKWNJETLtgR5KsSzruR1xmEyG04F1YHWzMg3YhwAt913qC-xDC8B4DnakZtMYRZUfleNmx5OD3vzmxYGbfzaSUpFQjokZdsXCcS2Jy4jFsso8pruKe-s-tnMYVxQPWAUV11KyQeHE9-n3dgKgsWJCBsv2Qkrnflk_yOMeTMK8kWqpvY0xkHWRe8JU_eFqRLm-g
 
 # 基础环境，工具和镜像（三节点）
 
@@ -307,6 +310,9 @@ Account: admin
 Password: P@88w0rd
 999Zzz...
 
+# 重置密码
+kubectl patch users admin -p '{"spec":{"password":"999Zzz..."}}' --type='merge' && kubectl annotate users admin iam.kubesphere.io/password-encrypted-
+
 kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
 kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
 
@@ -355,12 +361,20 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 
 # 流水线
 
+[SonarQube](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/sonarqube/)	
+
 ```sh
 vi devops-config.yaml
 devops:
   enabled: true 
 kubectl apply -f devops-config.yaml
 
+kubectl get svc -n kubesphere-devops-system
+#创建凭证
+创建devops项目 gulimail，进入gulimail，
+凭证，创建凭证，id是 dockerhub-id,账户凭证，2641，lSd33
+创建凭证，id是 github-id,账户凭证，106，lSg33
+创建凭证，id是 demo-kubeconfig,类型是 kubeconfig，不用改
 ```
 
 
@@ -404,3 +418,4 @@ kubectl get pod -n kubesphere-monitoring-system  | grep Evicted | awk '{print $1
 
 ```
 
+``

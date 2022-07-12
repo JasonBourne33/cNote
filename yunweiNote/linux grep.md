@@ -14,7 +14,7 @@ awk 格式化输出，像exel
 
 grep "root" /etc/passwd		#有关root的行
 grep "^root" /etc/passwd	# 找出root用户(开头)的行
-grep -E "^(root|yu)" /etc/passwd	#以root或yu开头的行
+grep -E "^(root|yu)" /etc/passwd	#以root或yu开头的行   -E同时
 grep -E "^(root|nobody)\>" /etc/passwd	#找出root用户和nobody用户的行
 grep -n "^bin" /etc/passwd	#找出带有bin的行并显示行号 -n显示行号
 grep -v "^root" /etc/passwd		#过滤掉root开头的行 -v过滤
