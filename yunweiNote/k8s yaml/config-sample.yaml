@@ -1,36 +1,47 @@
-apiVersion: kubekey.kubesphere.io/v1alpha1
+apiVersion: kubekey.kubesphere.io/v1alpha2
 kind: Cluster
 metadata:
   name: sample
 spec:
   hosts:
-    - {name: master, address: 193.169.0.3, internalAddress: 193.169.0.3, user: root, password: "123456"}
-    - {name: node1, address: 193.169.0.4, internalAddress: 193.169.0.4, user: root, password: "123456"}
-    - {name: node2, address: 193.169.0.5, internalAddress: 193.169.0.5, user: root, password: "123456"}
+    - { name: master, address: 193.169.0.3, internalAddress: 193.169.0.3, user: root, password: "123456" }
+    - { name: node1, address: 193.169.0.4, internalAddress: 193.169.0.4, user: root, password: "123456" }
   roleGroups:
     etcd:
       - master
-    master:
+    control-plane:
       - master
     worker:
+      - master
       - node1
-      - node2
   controlPlaneEndpoint:
+    ## Internal loadbalancer for apiservers 
+    # internalLoadbalancer: haproxy
+
     domain: lb.kubesphere.local
     address: ""
     port: 6443
   kubernetes:
-    version: v1.20.4
-    imageRepo: kubesphere
+    version: v1.22.10
     clusterName: cluster.local
+    autoRenewCerts: true
+    containerManager: docker
+  etcd:
+    type: kubekey
   network:
     plugin: calico
     kubePodsCIDR: 10.233.64.0/18
     kubeServiceCIDR: 10.233.0.0/18
+    ## multus support. https://github.com/k8snetworkplumbingwg/multus-cni
+    multusCNI:
+      enabled: false
   registry:
-    registryMirrors: []
-    insecureRegistries: []
-  addons: []
+    privateRegistry: ""
+    namespaceOverride: ""
+    registryMirrors: [ ]
+    insecureRegistries: [ ]
+  addons: [ ]
+
 
 
 ---
@@ -40,7 +51,7 @@ metadata:
   name: ks-installer
   namespace: kubesphere-system
   labels:
-    version: v3.1.1
+    version: v3.3.0
 spec:
   persistence:
     storageClass: ""
@@ -48,35 +59,58 @@ spec:
     jwtSecret: ""
   zone: ""
   local_registry: ""
+  namespace_override: ""
+  # dev_tag: ""
   etcd:
     monitoring: false
     endpointIps: localhost
     port: 2379
     tlsEnable: true
   common:
+    core:
+      console:
+        enableMultiLogin: true
+        port: 30880
+        type: NodePort
+    # apiserver:
+    #  resources: {}
+    # controllerManager:
+    #  resources: {}
     redis:
       enabled: false
-    redisVolumSize: 2Gi
+      volumeSize: 2Gi
     openldap:
       enabled: false
-    openldapVolumeSize: 2Gi
-    minioVolumeSize: 20Gi
+      volumeSize: 2Gi
+    minio:
+      volumeSize: 20Gi
     monitoring:
+      # type: external
       endpoint: http://prometheus-operated.kubesphere-monitoring-system.svc:9090
+      GPUMonitoring:
+        enabled: false
+    gpu:
+      kinds:
+        - resourceName: "nvidia.com/gpu"
+          resourceType: "GPU"
+          default: true
     es:
-      elasticsearchMasterVolumeSize: 4Gi
-      elasticsearchDataVolumeSize: 20Gi
+      # master:
+      #   volumeSize: 4Gi
+      #   replicas: 1
+      #   resources: {}
+      # data:
+      #   volumeSize: 20Gi
+      #   replicas: 1
+      #   resources: {}
       logMaxAge: 7
       elkPrefix: logstash
       basicAuth:
         enabled: false
         username: ""
         password: ""
-      externalElasticsearchUrl: ""
+      externalElasticsearchHost: ""
       externalElasticsearchPort: ""
-  console:
-    enableMultiLogin: true
-    port: 30880
   alerting:
     enabled: false
     # thanosruler:
@@ -84,30 +118,65 @@ spec:
     #   resources: {}
   auditing:
     enabled: false
+    # operator:
+    #   resources: {}
+    # webhook:
+    #   resources: {}
   devops:
     enabled: true
+    # resources: {}
     jenkinsMemoryLim: 2Gi
     jenkinsMemoryReq: 1500Mi
     jenkinsVolumeSize: 8Gi
-    jenkinsJavaOpts_Xms: 512m
-    jenkinsJavaOpts_Xmx: 512m
+    jenkinsJavaOpts_Xms: 1200m
+    jenkinsJavaOpts_Xmx: 1600m
     jenkinsJavaOpts_MaxRAM: 2g
   events:
     enabled: false
-    ruler:
-      enabled: true
-      replicas: 2
+    # operator:
+    #   resources: {}
+    # exporter:
+    #   resources: {}
+    # ruler:
+    #   enabled: true
+    #   replicas: 2
+    #   resources: {}
   logging:
     enabled: false
     logsidecar:
       enabled: true
       replicas: 2
+      # resources: {}
   metrics_server:
     enabled: false
   monitoring:
     storageClass: ""
-    prometheusMemoryRequest: 400Mi
-    prometheusVolumeSize: 20Gi
+    node_exporter:
+      port: 9100
+      # resources: {}
+    # kube_rbac_proxy:
+    #   resources: {}
+    # kube_state_metrics:
+    #   resources: {}
+    # prometheus:
+    #   replicas: 1
+    #   volumeSize: 20Gi
+    #   resources: {}
+    #   operator:
+    #     resources: {}
+    # alertmanager:
+    #   replicas: 1
+    #   resources: {}
+    # notification_manager:
+    #   resources: {}
+    #   operator:
+    #     resources: {}
+    #   proxy:
+    #     resources: {}
+    gpu:
+      nvidia_dcgm_exporter:
+        enabled: false
+        # resources: {}
   multicluster:
     clusterRole: none
   network:
@@ -122,29 +191,36 @@ spec:
       enabled: false
   servicemesh:
     enabled: false
-  kubeedge:
+    istio:
+      components:
+        ingressGateways:
+          - name: istio-ingressgateway
+            enabled: false
+        cni:
+          enabled: false
+  edgeruntime:
     enabled: false
-    cloudCore:
-      nodeSelector: {"node-role.kubernetes.io/worker": ""}
-      tolerations: []
-      cloudhubPort: "10000"
-      cloudhubQuicPort: "10001"
-      cloudhubHttpsPort: "10002"
-      cloudstreamPort: "10003"
-      tunnelPort: "10004"
-      cloudHub:
-        advertiseAddress:
-          - ""
-        nodeLimit: "100"
-      service:
-        cloudhubNodePort: "30000"
-        cloudhubQuicNodePort: "30001"
-        cloudhubHttpsNodePort: "30002"
-        cloudstreamNodePort: "30003"
-        tunnelNodePort: "30004"
-    edgeWatcher:
-      nodeSelector: {"node-role.kubernetes.io/worker": ""}
-      tolerations: []
-      edgeWatcherAgent:
-        nodeSelector: {"node-role.kubernetes.io/worker": ""}
-        tolerations: []
+    kubeedge:
+      enabled: false
+      cloudCore:
+        cloudHub:
+          advertiseAddress:
+            - ""
+        service:
+          cloudhubNodePort: "30000"
+          cloudhubQuicNodePort: "30001"
+          cloudhubHttpsNodePort: "30002"
+          cloudstreamNodePort: "30003"
+          tunnelNodePort: "30004"
+        # resources: {}
+        # hostNetWork: false
+      iptables-manager:
+        enabled: true
+        mode: "external"
+        # resources: {}
+      # edgeService:
+      #   resources: {}
+  terminal:
+    timeout: 600
+
+

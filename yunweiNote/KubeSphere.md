@@ -2,8 +2,15 @@
 
 # dashboard
 
+```sh
+kubectl get svc -A |grep kubernetes-dashboard
+https://193.169.0.3:30394/#/login
 #复制token进去登录，我的是
 eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ5NEhVLXByNkRCaktJd3oxVlFLRnQ3YXJrb0l4cDNJTm9oUUxxZnUtYm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTZuajlzIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2ZjJmNDQzNC1lZTNkLTQ1YzEtOGFmMC00Y2QyMzA4NzA3NWEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.jbqikUCRpFFUNBVE4pmC2LYkd5-kCJ8uTERUJJIKGU76osPn-Hgg8Yf81Wfuju8q0s90s7dsj3dmMijfYUWSkrv6Yt4G0BOKSIlSPB-JZRN08BDME2ANpYZk69HD678_rhxmb3d805M2kQYVaAZErKWNJETLtgR5KsSzruR1xmEyG04F1YHWzMg3YhwAt913qC-xDC8B4DnakZtMYRZUfleNmx5OD3vzmxYGbfzaSUpFQjokZdsXCcS2Jy4jFsso8pruKe-s-tnMYVxQPWAUV11KyQeHE9-n3dgKgsWJCBsv2Qkrnflk_yOMeTMK8kWqpvY0xkHWRe8JU_eFqRLm-g
+
+```
+
+
 
 # 基础环境，工具和镜像（三节点）
 
@@ -262,28 +269,37 @@ kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=
 
 ## 单点部署
 
-[文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+[文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[升级](https://kubesphere.io/zh/docs/v3.3/upgrade/upgrade-with-kubekey/)	
 
 ```sh
 export KKZONE=cn
-curl -sfL https://get-kk.kubesphere.io | VERSION=v2.0.0 sh -
+#一定要最新版，现在是3.3.0，b站是旧的不能用
+curl -sfL https://get-kk.kubesphere.io | VERSION=v2.2.1 sh -
 chmod +x kk
 yum install -y conntrack
 
 #单节点安装（默认最小化安装方式）
-./kk create cluster --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
+./kk create cluster --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+
 
 # 创建集群配置文件 config-sample.yaml 再安装
-./kk create config --with-kubernetes v1.21.5 --with-kubesphere v3.2.1
+./kk create config --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+./kk create config --from-cluster
 rn config-sample.yaml singleNode-config-sample.yaml
 vim singleNode-config.yaml
 把devops改为 true
 #自定义的安装yaml，devops为 true
 ./kk create cluster -f singleNode-config-sample.yaml
 
+#升级
+./kk upgrade --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+
 #如果要删除
 ./kk delete cluster
 ./kk delete cluster -f singleNode-config-sample.yaml
+
+#单节点配置好后想添加一个节点
+./kk add nodes -f 2config-sample.yaml
 ```
 
 
@@ -317,6 +333,43 @@ kubectl describe pod openebs-localpv-provisioner-6c9dcb5c54-6kj9m -n kube-system
 kubectl describe pod ks-installer-769994b6ff-59gxw -n kubesphere-system
 
 kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-system delete job minio-make-bucket-job
+```
+
+
+
+
+
+#  3.3.0部署
+
+[部署](https://kubesphere.io/zh/docs/v3.3/installing-on-kubernetes/introduction/overview/)	
+
+```sh
+#两个节点都要装的
+yum install socat
+yum install -y conntrack
+
+export KKZONE=cn
+#一定要最新版，现在是3.3.0，b站是旧的不能用
+curl -sfL https://get-kk.kubesphere.io | VERSION=v2.2.1 sh -
+chmod +x kk
+
+
+# 创建集群配置文件 config-sample.yaml 再安装
+./kk create config --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+vim config-sample.yaml
+把devops改为 true
+./kk create cluster -f config-sample.yaml
+
+#升级 
+./kk upgrade --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+./kk upgrade cluster -f config-sample.yaml
+
+#如果要删除
+./kk delete cluster
+./kk delete cluster -f config-sample.yaml
+
+#单节点配置好后想添加一个节点（修改config-sample，加上node）
+./kk add nodes -f config-sample.yaml
 ```
 
 
@@ -361,7 +414,7 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 
 # 流水线
 
-[SonarQube](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/sonarqube/)	
+[SonarQube](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/sonarqube/)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=359&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 vi devops-config.yaml
@@ -388,6 +441,9 @@ kubectl get svc -n kubesphere-devops-system
 [2 亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)	[3 github](https://github.com/calebhailey/homelab/issues/3)
 
 ```sh
+#5 在单点部署后 ks-jenkins 没有就绪，一直在重启
+尝试弄个node节点再试试，怎么再kubesphere控制台直接加入节点？
+
 #4 创建wordpress-application后 running PreBind plugin "VolumeBinding": binding volumes: timed out waiting for the condition
 要把node1和node2也全启动，如果觉得卡
 kubectl delete node node1
