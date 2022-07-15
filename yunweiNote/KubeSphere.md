@@ -1,4 +1,4 @@
-
+[kubesphere all in one](https://kubesphere.com.cn/docs/v3.3/quick-start/all-in-one-on-linux/)	点上面文档中心，选最新版本的文档来看，避免旧版本启用踩坑
 
 # dashboard
 
@@ -414,7 +414,7 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 
 # 流水线
 
-[SonarQube](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/sonarqube/)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=359&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+​	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=359&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[sonarqube 3.3.0](https://kubesphere.io/zh/docs/v3.3/devops-user-guide/how-to-integrate/sonarqube/)	[GitHub devops-java-sample](https://github.com/kubesphere/devops-java-sample)	
 
 ```sh
 vi devops-config.yaml
@@ -428,11 +428,83 @@ kubectl get svc -n kubesphere-devops-system
 凭证，创建凭证，id是 dockerhub-id,账户凭证，2641，lSd33
 创建凭证，id是 github-id,账户凭证，106，lSg33
 创建凭证，id是 demo-kubeconfig,类型是 kubeconfig，不用改
+创建凭证，id是 sonar-qube,类型是 访问令牌，密钥是生产的token
+
+devops-java-sample项目里，Jenkinsfile-online文件下
+    environment {
+        DOCKER_CREDENTIAL_ID = 'dockerhub-id'
+        GITHUB_CREDENTIAL_ID = 'github-id'
+        KUBECONFIG_CREDENTIAL_ID = 'demo-kubeconfig'
+        REGISTRY = 'docker.io'
+        DOCKERHUB_NAMESPACE = 'whosyourdaddy233'
+        GITHUB_ACCOUNT = 'JasonBourne33'
+        APP_NAME = 'devops-java-sample'
+        SONAR_CREDENTIAL_ID = 'sonar-qube'
+    }
+
 ```
 
 
 
+# sonarqube
 
+[sonarqube 3.3.0](https://kubesphere.io/zh/docs/v3.3/devops-user-guide/how-to-integrate/sonarqube/)	
+
+```sh
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+#查看 Helm 版本
+helm version
+
+helm upgrade --install sonarqube sonarqube --repo https://charts.kubesphere.io/main -n kubesphere-devops-system  --create-namespace --set service.type=NodePort
+
+export NODE_PORT=$(kubectl get --namespace kubesphere-devops-system -o jsonpath="{.spec.ports[0].nodePort}" services sonarqube-sonarqube)
+export NODE_IP=$(kubectl get nodes --namespace kubesphere-devops-system -o jsonpath="{.items[0].status.addresses[0].address}")
+echo http://$NODE_IP:$NODE_PORT
+# 访问http://193.169.0.3:32764
+admin
+admin
+999Zzz...
+右上角A， security， 输入kubersphere，generate，复制tokens
+3a17aab65f5f13d54a99c3b8d28186e266d04c78
+
+kubectl get pod -n kubesphere-devops-system
+kubectl get svc --all-namespaces  	#能看到sonarqube的端口
+
+
+```
+
+
+
+# 可插拔组件	 
+
+[官方doc 3.3.0](https://kubesphere.com.cn/docs/v3.3/quick-start/enable-pluggable-components/)	
+
+1. 以 `admin` 身份登录控制台。点击左上角的**平台管理** ，然后选择**集群管理**。
+
+2. 点击**定制资源定义**，然后在搜索栏中输入 `clusterconfiguration`，点击搜索结果进入其详情页面。
+
+3. 在**自定义资源**中，点击 `ks-installer` 右侧的三个点，然后选择**编辑 YAML**。
+
+4. 在该配置文件中，将对应组件 `enabled` 的 `false` 更改为 `true`，以启用要安装的组件。完成后，点击**确定**以保存配置。
+
+5. 应用商店 openpitrix:  store:    enabled: true # 将“false”更改为“true”。
+
+   devops true
+
+
+
+# sentinel
+
+```sh
+从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，创建
+服务，创建，指定工作负载创建服务，名称是his-sentinel-node,下一步，指定工作负载，有状态副本集，选his-sentinal-v1 ,名称是 http-8080，容器端口和服务端口都是 8080，下一步，选外部访问，NodePort，创建
+看到外网访问的端口是 31929
+访问  193.169.0.3:31929
+账号，密码都是 sentinal
+
+#mangoDB
+应用负载，应用，基于模板的应用，部署新应用，从应用模板，选择应用仓库，bitnami（我没有）
+```
 
 
 

@@ -1,5 +1,9 @@
 
 
+[kubesphere all in one](https://kubesphere.com.cn/docs/v3.3/quick-start/all-in-one-on-linux/)	点上面文档中心，选最新版本的文档来看，避免旧版本启用踩坑
+
+
+
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=106&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[尚医通gitee](https://gitee.com/leifengyang/yygh-parent)	[queyu笔记](https://www.yuque.com/leifengyang/oncloud/bp7pnm)
 
 ```sh

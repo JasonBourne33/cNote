@@ -62,7 +62,7 @@ spec:
   namespace_override: ""
   # dev_tag: ""
   etcd:
-    monitoring: false
+    monitoring: true
     endpointIps: localhost
     port: 2379
     tlsEnable: true
@@ -112,12 +112,12 @@ spec:
       externalElasticsearchHost: ""
       externalElasticsearchPort: ""
   alerting:
-    enabled: false
+    enabled: true
     # thanosruler:
     #   replicas: 1
     #   resources: {}
   auditing:
-    enabled: false
+    enabled: true
     # operator:
     #   resources: {}
     # webhook:
@@ -148,7 +148,7 @@ spec:
       replicas: 2
       # resources: {}
   metrics_server:
-    enabled: false
+    enabled: true
   monitoring:
     storageClass: ""
     node_exporter:
@@ -188,9 +188,9 @@ spec:
       type: none
   openpitrix:
     store:
-      enabled: false
+      enabled: true
   servicemesh:
-    enabled: false
+    enabled: true
     istio:
       components:
         ingressGateways:
