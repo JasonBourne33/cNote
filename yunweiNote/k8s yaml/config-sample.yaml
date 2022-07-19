@@ -6,6 +6,7 @@ spec:
   hosts:
     - { name: master, address: 193.169.0.3, internalAddress: 193.169.0.3, user: root, password: "123456" }
     - { name: node1, address: 193.169.0.4, internalAddress: 193.169.0.4, user: root, password: "123456" }
+#    - { name: node2, address: 193.169.0.5, internalAddress: 193.169.0.5, user: root, password: "123456" }
   roleGroups:
     etcd:
       - master
@@ -14,6 +15,7 @@ spec:
     worker:
       - master
       - node1
+#      - node2
   controlPlaneEndpoint:
     ## Internal loadbalancer for apiservers 
     # internalLoadbalancer: haproxy

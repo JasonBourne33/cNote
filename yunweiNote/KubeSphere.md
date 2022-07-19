@@ -267,7 +267,7 @@ kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=
 
 
 
-## 单点部署
+## 单点部署(增加，删除节点)
 
 [文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[升级](https://kubesphere.io/zh/docs/v3.3/upgrade/upgrade-with-kubekey/)	
 
@@ -293,13 +293,15 @@ vim singleNode-config.yaml
 
 #升级
 ./kk upgrade --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
+./kk upgrade cluster -f config-sample.yaml
 
 #如果要删除
 ./kk delete cluster
-./kk delete cluster -f singleNode-config-sample.yaml
+./kk delete cluster -f config-sample.yaml
 
 #单节点配置好后想添加一个节点
-./kk add nodes -f 2config-sample.yaml
+./kk add nodes -f config-sample.yaml
+./kk delete node node1 -f config-sample.yaml
 ```
 
 
@@ -368,8 +370,10 @@ vim config-sample.yaml
 ./kk delete cluster
 ./kk delete cluster -f config-sample.yaml
 
-#单节点配置好后想添加一个节点（修改config-sample，加上node）
+#单节点配置好后想添加一个节点（修改config-sample，加上node1）
 ./kk add nodes -f config-sample.yaml
+#删除节点node1
+./kk delete node node1 -f config-sample.yaml
 ```
 
 
@@ -393,9 +397,9 @@ project-regular platform-regular 普通用户
  多谢您的确认，您的货物将很快发出
 ```
 
-# wordpress 界面操作
+# wordpress ，mysql 的 券，密匙，服务
 
-[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 gulimail项目里
@@ -410,6 +414,13 @@ gulimail项目里
 #外网访问
 gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
 gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
+
+#Redis
+配置中心- 创建密匙- 名称redis-conf，下一步- 添加数据，key是 redis-conf，value是 
+appendonly yes
+port 6379
+bind 0.0.0.0
+应用负载，工作负载，有状态副部级，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，运行命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置文件和密匙，选 redis-conf，只读， /etc/redis, √，下一步，创建
 ```
 
 # 流水线
@@ -493,9 +504,9 @@ kubectl get svc --all-namespaces  	#能看到sonarqube的端口
 
 
 
-# sentinel
+# sentinel & mangoDB
 
-​	[mongo](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+​	[mongo bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[官方 应用模板](https://kubesphere.io/zh/docs/v3.3/project-user-guide/application/deploy-app-from-template/#%E6%AD%A5%E9%AA%A4-1%E6%B7%BB%E5%8A%A0%E5%BA%94%E7%94%A8%E4%BB%93%E5%BA%93)	[mysql 官方](https://kubesphere.com.cn/docs/v3.3/application-store/built-in-apps/mysql-app/#%E6%AD%A5%E9%AA%A4-3%E4%BB%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E8%AE%BF%E9%97%AE-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93)	
 
 ```sh
 从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，创建
@@ -504,8 +515,90 @@ kubectl get svc --all-namespaces  	#能看到sonarqube的端口
 访问  193.169.0.3:31929
 账号，密码都是 sentinal
 
-#mangoDB
-应用负载，应用，基于模板的应用，部署新应用，从应用模板，选择应用仓库，bitnami（我没有）
+#添加应用模板
+点进his的企业空间，左边 应用管理，应用仓库，添加，名称test-repo，将应用仓库的 URL 设置为 https://helm-chart-repo.pek3a.qingstor.com/kubernetes-charts/  ，同步间隔 3000s，确定
+#mangoDB 安装
+应用负载，应用，创建，从应用模板，选test-repo，搜mangodb，右边安装，
+名称mongodb，关掉Enable password authentication，安装
+#找到内网访问的地址和端口
+应用负载，服务，mongodb，复制DNS，服务端口27017
+mongodb.his:27017
+#暴露外网访问服务
+应用负载，服务，创建，名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是32527
+mongodb.his:32527 
+#用 MongoDB Compass 连接
+193.169.0.3:32527
+
+#mysql 安装
+应用负载，应用，创建，从应用模板，选test-repo，搜 mysql，名称mysql，下一步，
+在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
+应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort是30405
+#用sqlyog访问，外网服务端口：
+193.169.0.3:30405
+root,testing
+#初始化数据库
+yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
+```
+
+
+
+# Nacos
+
+[生产环境配置bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=111&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[ArtifactHUB](https://artifacthub.io/packages/helm/bitnami/redis?modal=install) 	[ruoyi](https://gitee.com/y_project/RuoYi-Cloud)	[nacos官网 要翻墙](https://nacos.io/zh-cn/docs/quick-start.html)	[nacos git](https://github.com/alibaba/nacos/releases) 
+
+```sh
+dockerhub是docker的商店，artifactHUB是kubernates的商店
+his企业空间，应用管理，应用仓库，名称 bitnami ，URL右边 https://charts.bitnami.com/bitnami ，确定
+
+# RuoYi-Cloud
+Fork到自己仓库，再克隆下来 git clone https://gitee.com/jasonbourne33/RuoYi-Cloud.git
+
+# 上云的nacos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Nacos本地 （报错，放弃）
+下载，解压nacos-server，nacos\conf 下解开注释，改成本地的mysql账号和密码
+### If use MySQL as datasource:
+spring.datasource.platform=mysql
+### Count of DB:
+db.num=1
+### Connect URL of DB:
+db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.user.0=root
+db.password.0=123
+### Connection pool configuration: hikariCP
+db.pool.config.connectionTimeout=30000
+db.pool.config.validationTimeout=10000
+db.pool.config.maximumPoolSize=20
+db.pool.config.minimumIdle=2
+
+#单点模式启动
+打开sqlyog，执行nacos\conf 下的 nacos-mysql.sql ，nacos\bin 下右键命令台，startup.cmd -m standalone
+localhost:8848/nacos/#/login
+
+
+
+
+
 ```
 
 
