@@ -415,12 +415,23 @@ gulimail项目里
 gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
 gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 
-#Redis
+
+#Redis docker  (appendonly yes 是持久化存储
+docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
+--appendonly yes \
+-v /data/redis/data:/data \
+-d --name myredis \
+-p 6379:6379 \
+redis:latest redis-server /etc/redis/redis.conf
+
+#Redis kubersphere
+mkdir /etc/redis/
+vim /etc/redis/redis.conf
 配置中心- 创建密匙- 名称redis-conf，下一步- 添加数据，key是 redis-conf，value是 
 appendonly yes
 port 6379
 bind 0.0.0.0
-应用负载，工作负载，有状态副部级，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，运行命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置文件和密匙，选 redis-conf，只读， /etc/redis, √，下一步，创建
+应用负载，工作负载，有状态副本集，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置文件和密匙，选 redis-conf，只读， /etc/redis, √，下一步，创建
 ```
 
 # 流水线

@@ -60,7 +60,9 @@ docker update 0d0 --restart=always
 
 
 
-装redis	https://www.bilibili.com/video/BV13Q4y1C7hS?p=20
+# Redis
+
+装redis	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=20)
 
 docker pull redis
 
