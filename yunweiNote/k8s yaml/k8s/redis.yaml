@@ -11,17 +11,17 @@ spec:
         - "/redis-master/redis.conf"  #指的是redis容器内部的位置
       ports:
         - containerPort: 6379
-      volumeMounts:
+      volumeMounts:                   #持久卷
         - mountPath: /data
           name: data
         - mountPath: /redis-master
-          name: config
+          name: config111
   volumes:
     - name: data
       emptyDir: {}
-    - name: config
+    - name: config111
       configMap:
-        name: redis-conf
+        name: redis-conf222
         items:
-          - key: redis.conf
+          - key: redis.conf333
             path: redis.conf

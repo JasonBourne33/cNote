@@ -314,7 +314,7 @@ kubectl apply -f hello.yaml
 kubectl delete -f hello.yaml
 ```
 
-# pod
+# pod (nginx, tomcat)
 
 ```sh
 kubectl run mynginx --image=nginx
@@ -369,6 +369,16 @@ spec:
 kubectl apply -f multicontainer-pod.yaml
 curl 192.168.140.201
 curl 192.168.140.201:8080
+
+
+
+#Redis docker  (appendonly yes 是持久化存储
+docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
+--appendonly yes \
+-v /data/redis/data:/data \
+-d --name myredis \
+-p 6379:6379 \
+redis:latest redis-server /etc/redis/redis.conf
 ```
 
 

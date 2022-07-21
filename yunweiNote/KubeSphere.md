@@ -399,7 +399,7 @@ project-regular platform-regular 普通用户
 
 # wordpress ，mysql 的 券，密匙，服务
 
-[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 gulimail项目里
@@ -416,6 +416,16 @@ gulimail 下application workloads的Services，wordpress的右边三点 Edit ext
 gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 
 
+
+```
+
+
+
+# Redis （dockers，k8s, kubesphere）
+
+[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis k8s ](https://www.bilibili.com/video/BV13Q4y1C7hS?p=65&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	 
+
+```sh
 #Redis docker  (appendonly yes 是持久化存储
 docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 --appendonly yes \
@@ -423,6 +433,55 @@ docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 -d --name myredis \
 -p 6379:6379 \
 redis:latest redis-server /etc/redis/redis.conf
+
+#Redis k8s
+vi redis333.conf
+appendonly yes
+:wq
+kubectl create cm redis-conf222 --from-file=redis333.conf  #变成配置集
+kubectl get cm  #查看，有redis-conf
+kubectl get cm redis-conf222 -oyaml  #查看具体内容，配置集精简后得到以下
+apiVersion: v1
+data:
+  redis333.conf: |+
+    appendonly yes
+kind: ConfigMap
+metadata:
+  name: redis-conf222
+  namespace: default
+#创建pod的yaml
+vi redis.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+spec:
+  containers:
+    - name: redis
+      image: redis
+      command:
+        - redis-server
+        - "/redis-master/redis.conf"  #指的是redis容器内部的位置
+      ports:
+        - containerPort: 6379
+      volumeMounts:                   #持久卷
+        - mountPath: /data
+          name: data
+        - mountPath: /redis-master
+          name: config111
+  volumes:
+    - name: data
+      emptyDir: {}
+    - name: config111
+      configMap:
+        name: redis-conf222
+        items:
+          - key: redis.conf333
+            path: redis.conf
+#应用上redis.yaml
+kubectl apply -f redis.yaml
+
+
 
 #Redis kubersphere
 mkdir /etc/redis/
@@ -433,6 +492,8 @@ port 6379
 bind 0.0.0.0
 应用负载，工作负载，有状态副本集，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置文件和密匙，选 redis-conf，只读， /etc/redis, √，下一步，创建
 ```
+
+
 
 # 流水线
 
