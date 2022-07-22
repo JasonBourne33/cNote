@@ -423,10 +423,13 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 
 # Redis （dockers，k8s, kubesphere）
 
-[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis k8s ](https://www.bilibili.com/video/BV13Q4y1C7hS?p=65&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	 
+[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis docker](https://www.bilibili.com/video/BV13Q4y1C7hS?p=20&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis k8s ](https://www.bilibili.com/video/BV13Q4y1C7hS?p=65&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	 [redis kubersphere](https://www.bilibili.com/video/BV13Q4y1C7hS?p=82&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 #Redis docker  (appendonly yes 是持久化存储
+#主机的配置 /data/redis/redis.conf     pod的配置 /etc/redis/redis.conf
+#主机的数据 /data/redis/data			 pod的数据 /data
+#redis-server 用的是pod的配置 /etc/redis/redis.conf
 docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 --appendonly yes \
 -v /data/redis/data:/data \
@@ -435,7 +438,10 @@ docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 redis:latest redis-server /etc/redis/redis.conf
 
 #Redis k8s
-vi redis333.conf
+#主机的配置 /root/redis333.conf    pod的配置 /redis-master/redis.conf	配置集 redis-conf222
+#主机的数据 emptyDir: {}	(k8s临时分配的目录，让其工作)	 pod的数据 /data
+#redis-server 用的是pod的配置 /redis-master/redis.conf
+vi /root/redis333.conf
 appendonly yes
 :wq
 kubectl create cm redis-conf222 --from-file=redis333.conf  #变成配置集
@@ -484,13 +490,17 @@ kubectl apply -f redis.yaml
 
 
 #Redis kubersphere
+#主机的配置（配置字典） redis-conf    pod的配置 /redis-master/redis.conf
+#主机的数据(存储卷) redis-pvc	 pod的数据 /data
+#redis-server 用的是pod的配置 /redis-master/redis.conf
 mkdir /etc/redis/
 vim /etc/redis/redis.conf
-配置中心- 创建密匙- 名称redis-conf，下一步- 添加数据，key是 redis-conf，value是 
+配置中心- 配置字典- 名称redis-conf，下一步- 添加数据，key是 redis.conf，value是 
 appendonly yes
 port 6379
 bind 0.0.0.0
-应用负载，工作负载，有状态副本集，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置文件和密匙，选 redis-conf，只读， /etc/redis, √，下一步，创建
+应用负载，工作负载，有状态副本集，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，命令 redis-server ， 参数 /redis-master/redis.conf ,选同步主机时区,√，下一步，
+添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置字典和密匙，选 redis333.conf，只读， /redis-master, √，下一步，创建
 ```
 
 
