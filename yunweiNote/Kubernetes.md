@@ -45,12 +45,12 @@ yum-config-manager \
 http://download.docker.com/linux/centos/docker-ce.repo
 #yuchao
 systemctl stop firewalld
-sustemctl disable firewalld
+systemctl disable firewalld
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 systemctl stop postfix.service
 systemctl disable postfix.service
-wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+wget /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 yum install -y bash-completion.noarch
 yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
 
@@ -59,7 +59,7 @@ yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
 
 ```sh
 #安装Docker
-sudo yum install -y docker-ce-20.10.7 docker-ce-cli-20.10.7 containerd.io-1.4.6
+sudo yum install -y docker-ce-20.10.17 docker-ce-cli-20.10.17 containerd.io-1.6.6
 
 #启动
 systemctl enable docker --now
@@ -174,19 +174,20 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
-    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906 \
+  kubeadm join cluster-endpoint:6443 --token t8rslg.jgrdl5vvdyqun3aj \
+    --discovery-token-ca-cert-hash sha256:21302ea179a867053e14cb2a90c980688e534f926b2997243f942238898e6b56 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
-    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906
+kubeadm join cluster-endpoint:6443 --token t8rslg.jgrdl5vvdyqun3aj \
+    --discovery-token-ca-cert-hash sha256:21302ea179a867053e14cb2a90c980688e534f926b2997243f942238898e6b56 
+
 
 
     
 #按照上面的提示，在master服务器
-mkdir -p $HOME/.kube
+mkdir -p $HOME/.kube 
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=/etc/kubernetes/admin.conf
@@ -254,11 +255,11 @@ kubectl get svc -A |grep kubernetes-dashboard
 
 #开放端口30753（云服务器在控制台也要操作）
 #firewall-cmd --zone=public --add-port=30753/tcp --permanent	
-firewall-cmd --zone=public --add-port=30394/tcp --permanent	
+firewall-cmd --zone=public --add-port=32662/tcp --permanent	
 systemctl restart firewalld.service
 firewall-cmd --reload 
-# 访问  https://193.169.0.3:32025/#/login
-#		https://193.169.0.3:30394/#/login
+# 访问  https://193.169.0.3:30753/#/login
+#		https://193.169.0.3:32662/#/login
 # advance ， 继续前往，提示要token
 # 在root目录下创建用户配置的yaml
 vi dash.yaml
@@ -286,7 +287,7 @@ kubectl apply -f dash.yaml
 
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 #复制token进去登录，我的是
-eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ5NEhVLXByNkRCaktJd3oxVlFLRnQ3YXJrb0l4cDNJTm9oUUxxZnUtYm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTZuajlzIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2ZjJmNDQzNC1lZTNkLTQ1YzEtOGFmMC00Y2QyMzA4NzA3NWEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.jbqikUCRpFFUNBVE4pmC2LYkd5-kCJ8uTERUJJIKGU76osPn-Hgg8Yf81Wfuju8q0s90s7dsj3dmMijfYUWSkrv6Yt4G0BOKSIlSPB-JZRN08BDME2ANpYZk69HD678_rhxmb3d805M2kQYVaAZErKWNJETLtgR5KsSzruR1xmEyG04F1YHWzMg3YhwAt913qC-xDC8B4DnakZtMYRZUfleNmx5OD3vzmxYGbfzaSUpFQjokZdsXCcS2Jy4jFsso8pruKe-s-tnMYVxQPWAUV11KyQeHE9-n3dgKgsWJCBsv2Qkrnflk_yOMeTMK8kWqpvY0xkHWRe8JU_eFqRLm-g
+eyJhbGciOiJSUzI1NiIsImtpZCI6Ii14UTVZTERrZFlKN0NQOEk2QTVrUmkzVFRFUUdxdXRFZ1R2ZmhvaUY0OHMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXZoamc3Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3YTRiNWUyZS0xYzdkLTQxZTItOGI5OS02Y2ZlZWY4YjU1YzQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.kv1WtHXsU642dUb0tzt3_faGpYLucc8ClmIZwqi0lc5Om3CuE2jtak64IzQOnxl6y5HjpO3S3GCc5kNDKEMzvsixi4mrX8r0tFN8ZxEG6CsYVHC10gp4nLb_MJUEK_QvsMlUli9uSzc143T4wQPUzfTlTQqe0ly7OMB2Ll8TL8HOM89Cd-Wt9swdUfEUMjN1M7cP-jV4I3OGoENaolh9--hQLGhduPrgTfZWqFQhxYrBQsLqJPfgK7xTa4M2MtxtKeEojAjpsizo-wiR8KCQDdUTuXsmBXArVn1R-8dNVzTq1HZMTxYMNHMY0JhwBqInBfm1aIgTYS4W-RPZHkeeHw
 
 ```
 
@@ -295,6 +296,7 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ5NEhVLXByNkRCaktJd3oxVlFLRnQ3YXJrb0l4cDNJTm9oUUxx
 # 实战
 
 ```sh
+# Namespace 名称空间，只隔离资源，不隔离网络
 kubectl get ns
 kubectl get pods -A
 kubectl get pod -n kubernetes-dashsboard
@@ -327,7 +329,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    run: mynginx
+    run: mynginx 
   name: mynginx
   namespace: default
 spec:
@@ -379,6 +381,40 @@ docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 -d --name myredis \
 -p 6379:6379 \
 redis:latest redis-server /etc/redis/redis.conf
+```
+
+
+
+# Ruoyi-Cloud 
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=86&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[nacos 文档](https://nacos.io/zh-cn/docs/deployment.html)
+
+```sh
+nacos\conf 目录下打开 application.properties
+解开注释 spring.datasource.platform=mysql
+
+db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.user.0=root
+db.password.0=123
+创建数据库 nacos，字符集选 utf-8，执行nacos\conf 目录下 nacos-mysql.sql的语句
+在F:\yunwei\nacos\bin 里打开cmd，执行 starup.cmd -m standalone 	#单点模式启动
+访问 localhost:8848/nacos/#/login ，账号密码都是 nacos
+
+
+
+
+
+
+
+
+
+
+#1 执行nacos-mysql时候，如果出现Invalid default value for 'gmt_create'
+sqlyog里 ctrl+H，查找 DEFAULT CURRENT_TIMESTAMP，替换成 （空格）
+下载安装mysql-installer-community-5.7.38.0 ， 
+又提示 visual studio version 2013,2015,2019 must be installed ，
+下载visio studio 2019， 打开visio studio(2019), 上面工具，获取工具和功能，
+
 ```
 
 
