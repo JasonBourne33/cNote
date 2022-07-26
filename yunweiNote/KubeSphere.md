@@ -1,4 +1,4 @@
-[kubesphere all in one](https://kubesphere.com.cn/docs/v3.3/quick-start/all-in-one-on-linux/)	点上面文档中心，选最新版本的文档来看，避免旧版本启用踩坑
+[ kubesphere all in one](https://kubesphere.com.cn/docs/v3.3/quick-start/all-in-one-on-linux/)	点上面文档中心，选最新版本的文档来看，避免旧版本启用踩坑
 
 # dashboard
 
@@ -32,9 +32,10 @@ systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 systemctl stop postfix.service
 systemctl disable postfix.service
-wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
 yum install -y bash-completion.noarch
 yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
+wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
 
@@ -190,7 +191,9 @@ kubeadm token create --print-join-command
 kubectl get nodes
 ```
 
-# kubeSphere
+# kubeSphere （配置文件）
+
+[bili p73](https://www.bilibili.com/video/BV13Q4y1C7hS?p=73&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 # 装nfs，在每个机器。
@@ -247,7 +250,7 @@ vim cluster-configuration.yaml
     devops:                
     	enabled: true 
     metrics_server:
-    	enabled: true 
+    	enabled: false  
     networkpolicy:
     	enabled: true
     openpitrix:
@@ -346,8 +349,9 @@ kubectl logs -n kubesphere-system -l job-name=minio && kubectl -n kubesphere-sys
 [部署](https://kubesphere.io/zh/docs/v3.3/installing-on-kubernetes/introduction/overview/)	
 
 ```sh
-#两个节点都要装的
-yum install socat
+#两个节点都要装的 (必须要有个node1，不然卡死在calico那里)
+# master 4核8G， node1 4核心4G
+yum install socat -y
 yum install -y conntrack
 
 export KKZONE=cn

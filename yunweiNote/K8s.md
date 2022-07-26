@@ -387,7 +387,7 @@ redis:latest redis-server /etc/redis/redis.conf
 
 # Ruoyi-Cloud 
 
-[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=86&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[nacos 文档](https://nacos.io/zh-cn/docs/deployment.html)
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=86&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[nacos 文档](https://nacos.io/zh-cn/docs/deployment.html)	[mysql5.7 删不了](https://blog.csdn.net/yh1771975467/article/details/78791284)	[windows installer cleanup utility](https://filehippo.com/download_windows-installer-cleanup-utility/post_download/)	[gitee ruoyi-cloud](https://gitee.com/leifengyang/RuoYi-Cloud/tree/master/ruoyi-ui)	
 
 ```sh
 nacos\conf 目录下打开 application.properties
@@ -395,11 +395,19 @@ nacos\conf 目录下打开 application.properties
 
 db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 db.user.0=root
-db.password.0=123
+db.password.0=123456
 创建数据库 nacos，字符集选 utf-8，执行nacos\conf 目录下 nacos-mysql.sql的语句
-在F:\yunwei\nacos\bin 里打开cmd，执行 starup.cmd -m standalone 	#单点模式启动
-访问 localhost:8848/nacos/#/login ，账号密码都是 nacos
-
+在F:\yunwei\nacos\bin 里打开cmd，执行 startup.cmd -m standalone 	#单点模式启动
+# 访问 localhost:8848/nacos/#/login ，账号密码都是 nacos
+改 application.properties，把nacos改为ry-config
+db.url.0=jdbc:mysql://127.0.0.1:3306/ry-config?
+characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+重新启动，执行 startup.cmd -m standalone
+创建数据库 ry-cloud,字符集选 utf-8, 选中ry-cloud，执行 quartz.sql 和 ry_20220613.sql 的sql，ry_seata_20210128.sql
+在 localhost:8848/nacos/#/login 里，在ruoyi-job-dev.yml, ruoyi-system-dev.yml, 右边点edit，把mysql的password改成本地的123456，发布
+下载并安装node.js,重启idea，Terminal控制台下， RuoYi-Cloud\ruoyi-ui> 执行安装
+npm install --registry=https://registry.npm.taobao.org
+ 
 
 
 
@@ -414,6 +422,8 @@ sqlyog里 ctrl+H，查找 DEFAULT CURRENT_TIMESTAMP，替换成 （空格）
 下载安装mysql-installer-community-5.7.38.0 ， 
 又提示 visual studio version 2013,2015,2019 must be installed ，
 下载visio studio 2019， 打开visio studio(2019), 上面工具，获取工具和功能，
+# 搞完又出来 The older version of MySQL Server 5.7 cannot be removed. 
+要装windows installer cleanup utility，找到mysql 5.7 然后remove掉
 
 ```
 
