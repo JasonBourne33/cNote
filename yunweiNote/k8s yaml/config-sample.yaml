@@ -3,6 +3,7 @@ kind: Cluster
 metadata:
   name: sample
 spec:
+  # (必须要有个node1，不然卡死在calico那里) master:4core8G  node1:4core4G
   hosts:
     - { name: master, address: 193.169.0.3, internalAddress: 193.169.0.3, user: root, password: "123456" }
     - { name: node1, address: 193.169.0.4, internalAddress: 193.169.0.4, user: root, password: "123456" }
@@ -114,12 +115,12 @@ spec:
       externalElasticsearchHost: ""
       externalElasticsearchPort: ""
   alerting:
-    enabled: true
+    enabled: false
     # thanosruler:
     #   replicas: 1
     #   resources: {}
   auditing:
-    enabled: true
+    enabled: false
     # operator:
     #   resources: {}
     # webhook:
@@ -150,7 +151,7 @@ spec:
       replicas: 2
       # resources: {}
   metrics_server:
-    enabled: true
+    enabled: false
   monitoring:
     storageClass: ""
     node_exporter:
@@ -192,7 +193,7 @@ spec:
     store:
       enabled: true
   servicemesh:
-    enabled: true
+    enabled: false
     istio:
       components:
         ingressGateways:
