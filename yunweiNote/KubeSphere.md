@@ -320,7 +320,7 @@ chmod +x kk
 yum install -y conntrack
 
 # 创建集群配置文件 config-sample.yaml
-./kk create config --with-kubernetes v1.20.4 --with-kubesphere v3.1.1
+./kk create config --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
 # 配置节点，用户root 密码 "123456"
 vim config-sample.yaml
 ./kk create cluster -f config-sample.yaml
@@ -401,24 +401,49 @@ project-regular platform-regular 普通用户
  多谢您的确认，您的货物将很快发出
 ```
 
-# wordpress ，mysql 的 券，密匙，服务
 
-[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+# Mysql (docker, K8s)
+
+[his bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=80&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[yuque doc](https://www.yuque.com/leifengyang/oncloud/vgf9wk)	
 
 ```sh
-gulimail项目里
-配置中心- 创建密匙- 名称mysql-secret，下一步- 添加数据，key是 MYSQL_ROOT_PASSWORD，value是 123456
-配置中心- 创建密匙- 名称wordpress-secret，下一步- 添加数据，key是 WORDPRESS_DB_PASSWORD，value是 123456
-存储管理- 存储卷- 名称wordpress-pvc,下一步- 单个节点读写
-存储管理- 存储卷- 名称mysql-pvc,下一步- 单个节点读写
-应用负载- 应用- 部署示例应用- 应用名称wordpress-application,下一步，
-	（1 mysql）添加服务- 添加有状态服务- 名称是mysql，下一步- 添加容器镜像，搜mysql:5.6,使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选mysql-secret和MYSQL_ROOT_PASSWORD，点√，下一步- 添加存储卷，选mysql-pvc，选读写，填入/var/lib/mysql，点√，下一步，添加
-	（2 wordpress）添加服务- 无状态服务- 名称wordpress，下一步，添加容器镜像，搜wordpress:4.8-apache，使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选wordpress-secret和WORDPRESS_DB_PASSWORD，点添加环境变量，名称WORDPRESS_DB_HOST,值是mysql，点√，下一步- 添加存储卷，选wordpress-pvc，选读写，填入/var/www/html，点√，下一步，添加
+#docker容器里 日志目录的/var/log/mysql 挂载到linux主机的的/mydata/mysql/log
+#容器里的 数据目录/var/lib/mysql 挂载到linux主机的的/mydata/mysql/data
+#容器里的 配置文件目录/etc/mysql/conf.d 挂载到linux主机的的/mydata/mysql/conf
+docker run -p 3306:3306 --name mysql-01 \
+-v /mydata/mysql/log:/var/log/mysql \
+-v /mydata/mysql/data:/var/lib/mysql \
+-v /mydata/mysql/conf:/etc/mysql/conf.d \
+-e MYSQL_ROOT_PASSWORD=root \
+--restart=always \
+-d mysql:5.7 
 
-#外网访问
-gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
-gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 
+#kubesphere
+Configuration , Configmaps, create, name is mysql-conf, next, key is my.cnf(content is following)
+[client]
+default-character-set=utf8mb4
+[mysql]
+default-character-set=utf8mb4
+[mysqld]
+init_connect='SET collation_connection = utf8mb4_unicode_ci'
+init_connect='SET NAMES utf8mb4'
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-character-set-client-handshake
+skip-name-resolve
+
+Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
+
+#pod里的 配置文件目录/etc/mysql/conf.d/conf.d 
+Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
+
+#暴露给外网访问的service
+Services , create, Specify Workload, name is his-mysql, next, select Virtual IP Address, Specify Workload, Statefulsets, his-mysql, OK, Name is http-3306, Container is 3306, Service Port is 3306, next,
+External Access, NodePort, 
+#用sqlyog连接193.169.0.3:31208
+mysql -uroot -hhis-mysql-node.his -p
 
 
 ```
@@ -427,7 +452,7 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 
 # Redis （dockers，k8s, kubesphere）
 
-[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis docker](https://www.bilibili.com/video/BV13Q4y1C7hS?p=20&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis k8s ](https://www.bilibili.com/video/BV13Q4y1C7hS?p=65&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	 [redis kubersphere](https://www.bilibili.com/video/BV13Q4y1C7hS?p=82&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[guli redis bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=373&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis docker](https://www.bilibili.com/video/BV13Q4y1C7hS?p=20&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[redis k8s ](https://www.bilibili.com/video/BV13Q4y1C7hS?p=65&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	 [redis kubersphere](https://www.bilibili.com/video/BV13Q4y1C7hS?p=82&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[yuque doc](https://www.yuque.com/leifengyang/oncloud/vgf9wk)	
 
 ```sh
 #Redis docker  (appendonly yes 是持久化存储
@@ -499,13 +524,56 @@ kubectl apply -f redis.yaml
 #redis-server 用的是pod的配置 /redis-master/redis.conf
 mkdir /etc/redis/
 vim /etc/redis/redis.conf
-配置中心- 配置字典- 名称redis-conf，下一步- 添加数据，key是 redis.conf，value是 
+Configuration , Configmaps, create, name is redis-conf, next, Add Data,key is redis.conf, value is
 appendonly yes
 port 6379
 bind 0.0.0.0
-应用负载，工作负载，有状态副本集，创建，名称his-redis，下一步，搜 redis ，使用默认端口，选启动命令，命令 redis-server ， 参数 /redis-master/redis.conf ,选同步主机时区,√，下一步，
-添加存储券模板，名称 redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 挂载配置字典和密匙，选 redis333.conf，只读， /redis-master, √，下一步，创建
+Application Workloads，Workloads，Statefulsets，create，name is his-redis，下一步，搜 redis ，使用默认端口，(1cpu,1024m memory), 选Start Command，命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，
+Add Persistent Volume Claim Template，PVC Name Prefix is redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 Mount Configmap or Secret，选 redis.conf，只读， /etc/redis, √(如果点了无效，先勾选再取消Slect Specific Keys)，下一步，创建
+#创建外网访问服务
+Services , create, Specify Workload, name is his-redis-node, next, select Virtual IP Address, Specify Workload, Statefulsets, his-redis, OK, Name is http-6379, Container is 6379, Service Port is 6379, next, External Access, NodePort
+#用redismanager 连接193.169.0.3:30727
+
+#测试redis的持久化
+在redis-manager创个键值对，在Application Workloads，Workloads，Statefulsets, his-redis 里把Replicas数将为0，再变为1，发现redis-manager那里还保存着键值对 
+
+#在创建Workloads的时候指定Statefulsets，这样可以1对1绑定（即时在Workloads实例增多的时候）
+
 ```
+
+
+
+# ElasticSearch
+
+[yuque doc](https://www.yuque.com/leifengyang/oncloud/vgf9wk)	
+
+```sh
+# 创建数据目录
+mkdir -p /mydata/es-01 && chmod 777 -R /mydata/es-01
+
+# 容器启动  （-e就是environment，环境变量，-v就是volume，卷挂载）
+docker run --restart=always -d -p 9200:9200 -p 9300:9300 \
+-e "discovery.type=single-node" \
+-e ES_JAVA_OPTS="-Xms512m -Xmx512m" \
+-v es-config:/usr/share/elasticsearch/config \
+-v /mydata/es-01/data:/usr/share/elasticsearch/data \
+--name es-01 \
+elasticsearch:7.13.4
+
+如果出现 iptables: No chain/target/match by that name. 就
+service dockers restart
+#docker ps |grep es-01	 没有找到es-01
+
+
+
+
+```
+
+
+
+
+
+
 
 
 
@@ -682,6 +750,50 @@ db.pool.config.minimumIdle=2
 localhost:8848/nacos/#/login
 
 
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# gulimail的 wordpress ，mysql 的 券，密匙，服务
+
+[wordpress文档](https://v3-1.docs.kubesphere.io/zh/docs/quick-start/wordpress-deployment/)	[wordpress docker](https://hub.docker.com/_/wordpress)	[bili](https://www.bilibili.com/video/BV1np4y1C7Yf?p=356&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+gulimail项目里
+配置中心- 创建密匙- 名称mysql-secret，下一步- 添加数据，key是 MYSQL_ROOT_PASSWORD，value是 123456
+配置中心- 创建密匙- 名称wordpress-secret，下一步- 添加数据，key是 WORDPRESS_DB_PASSWORD，value是 123456
+存储管理- 存储卷- 名称wordpress-pvc,下一步- 单个节点读写
+存储管理- 存储卷- 名称mysql-pvc,下一步- 单个节点读写
+应用负载- 应用- 部署示例应用- 应用名称wordpress-application,下一步，
+	（1 mysql）添加服务- 添加有状态服务- 名称是mysql，下一步- 添加容器镜像，搜mysql:5.6,使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选mysql-secret和MYSQL_ROOT_PASSWORD，点√，下一步- 添加存储卷，选mysql-pvc，选读写，填入/var/lib/mysql，点√，下一步，添加
+	（2 wordpress）添加服务- 无状态服务- 名称wordpress，下一步，添加容器镜像，搜wordpress:4.8-apache，使用默认端口，往下拉，勾选 环境变量，应用配置文件或密匙，选wordpress-secret和WORDPRESS_DB_PASSWORD，点添加环境变量，名称WORDPRESS_DB_HOST,值是mysql，点√，下一步- 添加存储卷，选wordpress-pvc，选读写，填入/var/www/html，点√，下一步，添加
+
+#外网访问
+gulimail 下application workloads的Services，wordpress的右边三点 Edit extranel access
+gulimail 下application workloads的Services，点wordpress，看到NodePort是30084，那么访问地址就是 193.169.0.3:30084
 
 
 

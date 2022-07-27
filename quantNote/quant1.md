@@ -7,7 +7,17 @@
 
 lSm33
 
-[MC官网](https://www.multicharts.cn/)	[bili](https://www.bilibili.com/video/BV1q4411P71K?p=6&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[MC官网](https://www.multicharts.cn/)	
+
+# heima RiceQuant
+
+[bili](https://www.bilibili.com/video/BV1q4411P71K?p=6&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[rice quant](https://www.ricequant.com/quant/strategys)	
+
+```sh
+新建策略，cheive，
+```
+
+
 
 
 

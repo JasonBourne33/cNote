@@ -259,7 +259,7 @@ firewall-cmd --zone=public --add-port=32662/tcp --permanent
 systemctl restart firewalld.service
 firewall-cmd --reload 
 # 家  https://193.169.0.3:31642/#/login
-#		https://193.169.0.3:32662/#/login
+# comp		https://193.169.0.3:32662/#/login
 # advance ， 继续前往，提示要token
 # 在root目录下创建用户配置的yaml
 vi dash.yaml
