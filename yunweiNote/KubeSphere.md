@@ -545,7 +545,7 @@ Services , create, Specify Workload, name is his-redis-node, next, select Virtua
 
 # ElasticSearch
 
-[yuque doc](https://www.yuque.com/leifengyang/oncloud/vgf9wk)	
+[yuque doc](https://www.yuque.com/leifengyang/oncloud/vgf9wk)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=83&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 # 创建数据目录
@@ -562,7 +562,42 @@ elasticsearch:7.13.4
 
 如果出现 iptables: No chain/target/match by that name. 就
 service dockers restart
-#docker ps |grep es-01	 没有找到es-01
+# docker ps |grep es-01	 没有找到es-01
+docker exec -it es-01 /bin/bash 	#进入控制台
+pwd
+cd config/
+ls
+看到需要挂载的是 elasticsearch.yml（核心配置） ， jvm.options（java虚拟机配置）
+cat elasticsearch.yml
+cat jvm.options
+
+# 进 193.169.0.3:30880 , 挂载文件
+Configuration, Configmaps, create, es-conf, next, Add Data, key is elasticsearch.yml , value is 
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+继续 Add Data， key is jvm.options， value is [cat jvm.options]
+
+# 创建工作负载，挂载存储卷
+Application Workloads， Workloads, Statefulsets, create, name is his-es, next, search elasticsearch:7.13.4 ,use default Ports ,(1cpu 1G Memory) , 
+Environment Variables, key is discovery.type , value is single-node
+					key is ES_JAVA_OPTS , value is -Xms512m -Xmx512m
+Synchronize Host Timezone , next, 
+Add Persistent Volume Claim Template, name is es-pvc, Read and write, Mount Path is 
+/usr/share/elasticsearch/data , 
+Mount Configmap or Secret, es-conf, Read-only, Mount Path is
+/usr/share/elasticsearch/config/elasticsearch.yml ,Specify Subpath is elasticsearch.yml ,
+Select Sepcific Keys, elasticsearch.yml, elasticsearch.yml ， √
+Mount Configmap or Secret, es-conf, Read-only, Mount Path is
+/usr/share/elasticsearch/config/jvm.options ,Specify Subpath is jvm.options , 
+Select Sepcific Keys, jvm.options, jvm.options ，√
+next, create 
+
+#创建外网访问服务
+Services , create, Specify Workload, name is his-es, next, select Virtual IP Address, Specify Workload, Statefulsets, his-es, OK, 
+Name is http-9200, Container is 9200, Service Port is 9200,  
+next, External Access, NodePort
+
+#访问 http://193.169.0.3:30544/
 
 
 
@@ -640,21 +675,25 @@ kubectl get svc --all-namespaces  	#能看到sonarqube的端口
 
 
 
-# 可插拔组件	 
+# 可插拔组件，添加新节点	 
 
 [官方doc 3.3.0](https://kubesphere.com.cn/docs/v3.3/quick-start/enable-pluggable-components/)	
 
 1. 以 `admin` 身份登录控制台。点击左上角的**平台管理** ，然后选择**集群管理**。
 
-2. 点击**定制资源定义**，然后在搜索栏中输入 `clusterconfiguration`，点击搜索结果进入其详情页面。
+2. 点击**定制资源定义**(CRDS)，然后在搜索栏中输入 `clusterconfiguration`，点击搜索结果进入其详情页面。
 
-3. 在**自定义资源**中，点击 `ks-installer` 右侧的三个点，然后选择**编辑 YAML**。
+3. 在**Custom Resources**中，点击 `ks-installer` 右侧的三个点，然后选择**编辑 YAML**。
 
 4. 在该配置文件中，将对应组件 `enabled` 的 `false` 更改为 `true`，以启用要安装的组件。完成后，点击**确定**以保存配置。
 
 5. 应用商店 openpitrix:  store:    enabled: true # 将“false”更改为“true”。
 
    devops true
+   
+   
+   
+   ./kk add nodes -f sample.yaml
 
 
 
