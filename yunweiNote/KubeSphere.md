@@ -437,7 +437,9 @@ skip-name-resolve
 Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
 
 #pod里的 配置文件目录/etc/mysql/conf.d/conf.d 
-Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
+Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
+Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, 
+Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
 
 #暴露给外网访问的service
 Services , create, Specify Workload, name is his-mysql, next, select Virtual IP Address, Specify Workload, Statefulsets, his-mysql, OK, Name is http-3306, Container is 3306, Service Port is 3306, next,
@@ -608,6 +610,26 @@ next, External Access, NodePort
 
 
 
+# RabbitMQ ， Bitnami
+
+[bitnami bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=85&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+top left App Store, RabbitMQ, Install, Next, Data Persistenc Enabled, Root Password is admin , install
+Application Workloads, Service, 再 rabbitmq 右边三点, Edit External Access, NodePort,
+15672对应的就是端口
+访问 http://193.169.0.3:32658/
+
+
+# Bitnami
+App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, Validate
+
+# Zookeeper
+Application Workloads, Apps, create, bitnami, Zookeeper, next, Install
+
+
+```
+
 
 
 
@@ -746,8 +768,33 @@ his企业空间，应用管理，应用仓库，名称 bitnami ，URL右边 http
 # RuoYi-Cloud
 Fork到自己仓库，再克隆下来 git clone https://gitee.com/jasonbourne33/RuoYi-Cloud.git
 
-# 上云的nacos
 
+nacos\conf 目录下打开 application.properties
+解开注释 spring.datasource.platform=mysql
+
+db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.user.0=root
+db.password.0=123456
+创建数据库 nacos，字符集选 utf-8，执行nacos\conf 目录下 nacos-mysql.sql的语句
+在F:\yunwei\nacos\bin 里打开cmd，执行 startup.cmd -m standalone 	#单点模式启动
+# 访问 localhost:8848/nacos/#/login ，账号密码都是 nacos
+改 application.properties，把nacos改为ry-config  #把设置改成nacos的
+db.url.0=jdbc:mysql://127.0.0.1:3306/ry-config?
+characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+重新启动，执行 startup.cmd -m standalone
+Sqlyog创建数据库 ry-cloud,字符集选 utf-8, 选中ry-cloud，执行 quartz.sql 和 ry_20220613.sql ，ry_seata_20210128.sql
+在 localhost:8848/nacos/#/login 里，在ruoyi-job-dev.yml, ruoyi-system-dev.yml, 右边点edit，把mysql的password改成本地的123456，发布
+下载并安装node.js,重启idea，Terminal控制台下进入ruoyi-ui ， RuoYi-Cloud\ruoyi-ui> 执行安装
+npm install --registry=https://registry.npm.taobao.org	#安装依赖
+npm run dev		#启动服务
+
+#改配置
+把 his-redis-node 的外网访问端口 复制到 nacos打开的ruoyi-gateway-dev.yml 下的对应redis的
+host和port
+
+#Idea里开service 界面并配置
+View， Tool Window, Services, 
++ ， Run Confige Type, Spring Boot
 
 
 

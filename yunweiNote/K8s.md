@@ -385,7 +385,7 @@ redis:latest redis-server /etc/redis/redis.conf
 
 
 
-# Ruoyi-Cloud 
+# Ruoyi-Cloud , nacos
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=86&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[nacos 文档](https://nacos.io/zh-cn/docs/deployment.html)	[mysql5.7 删不了](https://blog.csdn.net/yh1771975467/article/details/78791284)	[windows installer cleanup utility](https://filehippo.com/download_windows-installer-cleanup-utility/post_download/)	[gitee ruoyi-cloud](https://gitee.com/leifengyang/RuoYi-Cloud/tree/master/ruoyi-ui)	
 
