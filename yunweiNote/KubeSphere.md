@@ -776,9 +776,10 @@ db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&connectTimeout
 db.user.0=root
 db.password.0=123456
 创建数据库 nacos，字符集选 utf-8，执行nacos\conf 目录下 nacos-mysql.sql的语句
+
 在F:\yunwei\nacos\bin 里打开cmd，执行 startup.cmd -m standalone 	#单点模式启动
 # 访问 localhost:8848/nacos/#/login ，账号密码都是 nacos
-改 application.properties，把nacos改为ry-config  #把设置改成nacos的
+改 application.properties，把nacos改为ry-config  #把设置改成 ry-config 的
 db.url.0=jdbc:mysql://127.0.0.1:3306/ry-config?
 characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 重新启动，执行 startup.cmd -m standalone
@@ -788,16 +789,21 @@ Sqlyog创建数据库 ry-cloud,字符集选 utf-8, 选中ry-cloud，执行 quart
 npm install --registry=https://registry.npm.taobao.org	#安装依赖
 npm run dev		#启动服务
 
-#改配置
-把 his-redis-node 的外网访问端口 复制到 nacos打开的ruoyi-gateway-dev.yml 下的对应redis的
-host和port
+#改配置,启动网关
+把 his-redis-node 的外网访问端口 复制到 nacos打开的
+ruoyi-gateway-dev.yml，ruoyi-auth-dev.yml,ruoyi-system-dev.yml,ruoyi-job-dev.yml 
+下的对应redis的 host和port， 
+右键RuoYiGatewayApplication，run，启动完后选中Auth，File，Job，Monitor，System，右键，run
+
 
 #Idea里开service 界面并配置
 View， Tool Window, Services, 
 + ， Run Confige Type, Spring Boot
 
 
-
+# 输入验证码后报错
+获取用户失败:[503] during [GET] to [http://ruoyi-system/user/info/admin] [RemoteUserService#getUserInfo(String,String)]: [Load balancer does not contain an instance for the service ruoyi-system]
+要等system启动，稍等
 
 
 
@@ -846,6 +852,21 @@ localhost:8848/nacos/#/login
 
 
 
+
+# 数据库迁移
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test Selection 填好ks的，Test Connection, Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
+
+
+#nacos 服务
+Service, StatefulService, nacos/nacos-server:v2.0.3,
+http-8848, 8848, 8848
+
+
+```
 
 
 
