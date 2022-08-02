@@ -524,8 +524,7 @@ kubectl apply -f redis.yaml
 #主机的配置（配置字典） redis-conf    pod的配置 /redis-master/redis.conf
 #主机的数据(存储卷) redis-pvc	 pod的数据 /data
 #redis-server 用的是pod的配置 /redis-master/redis.conf
-mkdir /etc/redis/
-vim /etc/redis/redis.conf
+
 Configuration , Configmaps, create, name is redis-conf, next, Add Data,key is redis.conf, value is
 appendonly yes
 port 6379
@@ -757,7 +756,7 @@ yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
 
 
 
-# Nacos
+# Nacos 本地，ry_cloud setting
 
 [生产环境配置bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=111&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[ArtifactHUB](https://artifacthub.io/packages/helm/bitnami/redis?modal=install) 	[ruoyi](https://gitee.com/y_project/RuoYi-Cloud)	[nacos官网 要翻墙](https://nacos.io/zh-cn/docs/quick-start.html)	[nacos git](https://github.com/alibaba/nacos/releases) 
 
@@ -853,7 +852,7 @@ localhost:8848/nacos/#/login
 
 
 
-# 数据库迁移
+# 数据库迁移 nacos上云
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -862,8 +861,38 @@ Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test 
 
 
 #nacos 服务
-Service, StatefulService, nacos/nacos-server:v2.0.3,
-http-8848, 8848, 8848
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+http-8848, 8848, 8848, 同步主机时区
+ping his-nacos.his
+复制 his-nacos-v1-0.his-nacos.his.svc.cluster.local 到 config.cluster
+
+#nacos上云 配置文件
+Configuration, Configmaps, nacos-conf, key is application.proerties, value is content inside, 
+key is cluster.conf, value is content inside
+
+conf.cluster 是
+his-nacos-v1-0.his-nacos.his.svc.cluster.local:8848
+his-nacos-v1-1.his-nacos.his.svc.cluster.local:8848
+his-nacos-v1-2.his-nacos.his.svc.cluster.local:8848
+
+application.properties 要改
+db.url.0=jdbc:mysql://his-mysql.his:3306/ry-config?
+
+
+#有状态服务
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+http-8848, 8848, 8848, 同步主机时区，
+Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/cluster.conf, SubPath is  cluster.conf, Specific Keys is cluster.conf, cluster.conf,
+Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/application.properties, SubPath is application.properties ， Specific Keys is application.properties, application.properties,
+
+#暴露外部访问的service
+Application Workloads, Services, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
+http-8848, 8848, 8848，
+External Access, NodePort
+
+# 访问地址
+http://193.169.0.3:30444/nacos
+账号密码 nacos, nacos
 
 
 ```
