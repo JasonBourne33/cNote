@@ -1,7 +1,7 @@
 
 
 windows
-https://okz2.com/
+https://okz2.com/	(其他网站可能是钓鱼，访问不了就先梯子)
 quick subscription- export to clash
 
 windows的配置文件在

@@ -11,10 +11,19 @@ lSm33
 
 # heima RiceQuant
 
-[bili](https://www.bilibili.com/video/BV1q4411P71K?p=6&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[rice quant](https://www.ricequant.com/quant/strategys)	
+[bili](https://www.bilibili.com/video/BV1q4411P71K?p=6&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[rice quant](https://www.ricequant.com/quant/strategys)	[cheive  strategy](https://www.ricequant.com/quant/strategy/2106398)	
 
 ```sh
 新建策略，cheive，
+
+    # 当前运行日期起，前5天收盘价的价格
+    close=history_bars(context.s1,5,'1d','close')
+    logger.info(close)
+    # 当前运行日期起，前5天的开盘价和收盘价
+    his_1=history_bars(context.s1,5,'1d',['open','close'])
+    logger.info(his_1)
+    
+get_fundamentals
 ```
 
 

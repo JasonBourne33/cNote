@@ -901,6 +901,24 @@ http://193.169.0.3:30444/nacos
 
 
 
+# 打包jar
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=95&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+打包后没出现target包 Idea, Settings, Editor, File Encodings, UTF-8 * 3
+
+C:\Users\Administrator\Desktop\ruoyi-images
+java -jar ruoyi-auth.jar
+
+F:\yunwei\nacos\bin
+startup.cmd -m standalone
+
+Dokcerfile 在 idea, F:\yunweiProject\RuoYi-Cloud\docker\ruoyi\auth\dockerfile
+
+
+```
+
 
 
 

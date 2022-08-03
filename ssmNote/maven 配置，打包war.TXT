@@ -20,7 +20,7 @@ Local respository：C:\Users\Administrator\.m2\repository
 
 
 
-
+3 打包后没看到target， show option menu(设置图标)，show excluded file
 
 1  项目右键- run as - maven install
 
