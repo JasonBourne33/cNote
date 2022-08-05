@@ -60,19 +60,170 @@ App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, 
 应用负载，应用，创建，从应用模板，选test-repo，搜mangodb，版本10.30.12 [4.4.11]，右边安装，
 名称mongodb，关掉Enable authentication，安装
 #暴露外网访问服务
-应用负载，服务，创建，名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是32527
-mongodb.his:32527 
+应用负载，服务，specify workload, 名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是端口号
 #用 MongoDB Compass 连接
-193.169.0.3:32527
+new Connection, Advanced Connection Options, Host:
+193.169.0.3:32766
 
-#mysql 安装
-应用负载，应用，创建，从应用模板，选test-repo，搜 mysql，名称mysql，下一步，
+#mysql 安装(仓库)
+应用负载，应用，创建，从应用模板，选bitnami，搜 mysql，名称mysql，下一步，
 在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
-应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort是30405
+应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort
 #用sqlyog访问，外网服务端口：
-193.169.0.3:30405
+193.169.0.3:32012
 root,testing
 #初始化数据库
-yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
+F:\yunweiProject\yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
+```
+
+
+
+# dockerfile
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=111&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+# 访问地址
+http://193.169.0.3:31474/nacos
+账号密码 nacos, nacos
+
+ConfigManagement, COnfiguration, +, service-cmn-prod.yaml,
+Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
+port: 8080
+dashboard: his-sentinel.his:8080
+host: his-redis.his:6379
+url: jdbc:mysql://his-mysql.his:3306/yygh_cmn?characterEncoding=utf-8&useSSL=false
+publish
+
++， service-hosp-prod.yaml
+Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
+port: 8080
+dashboard: his-sentinel.his:8080
+url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
+host: rabbitm-w0llqp-rabbitmq.his
+host: his-redis.his
+
++， service-order-prod.yaml
+Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
+port: 8080
+dashboard: his-sentinel.his:8080
+url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
+host: rabbitm-w0llqp-rabbitmq.his
+host: his-redis.his
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mysql kubesphere(ry_cloud)
+
+```sh
+#kubesphere
+Configuration , Configmaps, create, name is mysql-conf, next, key is my.cnf(content is following)
+[client]
+default-character-set=utf8mb4
+[mysql]
+default-character-set=utf8mb4
+[mysqld]
+init_connect='SET collation_connection = utf8mb4_unicode_ci'
+init_connect='SET NAMES utf8mb4'
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-character-set-client-handshake
+skip-name-resolve
+
+Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
+
+#pod里的 配置文件目录/etc/mysql/conf.d
+Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
+Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, 
+Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
+
+#暴露给外网访问的service
+Services, Specify Workload, name is his-mysql, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
+External Access, NodePort, 
+#用sqlyog连接193.169.0.3:32012
+mysql -uroot -hhis-mysql-node.his -p
+```
+
+
+
+
+
+# nacos上云, 数据库迁移(ry_cloud)
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test Selection 填好ks的，Test Connection, Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
+
+
+#nacos 服务
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+http-8848, 8848, 8848, 同步主机时区
+ping his-nacos.his
+复制 his-nacos-v1-0.his-nacos.his.svc.cluster.local 到 config.cluster
+
+#nacos上云 配置文件
+Configuration, Configmaps, nacos-conf, key is application.proerties, value is content inside, 
+key is cluster.conf, value is content inside
+
+conf.cluster 是
+his-nacos-v1-0.his-nacos.his.svc.cluster.local:8848
+his-nacos-v1-1.his-nacos.his.svc.cluster.local:8848
+his-nacos-v1-2.his-nacos.his.svc.cluster.local:8848
+
+application.properties 要改
+db.url.0=jdbc:mysql://his-mysql.his:3306/ry-config?
+
+
+#有状态服务
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+http-8848, 8848, 8848, 同步主机时区，
+Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/cluster.conf, SubPath is  cluster.conf, Specific Keys is cluster.conf, cluster.conf,
+Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/application.properties, SubPath is application.properties ， Specific Keys is application.properties, application.properties,
+
+#暴露外部访问的service
+Application Workloads, Services, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
+http-8848, 8848, 8848，
+External Access, NodePort
+
+# 访问地址
+http://193.169.0.3:31474/nacos
+账号密码 nacos, nacos
+
+
 ```
 

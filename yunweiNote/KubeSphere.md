@@ -436,7 +436,7 @@ skip-name-resolve
 
 Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
 
-#pod里的 配置文件目录/etc/mysql/conf.d/conf.d 
+#pod里的 配置文件目录/etc/mysql/conf.d
 Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
 Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, 
 Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
@@ -852,7 +852,7 @@ localhost:8848/nacos/#/login
 
 
 
-# 数据库迁移 nacos上云
+# nacos上云, 数据库迁移
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
