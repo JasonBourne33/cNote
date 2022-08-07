@@ -382,6 +382,10 @@ vim config-sample.yaml
 
 
 
+
+
+
+
 # kubesphere	多租户
 
 [bili 355](https://www.bilibili.com/video/BV1np4y1C7Yf?p=355&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
