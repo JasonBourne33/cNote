@@ -78,13 +78,13 @@ F:\yunweiProject\yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个
 
 
 
-# dockerfile
+# dockerfile 上nacos
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=111&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 # 访问地址
-http://193.169.0.3:31474/nacos
+ 
 账号密码 nacos, nacos
 
 ConfigManagement, COnfiguration, +, service-cmn-prod.yaml,
@@ -96,25 +96,59 @@ url: jdbc:mysql://his-mysql.his:3306/yygh_cmn?characterEncoding=utf-8&useSSL=fal
 publish
 
 +， service-hosp-prod.yaml
-Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
+Idea里，复制 service-hosp\src\main\resources\application-dev.yml 内容 ,改
 port: 8080
+host: mongodb.his
 dashboard: his-sentinel.his:8080
 url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
 host: rabbitm-w0llqp-rabbitmq.his
 host: his-redis.his
 
 +， service-order-prod.yaml
-Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
+Idea里，复制 service-order\src\main\resources\application-dev.yml 内容 ,改
 port: 8080
 dashboard: his-sentinel.his:8080
 url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
 host: rabbitm-w0llqp-rabbitmq.his
 host: his-redis.his
 
++， service-oss-prod.yaml
+Idea里，复制 service-oss-order\src\main\resources\application-dev.yml 内容 ,改
+port: 8080, sentinel, 
+
++， service-sms-prod.yaml
+Idea里，复制 service-sms-order\src\main\resources\application-dev.yml 内容 ,改
+port: 8080, sentinel, rabbitmq, redis
+
++， service-statistic-prod.yaml
+Idea里，复制 service-statistic-order\src\main\resources\application-dev.yml 内容 ,改
+port: 8080, sentinel
+
++， service-task-prod.yaml
+port: 8080, sentinel, rabbitmq
+
++， service-user-prod.yaml
+port: 8080, sentinel, mysql
+
++， service-gateway-prod.yaml
+port: 8080, 删掉nacos
+
+直接改 hospital-manage
+F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod.yml
+改 redis,mysql
 ```
 
 
 
+| 中间件        | 集群内地址                       | 外部访问地址                                          |
+| ------------- | -------------------------------- | ----------------------------------------------------- |
+| Nacos         | his-nacos.his:8848               | [http://193.169.0.3:30349/](http://193.169.0.3/)nacos |
+| MySQL         | his-mysql.his:3306               | [193.169.0.3](http://193.169.0.3):32012               |
+| Redis         | his-redis.his:6379               | [193.169.0.3](http://193.169.0.3):30727               |
+| Sentinel      | his-sentinel.his:8080            | http://193.169.0.3:32212/                             |
+| MongoDB       | mongodb.his:**27017**            | [193.169.0.3](http://193.169.0.3):32766               |
+| RabbitMQ      | rabbitm-yp1tx4-rabbitmq.his:5672 | [193.169.0.3](http://193.169.0.3):31640               |
+| ElasticSearch | his-es.his:9200                  | [193.169.0.3](http://193.169.0.3):30054               |
 
 
 
@@ -122,6 +156,28 @@ host: his-redis.his
 
 
 
+# Devops 和 Jinkens
+
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=112&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[gitee yygh](https://gitee.com/leifengyang/yygh-parent)	[jinkens安装](https://kubesphere.com.cn/en/docs/v3.3/faq/devops/install-jenkins-plugins/)	
+
+```sh
+# DevOps
+DevOps Projects， create, his-devops
+his-devops, Pipelines, create, yygh-parent-devops, create
+# 拉取代码
+yygh-parent-devops, Edit Pipeline, Continuous Integration & Delivery
+Agent, node, maven
+选clone code, add step, container, base, Add nesting steps, git, create credential
+gitee-id, username and password, JasonBourne33, lSg33, 
+https://gitee.com/jasonbourne33/yygh-parent, gitee-id, master
+# 打印
+Add nesting steps, shell, ll , ok
+
+# Fork项目
+Fork yygh-parent 到我自己的， 进 https://gitee.com/leifengyang/yygh-parent ，右上角fork
+https://gitee.com/jasonbourne33/yygh-parent
+
+```
 
 
 

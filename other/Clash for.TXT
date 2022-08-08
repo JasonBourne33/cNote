@@ -1,8 +1,10 @@
 
 
 windows
-https://okz2.com/	(其他网站可能是钓鱼，访问不了就先梯子)
+https://okz2.com/	(已经被封，现在换成 lli4)
 quick subscription- export to clash
+
+https://lli4.com/api/v1/client/subscribe?token=94fc3ad57ff04d850d03bc1fea1d41d3
 
 windows的配置文件在
 C:\Users\Administrator\.config\clash\profiles
