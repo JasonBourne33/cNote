@@ -128,7 +128,7 @@ spec:
   devops:
     enabled: true
     # resources: {}
-    jenkinsMemoryLim: 2Gi
+    jenkinsMemoryLim: 3Gi
     jenkinsMemoryReq: 1500Mi
     jenkinsVolumeSize: 8Gi
     jenkinsJavaOpts_Xms: 1200m

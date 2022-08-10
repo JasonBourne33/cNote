@@ -35,7 +35,7 @@ systemctl disable postfix.service
 
 yum install -y bash-completion.noarch
 yum install -y net-tools vim lrzsz wget tree screen lsof tcpdump
-wget -0 /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+wget /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
 
@@ -363,7 +363,7 @@ chmod +x kk
 # 创建集群配置文件 config-sample.yaml 再安装
 ./kk create config --with-kubernetes v1.22.10 --with-kubesphere v3.3.0
 vim config-sample.yaml
-把devops改为 true
+把devops改为 true,内存设置为3G
 ./kk create cluster -f config-sample.yaml
 
 #升级 

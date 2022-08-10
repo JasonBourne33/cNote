@@ -1,4 +1,4 @@
-
+  
 
 [kubesphere all in one](https://kubesphere.com.cn/docs/v3.3/quick-start/all-in-one-on-linux/)	点上面文档中心，选最新版本的文档来看，避免旧版本启用踩坑
 
@@ -57,7 +57,8 @@ yum install -y conntrack
 
 export KKZONE=cn
 #一定要最新版，现在是3.3.0，b站是旧的不能用
-curl -sfL https://get-kk.kubesphere.io | VERSION=v2.2.1 sh -
+curl -sfL `https://get-kk.kubesphere.io` | VERSION=v2.2.1 sh -
+#这里一直没反应就直接网页打开https://get-kk.kubesphere.io 下载好
 chmod +x kk
 
 
@@ -204,7 +205,7 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 
 
 
-# Devops 和 Jinkens
+# Devops 和 Jenkins
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=112&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[gitee yygh](https://gitee.com/leifengyang/yygh-parent)	[jinkens安装](https://kubesphere.com.cn/en/docs/v3.3/faq/devops/install-jenkins-plugins/)	
 
@@ -213,27 +214,40 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 DevOps Projects， create, his-devops
 his-devops, Pipelines, create, yygh-parent-devops, create
 # 拉取代码
-yygh-parent-devops, Edit Pipeline, Continuous Integration & Delivery
+yygh-parent-devops, Edit Pipeline, Continuous Integration & Delivery(视频中旧版)
+yygh-parent-devops, Edit Pipeline, Maven, 
 Agent, node, maven
-选clone code, add step, container, base, Add nesting steps, git, create credential
-gitee-id, username and password, JasonBourne33, lSg33, 
-https://gitee.com/jasonbourne33/yygh-parent, gitee-id, master
+选clone code, add step, container, name：maven , Add nesting steps, git, create credential
+gitee-id , username and password, JasonBourne233, leftSniperg33, 
+https://gitee.com/jasonbourne233/yygh-parent, gitee-id, master
 # 打印
-Add nesting steps, shell, ll , ok
+Add nesting steps, shell, ls -al , ok
 
 # Fork项目
 Fork yygh-parent 到我自己的， 进 https://gitee.com/leifengyang/yygh-parent ，右上角fork
-https://gitee.com/jasonbourne33/yygh-parent
+https://gitee.com/jasonbourne233/yygh-parent
 
+
+
+在run的时候会让jenkins出错（重启）
+原因：默认资源被限制了，不够用
+Platform, ClusterManagement, Application Workloads, Workloads, devops-jenkins, 
+More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限会爆满服务器死机）
+启动不了的，一直在重启的pod，可以把cpu和内存改大一点
 ```
 
 
 
 
 
+# Jenkins dashboard
 
+[登陆密码踩坑](https://blog.csdn.net/CSDN877425287/article/details/108577735)	[登录密码 kubesphere官方](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/jenkins-setting/)	
 
-
+```sh
+用dashboard装的，admin，密码9Z.(KubeSphere 集群管理员的密码)
+Manage Jenkins, Plugin Manager, 
+```
 
 
 
