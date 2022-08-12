@@ -205,7 +205,7 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 
 
 
-# Devops 和 Jenkins
+# Devops 和 Jenkins, Pipeline
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=112&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[gitee yygh](https://gitee.com/leifengyang/yygh-parent)	[jinkens安装](https://kubesphere.com.cn/en/docs/v3.3/faq/devops/install-jenkins-plugins/)	
 
@@ -213,28 +213,93 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 # DevOps
 DevOps Projects， create, his-devops
 his-devops, Pipelines, create, yygh-parent-devops, create
-# 拉取代码
+# 创建Pipeline模板
 yygh-parent-devops, Edit Pipeline, Continuous Integration & Delivery(视频中旧版)
 yygh-parent-devops, Edit Pipeline, Maven, 
 Agent, node, maven
-选clone code, add step, container, name：maven , Add nesting steps, git, create credential
+# 1 拉取代码
+选Clone repository, add step, container, name：maven , Add nesting steps, git, create credential
 gitee-id , username and password, JasonBourne233, leftSniperg33, 
 https://gitee.com/jasonbourne233/yygh-parent, gitee-id, master
 # 打印
 Add nesting steps, shell, ls -al , ok
 
+# 配置maven镜像
+Configuration， ks-devops-agent， Edit Settings, 
+找到mirror，加上阿里云的
+    <mirror>
+      <id>ali</id>
+      <name>aliyun</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+    
+# 2 编译项目
+Run compile, add step, container, Add nesting steps, shell, ls -al , ok
+add step, container, Add nesting steps, shell, mvn clean package -Dmaven.test.skip=true , ok
+Add nesting steps, shell, ls hospital-manage/target
+
+# 3 编译项目
+名字 hospital-manage image, add step, container, maven, 
+add nesting step, container, Add nesting steps, shell, ls hospital-manage , ok
+Add nesting steps, shell, 
+docker build -t hospital-manage:v1 -f hospital-manage/Dockerfile ./hospital-manage/ , ok
+其他的微服务也是这样
+idea， stage('default-2')
+sh 'ls server-gateway/target'
+sh 'docker build -t server-gateway:latest -f server-gateway/Dockerfile  ./server-gateway/'
+sh 'ls service/service-cmn/target'
+sh 'docker build -t service-cmn:latest -f service/service-cmn/Dockerfile  ./service/service-cmn/'
+sh 'ls service/service-hosp/target'
+sh 'docker build -t service-hosp:latest -f service/service-hosp/Dockerfile  ./service/service-hosp/'
+
+
+
+
+
+
+
+
+
+#以前打包用的命令
+idea， terminal, mvn clean package -Dmaven.test.skip=true , 
+
 # Fork项目
 Fork yygh-parent 到我自己的， 进 https://gitee.com/leifengyang/yygh-parent ，右上角fork
 https://gitee.com/jasonbourne233/yygh-parent
 
-
-
-在run的时候会让jenkins出错（重启）
+# 在run的时候会让jenkins出错（重启 warning 变黄）
 原因：默认资源被限制了，不够用
 Platform, ClusterManagement, Application Workloads, Workloads, devops-jenkins, 
 More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限会爆满服务器死机）
 启动不了的，一直在重启的pod，可以把cpu和内存改大一点
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -247,21 +312,16 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 ```sh
 用dashboard装的，admin，密码9Z.(KubeSphere 集群管理员的密码)
 Manage Jenkins, Plugin Manager, 
+
+
+
+
+米国
+台积电，中期选举，sleepy joe和大大通电话已经完成交易，
+
+兔子
+大大想在20big 连任，土地财政压力，正常battle不可能直播还要真正的物资部署，直播为了制造恐惧
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

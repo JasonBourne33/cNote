@@ -979,8 +979,8 @@ gulimail 下application workloads的Services，点wordpress，看到NodePort是3
 [2 亲自提问](https://kubesphere.com.cn/forum/d/7352-please-wait-for-the-installation-to-complete/12)	[发帖问](https://kubesphere.com.cn/forum/d/7490-kk-create-cluster-f-config-sampleyaml)	[3 github](https://github.com/calebhailey/homelab/issues/3)
 
 ```sh
-#5 在单点部署后 ks-jenkins 没有就绪，一直在重启
-尝试弄个node节点再试试，怎么再kubesphere控制台直接加入节点？
+#5 在单点部署后 ks-jenkins 没有就绪(变黄 warning)，一直在重启
+Application Workloads 里调大一点cpu和内存
 
 #4 创建wordpress-application后 running PreBind plugin "VolumeBinding": binding volumes: timed out waiting for the condition
 要把node1和node2也全启动，如果觉得卡

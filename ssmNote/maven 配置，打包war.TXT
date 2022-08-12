@@ -3,7 +3,7 @@
 settings 搜maven ，
 Maven home path ：D:/apache-maven-3.6.3
 User setting file： D:\apache-maven-3.6.3\conf\settings.xml
-Local respository：C:\Users\Administrator\.m2\repository
+Local respository：C:\Users\Administrator\.m2\repository  (这项不用改)
 只能在c盘默认的.m2仓库路径
 
 在 D:\apache-maven-3.6.3\conf\settings.xml 里可以加镜像
