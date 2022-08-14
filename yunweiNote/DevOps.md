@@ -281,6 +281,18 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 
 
 
+# Harbor
+
+[github](https://github.com/goharbor/harbor/releases)	
+
+```sh
+下载 harbor-offline-installer-v2.4.3.tgz 
+tar -xvf harbor-offline-installer-v2.4.3.tgz 
+openssl gen
+```
+
+
+
 
 
 
