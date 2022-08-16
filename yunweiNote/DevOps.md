@@ -283,11 +283,16 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 
 # Harbor
 
-[github](https://github.com/goharbor/harbor/releases)	
+[github](https://github.com/goharbor/harbor/releases)	[bili 单体](https://www.bilibili.com/video/BV1nY411T747?p=23&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-下载 harbor-offline-installer-v2.4.3.tgz 
-tar -xvf harbor-offline-installer-v2.4.3.tgz 
+下载离线包 harbor-offline-installer-v2.4.3.tgz 
+tar -zxvf harbor-offline-installer-v2.4.3.tgz 
+yum -y install lrzsz
+# 安装compose
+curl -L https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+# https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
 openssl gen
 ```
 
