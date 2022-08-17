@@ -283,17 +283,60 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 
 # Harbor
 
-[github](https://github.com/goharbor/harbor/releases)	[bili 单体](https://www.bilibili.com/video/BV1nY411T747?p=23&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[github](https://github.com/goharbor/harbor/releases)	[bili 单体](https://www.bilibili.com/video/BV1nY411T747?p=23&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[卸载旧docker](https://www.jianshu.com/p/8c0600a0c25f)	[harbor](https://www.bilibili.com/video/BV1Ve4y197Lf?p=8&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[上传镜像 马士兵](https://www.bilibili.com/video/BV1Ve4y197Lf?p=9&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
 ```sh
 下载离线包 harbor-offline-installer-v2.4.3.tgz 
 tar -zxvf harbor-offline-installer-v2.4.3.tgz 
 yum -y install lrzsz
 # 安装compose
+# https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
 curl -L https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 
-# https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
-openssl gen
+chmod +x /usr/local/bin/docker-compose
+cp harbor.yml.tmpl harbor.yml
+vim harbor
+hostname: 193.169.0.4
+:wq
+
+
+#Need to upgrade docker package to 17.06.0+.   卸载旧docker
+rpm -qa | grep docker
+rpm -e docker-1.13.1-209.git7d71120.el7.centos.x86_64
+rpm -e docker-client-1.13.1-209.git7d71120.el7.centos.x86_64
+rpm -e docker-common-1.13.1-209.git7d71120.el7.centos.x86_64
+#配置ali的docker yum源
+yum install -y yum-utils device-mapper-persistent-datalvm2 git
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+yum install docker-ce -y
+
+# 启动
+/rootharbor/install.sh
+# 配置域名 ，访问
+vim /etc/hosts
+193.169.0.4 www.charbor.com
+http://193.169.0.4   or     www.charbor.com
+admin , Harbor12345
+
+# 配置仓库 （在master节点用也这样配置）
+vim /etc/docker/daemon.json
+{
+  "insecure-registries": ["193.169.0.4"]
+}
+:wq
+systemctl daemon-reload
+systemctl restart docker
+# 重启compose
+docker-compose down
+docker-compose up -d
+docker ps		#要有9个goharbor
+
+#测试推送镜像
+docker pull centos
+
+
+ 
+
 ```
 
 
