@@ -24,6 +24,10 @@ lSm33
     logger.info(his_1)
     #获取基本面信息
 get_fundamentals
+
+
+alpha 与市场无关的
+beta 与市场完全相关，整个市场的平均收益率乘以一个beta系数 （投资组合的系统风险）
 ```
 
 

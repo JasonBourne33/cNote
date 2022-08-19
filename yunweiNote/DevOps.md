@@ -207,7 +207,7 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 
 # Devops 和 Jenkins, Pipeline
 
-[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=112&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[gitee yygh](https://gitee.com/leifengyang/yygh-parent)	[jinkens安装](https://kubesphere.com.cn/en/docs/v3.3/faq/devops/install-jenkins-plugins/)	
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=112&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[gitee yygh](https://gitee.com/leifengyang/yygh-parent)	[jinkens安装](https://kubesphere.com.cn/en/docs/v3.3/faq/devops/install-jenkins-plugins/)	[aliyun 镜像仓库](https://cr.console.aliyun.com/cn-hangzhou/instance/credentials)
 
 ```sh
 # DevOps
@@ -236,12 +236,12 @@ Configuration， ks-devops-agent， Edit Settings,
     
 # 2 编译项目
 Run compile, add step, container, Add nesting steps, shell, ls -al , ok
-add step, container, Add nesting steps, shell, mvn clean package -Dmaven.test.skip=true , ok
+Add nesting steps, shell, mvn clean package -Dmaven.test.skip=true , ok
 Add nesting steps, shell, ls hospital-manage/target
 
-# 3 编译项目
+# 3 编译项目 Build Image
 名字 hospital-manage image, add step, container, maven, 
-add nesting step, container, Add nesting steps, shell, ls hospital-manage , ok
+Add nesting steps, shell, ls hospital-manage , ok
 Add nesting steps, shell, 
 docker build -t hospital-manage:v1 -f hospital-manage/Dockerfile ./hospital-manage/ , ok
 其他的微服务也是这样
@@ -253,7 +253,17 @@ sh 'docker build -t service-cmn:latest -f service/service-cmn/Dockerfile  ./serv
 sh 'ls service/service-hosp/target'
 sh 'docker build -t service-hosp:latest -f service/service-hosp/Dockerfile  ./service/service-hosp/'
 
+# 4 push image
+withCredentials, Create Credential, 
+aliyun-docker-registry, Username and password, admin, Harbor12345
 
+# 5 deploy to dev
+kubernetesDeploy, Create Credential, 
+demo-kubeconfig, kubeconf, 默认Content， ok
+"$KUBECONFIG_CREDENTIAL_ID" ， hospital-manage/deploy/** 
+
+Configuration, Secrets, create, aliyun-docker-hub ,
+Image registry information, registry.cn-hangzhou.aliyuncs.com , aliyun4520815170 , lSa3 
 
 
 
@@ -333,13 +343,23 @@ docker ps		#要有9个goharbor
 
 #测试推送镜像
 docker pull centos
-
-
+docker tag centos:latest 193.169.0.4/library/centos:v233
+docker login 193.169.0.4 --username=admin --password-stdin=Harbor12345
+docker push 193.169.0.4/library/centos:v233
+#在master 拉去镜像
+docker pull 193.169.0.4/library/centos:v233
+'docker push  $REGISTRY/$DOCKERHUB_NAMESPACE/service-user:SNAPSHOT-$BUILD_NUMBER'
  
 
 ```
 
 
+
+# 上传镜像到docker
+
+ ```sh
+ 
+ ```
 
 
 
