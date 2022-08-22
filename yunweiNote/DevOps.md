@@ -442,20 +442,21 @@ mysql -uroot -hhis-mysql-node.his -p
 
 # nacos上云, 数据库迁移(ry_cloud)
 
-[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili 数据库迁移](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[bili nacos上云](https://www.bilibili.com/video/BV13Q4y1C7hS?p=91&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test Selection 填好ks的，Test Connection, Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
 
 
-#nacos 服务
-Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+#nacos 服务创建
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3 ,
 http-8848, 8848, 8848, 同步主机时区
 ping his-nacos.his
 复制 his-nacos-v1-0.his-nacos.his.svc.cluster.local 到 config.cluster
 
-#nacos上云 配置文件
-Configuration, Configmaps, nacos-conf, key is application.proerties, value is content inside, 
+#nacos上云 配置文件 (F:\yunwei\nacos\conf)
+Configuration, Configmaps, create，nacos-conf, 
+key is application.proerties, value is content inside, 
 key is cluster.conf, value is content inside
 
 conf.cluster 是
@@ -474,12 +475,12 @@ Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/cluster.conf,
 Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/application.properties, SubPath is application.properties ， Specific Keys is application.properties, application.properties,
 
 #暴露外部访问的service
-Application Workloads, Services, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
+Application Workloads, Services, create, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
 http-8848, 8848, 8848，
 External Access, NodePort
 
 # 访问地址
-http://193.169.0.3:31474/nacos
+http://193.169.0.3:30120/nacos
 账号密码 nacos, nacos
 
 
