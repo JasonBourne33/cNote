@@ -14,13 +14,7 @@
 # limitations under the License.
 #
 
-#it is ip
-#example
-#192.168.16.101:8847
-#192.168.16.102
-#192.168.16.103
 
 # ks-cloud
 his-nacos-v1-0.his-nacos.his.svc.cluster.local:8848
-his-nacos-v1-1.his-nacos.his.svc.cluster.local:8848
-his-nacos-v1-2.his-nacos.his.svc.cluster.local:8848
+

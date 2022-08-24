@@ -433,8 +433,13 @@ Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enab
 Add Persistent Volume Claim Template , mysql-pvc , Read and write, Mount path is /var/lib/mysql, check, 
 Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d , next, create
 
+#集群内部的service
+Services, 删掉 his-mysql-oi46 ，create, his-mysql , 
+Internal Domain Name, his-mysql, http-3306, Container is 3306, Service Port is 3306,
+next, create
+mysql -uroot -hhis-mysql.his -p 	#测试
 #暴露给外网访问的service
-Services, Specify Workload, name is his-mysql, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
+Services, Specify Workload, name is his-mysql-node, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
 External Access, NodePort, 
 #用sqlyog连接193.169.0.3:31035
 mysql -uroot -hhis-mysql-node.his -p
@@ -446,10 +451,13 @@ mysql -uroot -hhis-mysql-node.his -p
 
 # nacos上云, 数据库迁移(ry_cloud)
 
-[bili 数据库迁移](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili 数据库迁移](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[bili nacos](https://www.bilibili.com/video/BV13Q4y1C7hS?p=91&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test Selection 填好ks的，Test Connection, Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
+#数据迁移 用workbench
+Migtation, Source Selection, 填好本地的，localhost:3306, Test Connection， next, 
+在Target Selection 填好ks的，193.169.0.3:31035  , Test Connection, next,
+在 Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
 
 
 #nacos 服务创建
@@ -459,7 +467,7 @@ ping his-nacos.his
 复制 his-nacos-v1-0.his-nacos.his.svc.cluster.local 到 config.cluster
 
 #nacos上云 配置文件 (F:\yunwei\nacos\conf)
-Configuration, Configmaps, create，nacos-conf, 
+Configuration, Configmaps, create，nacos-conf, add data
 key is application.proerties, value is content inside, 
 key is cluster.conf, value is content inside
 
@@ -484,9 +492,11 @@ http-8848, 8848, 8848，
 External Access, NodePort
 
 # 访问地址
-http://193.169.0.3:30120/nacos
+http://193.169.0.3:32716/nacos
 账号密码 nacos, nacos
 
+# log 出现Error creating bean with name 'memoryMonitor' defined in URL
+重新create his-nacos，可能是application.properties对mysql数据库没配置文件没更新到
 
 ```
 
