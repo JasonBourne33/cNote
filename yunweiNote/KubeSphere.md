@@ -534,10 +534,11 @@ appendonly yes
 port 6379
 bind 0.0.0.0
 Application Workloads，Workloads，Statefulsets，create，name is his-redis，下一步，搜 redis ，使用默认端口，(1cpu,1024m memory), 选Start Command，命令 redis-server ， 参数 /etc/redis/redis.conf ,选同步主机时区,√，下一步，
-Add Persistent Volume Claim Template，PVC Name Prefix is redis-pvc ，下面的挂载路径，选 读写，目录 /data，选 Mount Configmap or Secret，选 redis.conf，只读， /etc/redis, √(如果点了无效，先勾选再取消Slect Specific Keys)，下一步，创建
+Add Persistent Volume Claim Template，PVC Name Prefix is redis-pvc ，下面的挂载路径，选 读写，目录 /data，
+Mount Configmap or Secret，选 redis.conf，只读， /etc/redis, √(如果点了无效，先勾选再取消Slect Specific Keys)，下一步，创建
 #创建外网访问服务
 Services , create, Specify Workload, name is his-redis-node, next, select Virtual IP Address, Specify Workload, Statefulsets, his-redis, OK, Name is http-6379, Container is 6379, Service Port is 6379, next, External Access, NodePort
-#用redismanager 连接193.169.0.3:30727
+#用redismanager 连接193.169.0.3:32590
 
 #测试redis的持久化
 在redis-manager创个键值对，在Application Workloads，Workloads，Statefulsets, his-redis 里把Replicas数将为0，再变为1，发现redis-manager那里还保存着键值对 

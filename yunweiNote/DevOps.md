@@ -88,46 +88,15 @@ vim config-sample.yaml
 
 
 
-# sentinel & mangoDB
-
-​	[mongo bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[官方 应用模板](https://kubesphere.io/zh/docs/v3.3/project-user-guide/application/deploy-app-from-template/#%E6%AD%A5%E9%AA%A4-1%E6%B7%BB%E5%8A%A0%E5%BA%94%E7%94%A8%E4%BB%93%E5%BA%93)	[mysql 官方](https://kubesphere.com.cn/docs/v3.3/application-store/built-in-apps/mysql-app/#%E6%AD%A5%E9%AA%A4-3%E4%BB%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E8%AE%BF%E9%97%AE-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93)	
-
-```sh
-#sentinel
-从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，create
-创建服务，创建，指定工作负载创建服务，名称是his-sentinel-node,下一步，指定工作负载，有状态副本集，选his-sentinal-v1 ,名称是 http-8080，容器端口和服务端口都是 8080，下一步，选外部访问，NodePort，创建
-看到外网访问的端口是 32212
-访问  193.169.0.3:32212
-账号，密码都是 sentinal
-
-
-# Bitnami
-App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, Validate
-
-#mangoDB 安装
-应用负载，应用，创建，从应用模板，选test-repo，搜mangodb，版本10.30.12 [4.4.11]，右边安装，
-名称mongodb，关掉Enable authentication，安装
-#暴露外网访问服务
-应用负载，服务，specify workload, 名称his-mongo-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mongo-node，看到NodePort是端口号
-#用 MongoDB Compass 连接
-new Connection, Advanced Connection Options, Host:
-home  193.169.0.3:30336
-193.169.0.3:32766
-
-#mysql 安装(仓库)
-应用负载，应用，创建，从应用模板，选bitnami，搜 mysql，名称mysql，下一步，
-在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
-应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort
-#用sqlyog访问，外网服务端口：
-193.169.0.3:32012
-root,testing
-#初始化数据库
-F:\yunweiProject\yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
-```
 
 
 
-# dockerfile 上nacos
+
+
+
+
+
+# dockerfile 上生产环境的 nacos
 
 [bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=111&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -135,6 +104,7 @@ F:\yunweiProject\yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个
 # 访问地址
  
 账号密码 nacos, nacos
+存在 F:\cNote\yunweiNote\nacos yaml deploy
 
 ConfigManagement, Configuration, +, service-cmn-prod.yaml,
 Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
@@ -150,7 +120,7 @@ port: 8080
 host: mongodb.his
 dashboard: his-sentinel.his:8080
 url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
-host: rabbitm-w0llqp-rabbitmq.his
+host: rabbitmq.his
 host: his-redis.his
 
 +， service-order-prod.yaml
@@ -158,7 +128,7 @@ Idea里，复制 service-order\src\main\resources\application-dev.yml 内容 ,�
 port: 8080
 dashboard: his-sentinel.his:8080
 url: jdbc:mysql://his-mysql.his:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false
-host: rabbitm-w0llqp-rabbitmq.his
+host: rabbitmq.his
 host: his-redis.his
 
 +， service-oss-prod.yaml
@@ -189,15 +159,15 @@ F:\yunweiProject\yygh-parent\hospital-manage\src\main\resources\application-prod
 
 
 
-| 中间件        | 集群内地址                       | 外部访问地址                                          |
-| ------------- | -------------------------------- | ----------------------------------------------------- |
-| Nacos         | his-nacos.his:8848               | [http://193.169.0.3:30349/](http://193.169.0.3/)nacos |
-| MySQL         | his-mysql.his:3306               | [193.169.0.3](http://193.169.0.3):32012               |
-| Redis         | his-redis.his:6379               | [193.169.0.3](http://193.169.0.3):30727               |
-| Sentinel      | his-sentinel.his:8080            | http://193.169.0.3:32212/                             |
-| MongoDB       | mongodb.his:**27017**            | [193.169.0.3](http://193.169.0.3):32766               |
-| RabbitMQ      | rabbitm-yp1tx4-rabbitmq.his:5672 | [193.169.0.3](http://193.169.0.3):31640               |
-| ElasticSearch | his-es.his:9200                  | [193.169.0.3](http://193.169.0.3):30054               |
+| 中间件        | 集群内地址            | 外部访问地址                                          |
+| ------------- | --------------------- | ----------------------------------------------------- |
+| Nacos         | his-nacos.his:8848    | [http://193.169.0.3:30349/](http://193.169.0.3/)nacos |
+| MySQL         | his-mysql.his:3306    | [193.169.0.3](http://193.169.0.3):32012               |
+| Redis         | his-redis.his:6379    | [193.169.0.3](http://193.169.0.3):30727               |
+| Sentinel      | his-sentinel.his:8080 | http://193.169.0.3:32212/                             |
+| MongoDB       | mongodb.his:**27017** | [193.169.0.3](http://193.169.0.3):32766               |
+| RabbitMQ      | rabbitmq.his:5672     | [193.169.0.3](http://193.169.0.3):31215               |
+| ElasticSearch | his-es.his:9200       | [193.169.0.3](http://193.169.0.3):30054               |
 
 
 
@@ -225,7 +195,7 @@ https://gitee.com/jasonbourne233/yygh-parent, gitee-id, master
 Add nesting steps, shell, ls -al , ok
 
 # 配置maven镜像
-Configuration， ks-devops-agent， Edit Settings, 
+Cluster Manager, Configuration， Configmaps, ks-devops-agent， Edit Settings, 
 找到mirror，加上阿里云的
     <mirror>
       <id>ali</id>
@@ -405,7 +375,7 @@ Manage Jenkins, Plugin Manager,
 
 
 
-# mysql kubesphere(ry_cloud)
+# 4 mysql kubesphere(ry_cloud)
 
 [bili mysql](https://www.bilibili.com/video/BV13Q4y1C7hS?p=80&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -449,7 +419,7 @@ mysql -uroot -hhis-mysql-node.his -p
 
 
 
-# nacos上云, 数据库迁移(ry_cloud)
+# 3 nacos上云, 数据库迁移(ry_cloud)
 
 [bili 数据库迁移](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[bili nacos](https://www.bilibili.com/video/BV13Q4y1C7hS?p=91&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -499,4 +469,83 @@ http://193.169.0.3:32716/nacos
 重新create his-nacos，可能是application.properties对mysql数据库没配置文件没更新到
 
 ```
+
+
+
+
+
+
+
+# 2 sentinel & mangoDB
+
+​	[mongo bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[官方 应用模板](https://kubesphere.io/zh/docs/v3.3/project-user-guide/application/deploy-app-from-template/#%E6%AD%A5%E9%AA%A4-1%E6%B7%BB%E5%8A%A0%E5%BA%94%E7%94%A8%E4%BB%93%E5%BA%93)	[mysql 官方](https://kubesphere.com.cn/docs/v3.3/application-store/built-in-apps/mysql-app/#%E6%AD%A5%E9%AA%A4-3%E4%BB%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E8%AE%BF%E9%97%AE-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93)	
+
+```sh
+从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，创建
+服务，创建，指定工作负载创建服务，名称是his-sentinel-node,下一步，指定工作负载，有状态副本集，选his-sentinal-v1 ,名称是 http-8080，容器端口和服务端口都是 8080，下一步，选外部访问，NodePort，创建
+看到外网访问的端口是 32333
+访问  193.169.0.3:32333
+账号，密码都是 sentinal
+
+#添加应用模板
+点进his的企业空间，左边 应用管理，应用仓库，添加，名称 bitnami，将应用仓库的 URL 设置为 https://helm-chart-repo.pek3a.qingstor.com/kubernetes-charts/  ，同步间隔 3000s，确定
+
+#mangoDB 安装
+应用负载，应用，创建，从应用模板，选 bitnami，搜mangodb，右边安装，
+名称mongodb，关掉Enable password authentication，安装
+#找到内网访问的地址和端口
+应用负载，服务，mongodb，复制DNS，服务端口27017
+mongodb.his:27017
+#暴露外网访问服务
+应用负载，服务，创建，名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是32527
+mongodb.his:32527 
+#用 MongoDB Compass 连接
+193.169.0.3:32527
+
+#mysql 安装
+应用负载，应用，创建，从应用模板，选test-repo，搜 mysql，名称mysql，下一步，
+在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
+应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort是30405
+#用sqlyog访问，外网服务端口：
+193.169.0.3:30405
+root,testing
+#初始化数据库
+yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
+```
+
+
+
+# 1 RabbitMQ ， Bitnami
+
+[bitnami bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=85&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+#RabbitMQ (这是视频里发办法，不好用)
+top left App Store, RabbitMQ, Install, Next, Data Persistenc Enabled, Root Password is admin , install
+Application Workloads, Service, 再 rabbitmq 右边三点, Edit External Access, NodePort,
+15672对应的就是端口
+访问 http://193.169.0.3:32658/
+
+#RabbitMQ ，我自己手动的
+Application Workloads, Workloads, Statefulsets, name is rabbitmq, next, 
+Add Contener, search rabbitmq , Synchronize Host Timezone, next, create
+#集群内部的service
+Services，create, Specify Workload, rabbitmq , 
+Internal Domain Name, rabbitmq, http-5672, Container is 5672, Service Port is 5672,
+next, create
+#暴露给外网访问的service
+Services, create, Specify Workload, name is rabbitmq-node, Virtual IP Address, Specify Workload, Statefulsets, rabbitmq, Name is http-5672, Container is 5672, Service Port is 5672, next,
+External Access, NodePort, 
+
+
+# Bitnami
+App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, Validate
+
+# Zookeeper
+Application Workloads, Apps, create, bitnami, Zookeeper, next, Install
+
+
+```
+
+
 
