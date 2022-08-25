@@ -136,7 +136,7 @@ F:\yunweiProject\yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个
  
 账号密码 nacos, nacos
 
-ConfigManagement, COnfiguration, +, service-cmn-prod.yaml,
+ConfigManagement, Configuration, +, service-cmn-prod.yaml,
 Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
 port: 8080
 dashboard: his-sentinel.his:8080
@@ -407,6 +407,8 @@ Manage Jenkins, Plugin Manager,
 
 # mysql kubesphere(ry_cloud)
 
+[bili mysql](https://www.bilibili.com/video/BV13Q4y1C7hS?p=80&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
 ```sh
 #kubesphere
 Configuration , Configmaps, create, name is mysql-conf, next, key is my.cnf(content is following)
@@ -422,17 +424,24 @@ collation-server=utf8mb4_unicode_ci
 skip-character-set-client-handshake
 skip-name-resolve
 
+# 直接在下面配置就不用这个了
 Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
 
 #pod里的 配置文件目录/etc/mysql/conf.d
-Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
-Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, 
-Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
+Application Workloads, Workloads, Statefulsets, name is his-mysql, next, 
+Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
+Add Persistent Volume Claim Template , mysql-pvc , Read and write, Mount path is /var/lib/mysql, check, 
+Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d , next, create
 
+#集群内部的service
+Services, 删掉 his-mysql-oi46 ，create, his-mysql , 
+Internal Domain Name, his-mysql, http-3306, Container is 3306, Service Port is 3306,
+next, create
+mysql -uroot -hhis-mysql.his -p 	#测试
 #暴露给外网访问的service
-Services, Specify Workload, name is his-mysql, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
+Services, Specify Workload, name is his-mysql-node, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
 External Access, NodePort, 
-#用sqlyog连接193.169.0.3:32012
+#用sqlyog连接193.169.0.3:31035
 mysql -uroot -hhis-mysql-node.his -p
 ```
 
@@ -442,20 +451,24 @@ mysql -uroot -hhis-mysql-node.his -p
 
 # nacos上云, 数据库迁移(ry_cloud)
 
-[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili 数据库迁移](https://www.bilibili.com/video/BV13Q4y1C7hS?p=90&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[bili nacos](https://www.bilibili.com/video/BV13Q4y1C7hS?p=91&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-Migtation, Source Selection, 填好本地的，Test Connection， next, 在Test Selection 填好ks的，Test Connection, Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
+#数据迁移 用workbench
+Migtation, Source Selection, 填好本地的，localhost:3306, Test Connection， next, 
+在Target Selection 填好ks的，193.169.0.3:31035  , Test Connection, next,
+在 Sechemas Selection 里选 ry-cloud,ry-config,ryseata 
 
 
-#nacos 服务
-Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3,
+#nacos 服务创建
+Service, StatefulService, his-nacos,  nacos/nacos-server:v2.0.3 ,
 http-8848, 8848, 8848, 同步主机时区
 ping his-nacos.his
 复制 his-nacos-v1-0.his-nacos.his.svc.cluster.local 到 config.cluster
 
-#nacos上云 配置文件
-Configuration, Configmaps, nacos-conf, key is application.proerties, value is content inside, 
+#nacos上云 配置文件 (F:\yunwei\nacos\conf)
+Configuration, Configmaps, create，nacos-conf, add data
+key is application.proerties, value is content inside, 
 key is cluster.conf, value is content inside
 
 conf.cluster 是
@@ -474,14 +487,16 @@ Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/cluster.conf,
 Mount Configmap or Secret, nacos-conf, Read-only, /home/nacos/conf/application.properties, SubPath is application.properties ， Specific Keys is application.properties, application.properties,
 
 #暴露外部访问的service
-Application Workloads, Services, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
+Application Workloads, Services, create, Specify Workload, his-nacos-node, Specify Workload, his-nacos-v1, 
 http-8848, 8848, 8848，
 External Access, NodePort
 
 # 访问地址
-http://193.169.0.3:31474/nacos
+http://193.169.0.3:32716/nacos
 账号密码 nacos, nacos
 
+# log 出现Error creating bean with name 'memoryMonitor' defined in URL
+重新create his-nacos，可能是application.properties对mysql数据库没配置文件没更新到
 
 ```
 
