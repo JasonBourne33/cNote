@@ -104,7 +104,9 @@ vim config-sample.yaml
 # 访问地址
  
 账号密码 nacos, nacos
-存在 F:\cNote\yunweiNote\nacos yaml deploy
+修改后的配置文件存在 F:\cNote\yunweiNote\DEFAULT_GROUP
+F:\cNote\yunweiNote对着 DEFAULT_GROUP 压缩成zip，
+193.169.0.3:32716/nacos 登陆nacos，然后import，选DEFAULT_GROUP导入
 
 ConfigManagement, Configuration, +, service-cmn-prod.yaml,
 Idea里，复制 yygh-parent\service\service-cmn\src\main\resources\application-dev.yml 内容 ,改
@@ -223,17 +225,23 @@ sh 'docker build -t service-cmn:latest -f service/service-cmn/Dockerfile  ./serv
 sh 'ls service/service-hosp/target'
 sh 'docker build -t service-hosp:latest -f service/service-hosp/Dockerfile  ./service/service-hosp/'
 
-# 4 push image
+# 4 push image  9:10添加凭证
 withCredentials, Create Credential, 
 aliyun-docker-registry, Username and password, admin, Harbor12345
 
-# 5 deploy to dev
+# 5 deploy to dev  6:30创建凭证
 kubernetesDeploy, Create Credential, 
 demo-kubeconfig, kubeconf, 默认Content， ok
 "$KUBECONFIG_CREDENTIAL_ID" ， hospital-manage/deploy/** 
 
 Configuration, Secrets, create, aliyun-docker-hub ,
 Image registry information, registry.cn-hangzhou.aliyuncs.com , aliyun4520815170 , lSa3 
+
+#maven要等很久
+kubectl get pod -A|grep maven
+kubectl describe pod -n kubesphere-devops-worker       maven-14hng
+kubectl top pods -A
+kubectl top nodes
 
 
 
@@ -291,7 +299,7 @@ yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/d
 yum install docker-ce -y
 
 # 启动
-/rootharbor/install.sh
+/root/harbor/install.sh
 # 配置域名 ，访问
 vim /etc/hosts
 193.169.0.4 www.charbor.com
@@ -375,45 +383,90 @@ Manage Jenkins, Plugin Manager,
 
 
 
-# 4 mysql kubesphere(ry_cloud)
 
-[bili mysql](https://www.bilibili.com/video/BV13Q4y1C7hS?p=80&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+
+
+
+
+
+
+# 1 RabbitMQ ， Bitnami
+
+[bitnami bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=85&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-#kubesphere
-Configuration , Configmaps, create, name is mysql-conf, next, key is my.cnf(content is following)
-[client]
-default-character-set=utf8mb4
-[mysql]
-default-character-set=utf8mb4
-[mysqld]
-init_connect='SET collation_connection = utf8mb4_unicode_ci'
-init_connect='SET NAMES utf8mb4'
-character-set-server=utf8mb4
-collation-server=utf8mb4_unicode_ci
-skip-character-set-client-handshake
-skip-name-resolve
+#RabbitMQ (这是视频里发办法，不好用)
+top left App Store, RabbitMQ, Install, Next, Data Persistenc Enabled, Root Password is admin , install
+Application Workloads, Service, 再 rabbitmq 右边三点, Edit External Access, NodePort,
+15672对应的就是端口
+访问 http://193.169.0.3:32658/
 
-# 直接在下面配置就不用这个了
-Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
-
-#pod里的 配置文件目录/etc/mysql/conf.d
-Application Workloads, Workloads, Statefulsets, name is his-mysql, next, 
-Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
-Add Persistent Volume Claim Template , mysql-pvc , Read and write, Mount path is /var/lib/mysql, check, 
-Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d , next, create
-
+#RabbitMQ ，我自己手动的
+Application Workloads, Workloads, Statefulsets, name is rabbitmq, next, 
+Add Contener, search rabbitmq , Synchronize Host Timezone, next, create
 #集群内部的service
-Services, 删掉 his-mysql-oi46 ，create, his-mysql , 
-Internal Domain Name, his-mysql, http-3306, Container is 3306, Service Port is 3306,
+Services，create, Specify Workload, rabbitmq , 
+Internal Domain Name, rabbitmq, http-5672, Container is 5672, Service Port is 5672,
 next, create
-mysql -uroot -hhis-mysql.his -p 	#测试
 #暴露给外网访问的service
-Services, Specify Workload, name is his-mysql-node, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
+Services, create, Specify Workload, name is rabbitmq-node, Virtual IP Address, Specify Workload, Statefulsets, rabbitmq, Name is http-5672, Container is 5672, Service Port is 5672, next,
 External Access, NodePort, 
-#用sqlyog连接193.169.0.3:31035
-mysql -uroot -hhis-mysql-node.his -p
+
+
+# Bitnami
+App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, Validate
+
+# Zookeeper
+Application Workloads, Apps, create, bitnami, Zookeeper, next, Install
+
+
 ```
+
+
+
+# 2 sentinel & mangoDB
+
+​	[mongo bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[官方 应用模板](https://kubesphere.io/zh/docs/v3.3/project-user-guide/application/deploy-app-from-template/#%E6%AD%A5%E9%AA%A4-1%E6%B7%BB%E5%8A%A0%E5%BA%94%E7%94%A8%E4%BB%93%E5%BA%93)	[mysql 官方](https://kubesphere.com.cn/docs/v3.3/application-store/built-in-apps/mysql-app/#%E6%AD%A5%E9%AA%A4-3%E4%BB%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E8%AE%BF%E9%97%AE-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93)	
+
+```sh
+从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，创建
+服务，创建，指定工作负载创建服务，名称是his-sentinel-node,下一步，指定工作负载，有状态副本集，选his-sentinal-v1 ,名称是 http-8080，容器端口和服务端口都是 8080，下一步，选外部访问，NodePort，创建
+看到外网访问的端口是 32333
+访问  193.169.0.3:32333
+账号，密码都是 sentinal
+
+#添加应用模板
+点进his的企业空间，左边 应用管理，应用仓库，添加，名称 bitnami，将应用仓库的 URL 设置为 https://helm-chart-repo.pek3a.qingstor.com/kubernetes-charts/  ，同步间隔 3000s，确定
+
+#mangoDB 安装
+应用负载，应用，创建，从应用模板，选 bitnami，搜mangodb，右边安装，
+名称mongodb，关掉Enable password authentication，安装
+#找到内网访问的地址和端口
+应用负载，服务，mongodb，复制DNS，服务端口27017
+mongodb.his:27017
+#暴露外网访问服务
+应用负载，服务，创建，名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是32527
+mongodb.his:32527 
+#用 MongoDB Compass 连接
+193.169.0.3:32527
+
+#mysql 安装
+应用负载，应用，创建，从应用模板，选test-repo，搜 mysql，名称mysql，下一步，
+在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
+应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort是30405
+#用sqlyog访问，外网服务端口：
+193.169.0.3:30405
+root,testing
+#初始化数据库
+yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
+```
+
+
+
+
+
+
 
 
 
@@ -476,76 +529,51 @@ http://193.169.0.3:32716/nacos
 
 
 
-# 2 sentinel & mangoDB
-
-​	[mongo bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=109&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[官方 应用模板](https://kubesphere.io/zh/docs/v3.3/project-user-guide/application/deploy-app-from-template/#%E6%AD%A5%E9%AA%A4-1%E6%B7%BB%E5%8A%A0%E5%BA%94%E7%94%A8%E4%BB%93%E5%BA%93)	[mysql 官方](https://kubesphere.com.cn/docs/v3.3/application-store/built-in-apps/mysql-app/#%E6%AD%A5%E9%AA%A4-3%E4%BB%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E8%AE%BF%E9%97%AE-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93)	
-
-```sh
-从企业空间点击项目里，应用负载，服务，创建，有状态服务，名称是his-sentinel,下一步，搜leifengyang/sentinel:1.8.2，拉下去选 同步主机时区，下一步，下一步，创建
-服务，创建，指定工作负载创建服务，名称是his-sentinel-node,下一步，指定工作负载，有状态副本集，选his-sentinal-v1 ,名称是 http-8080，容器端口和服务端口都是 8080，下一步，选外部访问，NodePort，创建
-看到外网访问的端口是 32333
-访问  193.169.0.3:32333
-账号，密码都是 sentinal
-
-#添加应用模板
-点进his的企业空间，左边 应用管理，应用仓库，添加，名称 bitnami，将应用仓库的 URL 设置为 https://helm-chart-repo.pek3a.qingstor.com/kubernetes-charts/  ，同步间隔 3000s，确定
-
-#mangoDB 安装
-应用负载，应用，创建，从应用模板，选 bitnami，搜mangodb，右边安装，
-名称mongodb，关掉Enable password authentication，安装
-#找到内网访问的地址和端口
-应用负载，服务，mongodb，复制DNS，服务端口27017
-mongodb.his:27017
-#暴露外网访问服务
-应用负载，服务，创建，名称his-mango-node,下一步，指定工作负载，选 mongodb，确定，协议选 TCP，名称tcp-27017，容器端口27017，服务端口27017，下一步，外部访问，NodePort，创建，点进 his-mango-node，看到NodePort是32527
-mongodb.his:32527 
-#用 MongoDB Compass 连接
-193.169.0.3:32527
-
-#mysql 安装
-应用负载，应用，创建，从应用模板，选test-repo，搜 mysql，名称mysql，下一步，
-在应用设置下，取消 mysqlRootPassword 字段的注解（默认testing，不能设置）
-应用负载，服务，点 mysql，左边更多操作，选 编辑外部访问，选 NodePort，确定，看到NodePort是30405
-#用sqlyog访问，外网服务端口：
-193.169.0.3:30405
-root,testing
-#初始化数据库
-yygh-parent\data\sql 下所有的sql，拖进sqlyog，一个个全选执行
-```
 
 
+# 4 mysql kubesphere(ry_cloud)
 
-# 1 RabbitMQ ， Bitnami
-
-[bitnami bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=85&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili mysql](https://www.bilibili.com/video/BV13Q4y1C7hS?p=80&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-#RabbitMQ (这是视频里发办法，不好用)
-top left App Store, RabbitMQ, Install, Next, Data Persistenc Enabled, Root Password is admin , install
-Application Workloads, Service, 再 rabbitmq 右边三点, Edit External Access, NodePort,
-15672对应的就是端口
-访问 http://193.169.0.3:32658/
+#kubesphere
+Configuration , Configmaps, create, name is mysql-conf, next, key is my.cnf(content is following)
+[client]
+default-character-set=utf8mb4
+[mysql]
+default-character-set=utf8mb4
+[mysqld]
+init_connect='SET collation_connection = utf8mb4_unicode_ci'
+init_connect='SET NAMES utf8mb4'
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-character-set-client-handshake
+skip-name-resolve
 
-#RabbitMQ ，我自己手动的
-Application Workloads, Workloads, Statefulsets, name is rabbitmq, next, 
-Add Contener, search rabbitmq , Synchronize Host Timezone, next, create
+# 直接在下面配置就不用这个了
+Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
+
+#pod里的 配置文件目录/etc/mysql/conf.d
+Application Workloads, Workloads, Statefulsets, name is his-mysql, next, 
+Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
+Add Persistent Volume Claim Template , mysql-pvc , Read and write, Mount path is /var/lib/mysql, check, 
+Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d , next, create
+
 #集群内部的service
-Services，create, Specify Workload, rabbitmq , 
-Internal Domain Name, rabbitmq, http-5672, Container is 5672, Service Port is 5672,
+Services, 删掉 his-mysql-oi46 ，create, his-mysql , 
+Internal Domain Name, his-mysql, http-3306, Container is 3306, Service Port is 3306,
 next, create
+mysql -uroot -hhis-mysql.his -p 	#测试
 #暴露给外网访问的service
-Services, create, Specify Workload, name is rabbitmq-node, Virtual IP Address, Specify Workload, Statefulsets, rabbitmq, Name is http-5672, Container is 5672, Service Port is 5672, next,
+Services, Specify Workload, name is his-mysql-node, Virtual IP Address, Specify Workload, Statefulsets, his-mysql, Name is http-3306, Container is 3306, Service Port is 3306, next,
 External Access, NodePort, 
-
-
-# Bitnami
-App Management, App Respositories, name is bitnami, charts.bitnami.com/bitnami, Validate
-
-# Zookeeper
-Application Workloads, Apps, create, bitnami, Zookeeper, next, Install
-
-
+#用sqlyog连接193.169.0.3:31035
+mysql -uroot -hhis-mysql-node.his -p
 ```
+
+
+
+
 
 
 

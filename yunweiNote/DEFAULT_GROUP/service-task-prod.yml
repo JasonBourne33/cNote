@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: his-sentinel.his:8080
+  rabbitmq:
+    host: rabbitmq.his
+    port: 5672
+    username: admin
+    password: admin
