@@ -9,9 +9,9 @@ pipeline {
         stage('1 Clone repository') {
           agent none
           steps {
-            checkout([$class: 'GitSCM', branches: [[name: 'master']],
-                                                extensions: [[$class: 'CloneOption', depth: 1, shallow: true]], userRemoteConfigs: [[url: 'https://github.com/kubesphere-sigs/demo-java']]
-                                            ])
+//             checkout([$class: 'GitSCM', branches: [[name: 'master']],
+//                                                 extensions: [[$class: 'CloneOption', depth: 1, shallow: true]], userRemoteConfigs: [[url: 'https://github.com/kubesphere-sigs/demo-java']]
+//                                             ])
             container('maven') {
               git(url: 'https://gitee.com/jasonbourne233/yygh-parent', credentialsId: 'gitee-id', branch: 'master', changelog: true, poll: false)
               sh 'ls -al'

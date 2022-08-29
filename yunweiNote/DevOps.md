@@ -226,8 +226,10 @@ sh 'ls service/service-hosp/target'
 sh 'docker build -t service-hosp:latest -f service/service-hosp/Dockerfile  ./service/service-hosp/'
 
 # 4 push image  9:10添加凭证
-withCredentials, Create Credential, 
-aliyun-docker-registry, Username and password, admin, Harbor12345
+选中推送hospital-manage镜像， withCredentials, Create Credential, 
+aliyun-docker-registry, Username and password, admin, Harbor12345, ok
+aliyun-docker-registry, DOCKER_PWD_VAR, DOCKER_USER_VAR
+
 
 # 5 deploy to dev  6:30创建凭证
 kubernetesDeploy, Create Credential, 
@@ -237,14 +239,18 @@ demo-kubeconfig, kubeconf, 默认Content， ok
 Configuration, Secrets, create, aliyun-docker-hub ,
 Image registry information, registry.cn-hangzhou.aliyuncs.com , aliyun4520815170 , lSa3 
 
-#maven要等很久
+#5.2内存不够，maven要等很久
 kubectl get pod -A|grep maven
 kubectl describe pod -n kubesphere-devops-worker       maven-14hng
 kubectl top pods -A
 kubectl top nodes
+#5.3文件编码
+idea，setting, file encoding, 全改成utf-8
+因为 F:\yunweiProject\yygh-parent\server-gateway\Dockerfile 
+里 -Dfile.encoding=utf8
 
-
-
+echo "Harbor12345" | docker login $REGISTRY -u "admin" --password-stdin
+docker login "193.169.0.4" -username "admin" --password "Harbor12345"
 
 
 
@@ -261,6 +267,47 @@ https://gitee.com/jasonbourne233/yygh-parent
 Platform, ClusterManagement, Application Workloads, Workloads, devops-jenkins, 
 More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限会爆满服务器死机）
 启动不了的，一直在重启的pod，可以把cpu和内存改大一点
+```
+
+
+
+
+
+
+
+# GitLab
+
+[gitlab bili 41](https://www.bilibili.com/video/BV1vy4y1s7k6?p=41&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[gitlab下载](https://packages.gitlab.com/gitlab/gitlab-ce)	
+
+```sh
+下载到rpm到 F:\yunwei\relevent soft\gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
+拖到 node1 的~
+创建一个安装的 sh脚本
+vim gitlab-install.sh
+里面内容 :wq 退出
+sudo rpm -ivh /opt/module/gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
+sudo yum install -y curl policycoreutils-python openssh-server cronie
+sudo lokkit -s http -s ssh
+sudo yum install -y postfix
+sudo service postfix start
+sudo chkconfig postfix on
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+sudo EXTERNAL_URL="http://gitlab.example.com" yum -y install gitlab-ce
+赋予权限
+chmod +x gitlab-install.sh
+安装
+./gitlab-install.sh
+初始化GitLab服务
+gitlab-ctl reconfigure
+gitlab-ctl start
+
+
+#默认访问是80端口（已经被占用了），需要改默认端口
+
+#空间已经不够用了
+At least xMB  more space needed on the / filesystem.
+docker system prune -a		清理
+df -h			查看
 ```
 
 
@@ -330,6 +377,14 @@ docker pull 193.169.0.4/library/centos:v233
  
 
 ```
+
+
+
+
+
+
+
+
 
 
 
