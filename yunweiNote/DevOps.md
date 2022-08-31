@@ -277,7 +277,7 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 
 # GitLab
 
-[gitlab bili 41](https://www.bilibili.com/video/BV1vy4y1s7k6?p=41&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[gitlab下载](https://packages.gitlab.com/gitlab/gitlab-ce)	
+[gitlab bili 41](https://www.bilibili.com/video/BV1vy4y1s7k6?p=41&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[gitlab下载](https://packages.gitlab.com/gitlab/gitlab-ce)	[gitlab改端口](https://www.jianshu.com/p/35698999cf44)
 
 ```sh
 下载到rpm到 F:\yunwei\relevent soft\gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
@@ -285,7 +285,7 @@ More, Edit Setting, Containers, cpu和Memory Limit 改大一点（改成无限�
 创建一个安装的 sh脚本
 vim gitlab-install.sh
 里面内容 :wq 退出
-sudo rpm -ivh /opt/module/gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
+sudo rpm -ivh /root/gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
 sudo yum install -y curl policycoreutils-python openssh-server cronie
 sudo lokkit -s http -s ssh
 sudo yum install -y postfix
@@ -300,14 +300,45 @@ chmod +x gitlab-install.sh
 初始化GitLab服务
 gitlab-ctl reconfigure
 gitlab-ctl start
+访问 193.169.0.3
+root, 查看初始密码 cat /etc/gitlab/initial_root_password，登录进去
+右上角， edit profile， 左边password，改密码999Zzz...
+在host加上映射	vim /etc/hosts
+193.169.0.3  gitlab-server
+
+# 在gitlab dashboard 创建服务
+右边 new project， create blank project, name is git-test, 
+
+#在idea 里装gitlab插件 (idea集成gitlab)
+settings， Plugins， 搜 gitlab projects 2020
+settings， GitLab， Add New GitLab Server, 
 
 
-#默认访问是80端口（已经被占用了），需要改默认端口
 
+
+
+
+
+
+
+
+
+
+#默认访问是80端口，如果已经被占用了，需要改默认端口
+/var/opt/gitlab/nginx/conf/gitlab-http.conf
+server {
+  listen *:80;  --修改端口，80改成86
+
+访问： 193.169.0.3:86
 #空间已经不够用了
 At least xMB  more space needed on the / filesystem.
 docker system prune -a		清理
 df -h			查看
+
+
+
+
+
 ```
 
 
@@ -318,16 +349,17 @@ df -h			查看
 
 # Harbor
 
-[github](https://github.com/goharbor/harbor/releases)	[bili 单体](https://www.bilibili.com/video/BV1nY411T747?p=23&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[卸载旧docker](https://www.jianshu.com/p/8c0600a0c25f)	[harbor](https://www.bilibili.com/video/BV1Ve4y197Lf?p=8&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[上传镜像 马士兵](https://www.bilibili.com/video/BV1Ve4y197Lf?p=9&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+[github下载](https://github.com/goharbor/harbor/releases)	[bili 单体安装](https://www.bilibili.com/video/BV1nY411T747?p=23&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[卸载旧docker](https://www.jianshu.com/p/8c0600a0c25f)	[harbor](https://www.bilibili.com/video/BV1Ve4y197Lf?p=8&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[上传镜像 马士兵](https://www.bilibili.com/video/BV1Ve4y197Lf?p=9&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
 ```sh
 下载离线包 harbor-offline-installer-v2.4.3.tgz 
 tar -zxvf harbor-offline-installer-v2.4.3.tgz 
 yum -y install lrzsz
 # 安装compose
-# https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
-curl -L https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+# 相当于 https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-linux-x86_64
+curl -L https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose	#这样安装太慢，直接离线下载好 docker-compose-linux-x86_64
 
+cp /root/docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 cp harbor.yml.tmpl harbor.yml
 vim harbor
