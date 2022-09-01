@@ -455,8 +455,9 @@ docker pull 193.169.0.4/library/centos:v233
 [登陆密码踩坑](https://blog.csdn.net/CSDN877425287/article/details/108577735)	[登录密码 kubesphere官方](https://v2-1.docs.kubesphere.io/docs/zh-CN/devops/jenkins-setting/)	
 
 ```sh
+http://193.169.0.3:30180/
 用dashboard装的，admin，密码9Z.(KubeSphere 集群管理员的密码)
-Manage Jenkins, Plugin Manager, 
+左边Manage Jenkins, Plugin Manager, 
 
 
 
