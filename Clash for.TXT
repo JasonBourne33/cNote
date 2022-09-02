@@ -7,11 +7,7 @@ Nadiafq1
 
 
 
-华姐 
-2205863563@QQ.com
-Nadiafq1
-
-
+wget -O config.yaml
 
 
 

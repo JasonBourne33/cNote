@@ -16,7 +16,7 @@ Jenkins master把编译工作分成几个agent来执行(fenbushi )
 # 装java 
 复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
 rpm -i jdk-11.0.14_linux-x64_bin.rpm
-# 装jenkins
+# 用docker装jenkins
 配置docker加速
 编辑 /etc/docker/daemon.json ，加上
 {
@@ -32,13 +32,67 @@ docker pull jenkins/jenkins
 
 #尚硅谷的安装方法
 把 F:\yunwei\Jenkins 尚硅谷\软件\jenkins.war 拖进 master
-java -jar jenkins.war
+java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
+# 初始密码位置
+/root/.jenkins/secrets/initialAdminPassword
+ced957d4e4b041c5b623df74fbbcc0d1
+
 把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 master
 tar zxvf apache-maven-3.8.6-bin.tar.gz
 mv apache-maven-3.8.6 /usr/local/maven
 /usr/local/maven/bin/mvn
 
+
+#Bug java -jar jenkins.war 启动报错 Failed to bind to 0.0.0.0/0.0.0.0:8080
+lsof -i tcp:8080		查看占用了8080的应用
+kill -9 1720			杀掉应用 pid 1720
 ```
+
+[占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
+
+
+
+
+
+
+
+## 官网安装 Jenkins
+
+[安装dnf](https://www.rootusers.com/how-to-install-dnf-package-manager-in-centosrhel/)	[官网linux安装](https://www.jenkins.io/doc/book/installing/linux/)	[官网docker安装](https://www.jenkins.io/doc/book/installing/docker/)
+
+```sh
+# 安装dnf
+yum install epel-release -y
+yum install dnf -y
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+sudo dnf upgrade
+# Add required dependencies for the jenkins package
+sudo dnf install java-11-openjdk
+sudo dnf install jenkins
+
+
+# 初始密码位置
+/root/.jenkins/secrets/initialAdminPassword
+ced957d4e4b041c5b623df74fbbcc0d1
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
