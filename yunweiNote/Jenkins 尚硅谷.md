@@ -2,35 +2,13 @@
 
 
 
-# Install
 
-[马士兵bili](https://www.bilibili.com/video/BV1DB4y1U7Gz?p=12&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	jenkins cn官网	[配置docker加速](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)	[尚硅谷的安装方法](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+
+# 尚硅谷的安装方法
+
+[bili](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-#执行流程
-jenkins从gitlab把代码拉下来（clone） 
-Jenkins master把编译工作分成几个agent来执行(fenbushi )
-04.55 agent（mvn）连接到nexus去下载依赖包，agent把编译好的jar包部署到web服务器
-
-
-# 装java 
-复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
-rpm -i jdk-11.0.14_linux-x64_bin.rpm
-# 用docker装jenkins
-配置docker加速
-编辑 /etc/docker/daemon.json ，加上
-{
-  "registry-mirrors": ["https://of79xv0k.mirror.aliyuncs.com"]
-}
-
-然后重启daemon
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-docker pull jenkins/jenkins
-
-
-
-#尚硅谷的安装方法
 把 F:\yunwei\Jenkins 尚硅谷\软件\jenkins.war 拖进 master
 java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
 # 初始密码位置
@@ -42,45 +20,31 @@ tar zxvf apache-maven-3.8.6-bin.tar.gz
 mv apache-maven-3.8.6 /usr/local/maven
 /usr/local/maven/bin/mvn
 
+# docker
+docker pull jenkins/jenkins:lts-jdk11
+docker run --name myjenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home jenkins/jenkins
+如果要删掉
+docker ps -a
+docker rm c4271b32d37d
 
 #Bug java -jar jenkins.war 启动报错 Failed to bind to 0.0.0.0/0.0.0.0:8080
 lsof -i tcp:8080		查看占用了8080的应用
 kill -9 1720			杀掉应用 pid 1720
+
+访问
+193.169.0.3:8080
+创建账号 admin ， 9Z.
+
+#安装maven插件
+左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
+Install without restart, 
+创建
+返回到Dashboard，New Item, name is first, Maven project, 
 ```
 
 [占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
 
 
-
-
-
-
-
-## 官网安装 Jenkins
-
-[安装dnf](https://www.rootusers.com/how-to-install-dnf-package-manager-in-centosrhel/)	[官网linux安装](https://www.jenkins.io/doc/book/installing/linux/)	[官网docker安装](https://www.jenkins.io/doc/book/installing/docker/)
-
-```sh
-# 安装dnf
-yum install epel-release -y
-yum install dnf -y
-
-sudo wget -O /etc/yum.repos.d/jenkins.repo \
-    https://pkg.jenkins.io/redhat/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
-sudo dnf upgrade
-# Add required dependencies for the jenkins package
-sudo dnf install java-11-openjdk
-sudo dnf install jenkins
-
-
-# 初始密码位置
-/root/.jenkins/secrets/initialAdminPassword
-ced957d4e4b041c5b623df74fbbcc0d1
-
-
-
-```
 
 
 
@@ -300,6 +264,73 @@ docker pull 193.169.0.4/library/centos:v233
 
 
 
+
+
+
+
+
+## 弃用分割线==============
+
+# Jenkins Install
+
+[马士兵bili](https://www.bilibili.com/video/BV1DB4y1U7Gz?p=12&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	jenkins cn官网	[配置docker加速](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)	[尚硅谷的安装方法](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+
+```sh
+#执行流程
+jenkins从gitlab把代码拉下来（clone） 
+Jenkins master把编译工作分成几个agent来执行(fenbushi )
+04.55 agent（mvn）连接到nexus去下载依赖包，agent把编译好的jar包部署到web服务器
+
+
+# 装java 
+复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
+rpm -i jdk-11.0.14_linux-x64_bin.rpm
+# 用docker装jenkins
+配置docker加速
+编辑 /etc/docker/daemon.json ，加上
+{
+  "registry-mirrors": ["https://of79xv0k.mirror.aliyuncs.com"]
+}
+
+然后重启daemon
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+docker pull jenkins/jenkins
+
+
+```
+
+
+
+
+
+
+
+## 官网安装 Jenkins
+
+[安装dnf](https://www.rootusers.com/how-to-install-dnf-package-manager-in-centosrhel/)	[官网linux安装](https://www.jenkins.io/doc/book/installing/linux/)	[官网docker安装](https://www.jenkins.io/doc/book/installing/docker/)
+
+```sh
+# 安装dnf
+yum install epel-release -y
+yum install dnf -y
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+sudo dnf upgrade
+# Add required dependencies for the jenkins package
+sudo dnf install java-11-openjdk
+sudo dnf install jenkins
+
+
+# 初始密码位置
+/root/.jenkins/secrets/initialAdminPassword
+ced957d4e4b041c5b623df74fbbcc0d1
+
+
+
+```
 
 
 
