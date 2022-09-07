@@ -4,7 +4,7 @@
 
 
 
-# 尚硅谷的安装方法
+# Jenkins尚硅谷的安装方法
 
 [bili](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -44,6 +44,15 @@ kill -9 1720			杀掉应用 pid 1720
 Install without restart, 
 创建
 返回到Dashboard，New Item, name is first, Maven project, 
+
+# 把 github 或 gitee 的项目放到 私人gitlab
+gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
+	https://gitee.com/jasonbourne233/yygh-parent.git
+	https://gitee.com/leifengyang/yygh-parent.git
+github私人令牌 	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
+	https://github.com/JasonBourne33/yygh-parent
+gitea 私人令牌	
+	https://try.gitea.io/JasonBourne233/yygh-parent.git
 ```
 
 [占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
@@ -99,6 +108,7 @@ docker run --detach \
 systemctl stop nginx
 docker -ps a
 docker exec -it gitlab /bin/bash
+
 ```
 
 
