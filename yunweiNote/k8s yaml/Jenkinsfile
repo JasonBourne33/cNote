@@ -34,7 +34,7 @@ pipeline {
 
         stage('3 Build Image') {
             parallel {
-                stage('构建hospital-manage镜像') {
+                stage('3 构建hospital-manage镜像') {
                     agent none
                     steps {
                         container('maven') {
@@ -149,7 +149,7 @@ pipeline {
 
         stage('4 Push Image') {
             parallel {
-                stage('推送hospital-manage镜像') {
+                stage('4 推送hospital-manage镜像') {
                     agent none
                     steps {
                         container('maven') {
@@ -304,7 +304,7 @@ pipeline {
 
         stage('5 deploy to dev') {
             parallel {
-                stage('hospital-manage - 部署到dev环境') {
+                stage('5 hospital-manage - 部署到dev环境') {
                     agent none
                     steps {
                         kubernetesDeploy(configs: 'hospital-manage/deploy/**', enableConfigSubstitution: true, kubeconfigId: "$KUBECONFIG_CREDENTIAL_ID")

@@ -20,7 +20,11 @@ tar zxvf apache-maven-3.8.6-bin.tar.gz
 mv apache-maven-3.8.6 /usr/local/maven
 /usr/local/maven/bin/mvn
 
-# docker
+# docker装 jenkins
+安装docker
+sudo yum install -y docker-ce-20.10.17 docker-ce-cli-20.10.17 containerd.io-1.6.6
+systemctl enable docker --now
+装jenkins
 docker pull jenkins/jenkins:lts-jdk11
 docker run --name myjenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home jenkins/jenkins
 如果要删掉
