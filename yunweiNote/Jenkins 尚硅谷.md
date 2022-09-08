@@ -4,7 +4,7 @@
 
 
 
-# Jenkins尚硅谷的安装方法
+# Jenkins尚硅谷的安装方法 (master)
 
 [bili](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -15,10 +15,6 @@ java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
 /root/.jenkins/secrets/initialAdminPassword
 ced957d4e4b041c5b623df74fbbcc0d1
 
-把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 master
-tar zxvf apache-maven-3.8.6-bin.tar.gz
-mv apache-maven-3.8.6 /usr/local/maven
-/usr/local/maven/bin/mvn
 
 # docker装 jenkins
 安装docker
@@ -38,6 +34,9 @@ kill -9 1720			杀掉应用 pid 1720
 访问
 193.169.0.3:8080
 创建账号 admin ， 9Z.
+看密码
+/var/jenkins_home/secrets/initialAdminPassword
+840bb3809b7a4a6295d6e672e81181bc
 
 #安装maven插件
 左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
@@ -48,11 +47,22 @@ Install without restart,
 # 把 github 或 gitee 的项目放到 私人gitlab
 gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
 	https://gitee.com/jasonbourne233/yygh-parent.git
-	https://gitee.com/leifengyang/yygh-parent.git
-github私人令牌 	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
+github私人令牌 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
 	https://github.com/JasonBourne33/yygh-parent
 gitea 私人令牌	
 	https://try.gitea.io/JasonBourne233/yygh-parent.git
+
+#上传本地 yygh 到 gitlab
+在 F:\yunweiProject\gitlab yygh\yygh-parent 先
+git clone https://try.gitea.io/JasonBourne233/yygh-parent.git
+git clone http://193.169.0.4/root/java-project.git
+再把 java-project 里面的内容复制出来，覆盖
+git add .
+git commit -m first
+git push
+
+Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
+the tool configuration ， 拉下去 add maven， name is maven3, 
 ```
 
 [占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
@@ -73,20 +83,20 @@ gitea 私人令牌
 
 
 
-# Docker 装gitlab
+# Docker 装gitlab (node1)
 
 ​	[ali云盘](https://www.aliyundrive.com/s/UPsbm5PbEtb/folder/62e8d87261c8769ce48f4c04a6690382e6e1ddae)	[尚硅谷 Jenkins](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
 ```sh
+下载到rpm到 F:\yunwei\relevent soft\gitlab-ce-15.1.5-ce.0.el7.x86_64.rpm
 #安装docker
 yum update -y
 yum install -y yum-utils device-mapper-persistent-data lvm2
-添加阿里镜像
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-
+#添加docker下载镜像
+yum-config-manager --add-repo http://download.docker.com/linux/centos/docker-ce.repo
 
 yum list docker-ce --showduplicates | sort -r
-yum install docker-ce-20.10.9-3.el7 -y
+yum install docker-ce-20.10.17-3.el7 -y
 systemctl start docker
 systemctl enable docker		#开机启动
 
@@ -104,10 +114,20 @@ docker run --detach \
   --shm-size 256m \
   registry.gitlab.cn/omnibus/gitlab-jh:latest
   
-停掉nginx，解决冲突
+如果端口被占用，停掉nginx，解决冲突
 systemctl stop nginx
 docker -ps a
+docker start gitlab
 docker exec -it gitlab /bin/bash
+
+root, 查看初始密码 cat /etc/gitlab/initial_root_password，登录进去
+右上角， edit profile， 左边password，改密码999Zzz...
+
+# maven安装
+把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 node1
+tar zxvf apache-maven-3.8.6-bin.tar.gz
+mv apache-maven-3.8.6 /usr/local/maven
+/usr/local/maven/bin/mvn
 
 ```
 
@@ -123,7 +143,7 @@ docker exec -it gitlab /bin/bash
 
 
 
-# GitLab
+# 原生安装 GitLab（弃用）
 
 [gitlab bili 41](https://www.bilibili.com/video/BV1vy4y1s7k6?p=41&vd_source=ca1d80d51233e3cf364a2104dcf1b743)		[gitlab下载](https://packages.gitlab.com/gitlab/gitlab-ce)	[gitlab改端口](https://www.jianshu.com/p/35698999cf44)
 
