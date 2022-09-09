@@ -90,6 +90,10 @@ hostnamectl set-hostname k8s-master
 hostnamectl set-hostname node1
 hostnamectl set-hostname node2
 
+vi /etc/hosts
+193.169.0.3 k8s-master
+193.169.0.4 node1
+
 # 将 SELinux 设置为 permissive 模式（相当于将其禁用）
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
@@ -168,14 +172,14 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
-    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906 \
+  kubeadm join cluster-endpoint:6443 --token 6aqxpc.6k717mj74i7tvzg1 \
+    --discovery-token-ca-cert-hash sha256:0adf6e25641618850c54a35e6c5d9fe2472d853774b31e931ae0aacf0b7a5296 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token p0sd52.k3e2x9mi4cb3ibij \
-    --discovery-token-ca-cert-hash sha256:8a7c5274d66b5e5e7415ab85c24ef7c6441cb0428cb23ceb4e2a004514363906
+kubeadm join cluster-endpoint:6443 --token 6aqxpc.6k717mj74i7tvzg1 \
+    --discovery-token-ca-cert-hash sha256:0adf6e25641618850c54a35e6c5d9fe2472d853774b31e931ae0aacf0b7a5296
 
 
     
@@ -189,6 +193,14 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 kubeadm token create --print-join-command
 #查看节点 (要有子节点连上，master才会ready)
 kubectl get nodes
+
+#报错 子节点加入集群的时候报错 this Docker version is not on the list of validated versions: 20.10.17. Latest validated version: 19.03
+查看当前镜像可用版本
+yum list docker-ce --showduplicates | sort -r
+降级到docker 19
+yum downgrade --setopt=obsolete=0 -y docker-ce-19.03.15.el7 docker-ce-cli-19.03.15.el7 containerd.io
+systemctl start docker
+最后发现是没关掉防火墙的原因
 ```
 
 # kubeSphere （配置文件）
@@ -476,12 +488,13 @@ redis:latest redis-server /etc/redis/redis.conf
 #主机的配置 /root/redis333.conf    pod的配置 /redis-master/redis.conf	配置集 redis-conf222
 #主机的数据 emptyDir: {}	(k8s临时分配的目录，让其工作)	 pod的数据 /data
 #redis-server 用的是pod的配置 /redis-master/redis.conf
-vi /root/redis333.conf
+vi /root/redis.conf
 appendonly yes
 :wq
-kubectl create cm redis-conf222 --from-file=redis333.conf  #变成配置集
+kubectl create cm redis-conf444 --from-file=redis.conf  #变成配置集
 kubectl get cm  #查看，有redis-conf
-kubectl get cm redis-conf222 -oyaml  #查看具体内容，配置集精简后得到以下
+
+kubectl get cm redis-conf444 -oyaml  #查看具体内容，配置集精简后得到以下
 apiVersion: v1
 data:
   redis333.conf: |+
@@ -490,6 +503,7 @@ kind: ConfigMap
 metadata:
   name: redis-conf222
   namespace: default
+  
 #创建pod的yaml
 vi redis.yaml
 apiVersion: v1
@@ -518,7 +532,7 @@ spec:
         name: redis-conf222
         items:
           - key: redis.conf333
-            path: redis.conf
+            path: redis.conf	#最终在/redis-master 目录下创建redis.conf
 #应用上redis.yaml
 kubectl apply -f redis.yaml
 

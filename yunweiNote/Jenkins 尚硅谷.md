@@ -16,13 +16,33 @@ java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
 ced957d4e4b041c5b623df74fbbcc0d1
 
 
+# 装java 
+复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
+rpm -i jdk-11.0.14_linux-x64_bin.rpm
+# maven安装
+把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 node1
+tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
+vim /etc/profile
+MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
+export PATH=${MAVEN_HOME}/bin:${PATH}
+source  /etc/profile
+/usr/local/maven/apache-maven-3.8.6/bin/mvn
+
+
 # docker装 jenkins
 安装docker
 sudo yum install -y docker-ce-20.10.17 docker-ce-cli-20.10.17 containerd.io-1.6.6
 systemctl enable docker --now
 装jenkins
 docker pull jenkins/jenkins:lts-jdk11
-docker run --name myjenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home jenkins/jenkins
+docker run --name myjenkins \
+-p 8080:8080 -p 50000:50000 \
+-v /var/jenkins_home jenkins/jenkins \
+-v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
+
+sudo chown -R root /usr/local/maven/apache-maven-3.8.6
+sudo chown -R myjenkins /usr/local/maven/apache-maven-3.8.6
+
 如果要删掉
 docker ps -a
 docker rm c4271b32d37d
@@ -70,6 +90,35 @@ the tool configuration ， 拉下去 add maven， name is maven3,
 
 
 
+
+# k8s pod装 jenkins
+
+```sh
+docker run --name myjenkins \
+-p 8080:8080 -p 50000:50000 \
+-v /var/jenkins_home jenkins/jenkins \
+-v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
+
+
+vi myjenkins.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins
+spec:
+  containers:
+    - name: jenkins
+      image: jenkins
+      ports:
+        - containerPort: 8080
+      volumeMounts:                   #持久卷
+        - mountPath: /var/jenkins_home
+          name: jenkins_home
+        - mountPath: /usr/local/maven/apache-maven-3.8.6
+          name: maven_home
+#应用上redis.yaml
+kubectl apply -f redis.yaml
+```
 
 
 
@@ -123,11 +172,8 @@ docker exec -it gitlab /bin/bash
 root, 查看初始密码 cat /etc/gitlab/initial_root_password，登录进去
 右上角， edit profile， 左边password，改密码999Zzz...
 
-# maven安装
-把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 node1
-tar zxvf apache-maven-3.8.6-bin.tar.gz
-mv apache-maven-3.8.6 /usr/local/maven
-/usr/local/maven/bin/mvn
+
+
 
 ```
 

@@ -1,4 +1,4 @@
-
+ 
 
 
 
@@ -194,7 +194,7 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
    #sha256 每一次init都是不一样的，如果是slave节点就用woker的代码，要加入董事会的节点就用cotrol-plane的代码
 #如果令牌过期了：
 kubeadm token create --print-join-command
-#查看节点 (要有子节点连上，master才会ready)
+#查看节点 (要装calico 所有节点才会ready，要有子节点连上，master才会ready)
 kubectl get nodes
 
 ```
@@ -382,6 +382,33 @@ docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \
 -p 6379:6379 \
 redis:latest redis-server /etc/redis/redis.conf
 ```
+
+
+
+
+
+# Jenkins pod
+
+```sh
+vi jenkinsPod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: myjenkins 
+  name: myjenkins
+  namespace: default
+spec:
+  containers:
+  - image: jenkins
+    name: myjenkins
+```
+
+
+
+
+
+
 
 
 
