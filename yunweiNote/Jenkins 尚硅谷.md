@@ -93,6 +93,8 @@ the tool configuration ， 拉下去 add maven， name is maven3,
 
 # k8s pod装 jenkins
 
+[bili](https://www.bilibili.com/video/BV1Ef4y1f78A?p=52&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[配置文件](https://github.com/zeyangli/devops-on-k8s/blob/master/devops/jenkins.yaml)
+
 ```sh
 docker run --name myjenkins \
 -p 8080:8080 -p 50000:50000 \
@@ -113,11 +115,16 @@ spec:
         - containerPort: 8080
       volumeMounts:                   #持久卷
         - mountPath: /var/jenkins_home
-          name: jenkins_home
+          name: jenkins-home
         - mountPath: /usr/local/maven/apache-maven-3.8.6
-          name: maven_home
+          name: maven-home
+  volumes:
+    - name: jenkins-home
+      emptyDir: {}
+    - name: maven-home
+      emptyDir: {}
 #应用上redis.yaml
-kubectl apply -f redis.yaml
+kubectl apply -f myjenkins.yaml
 ```
 
 

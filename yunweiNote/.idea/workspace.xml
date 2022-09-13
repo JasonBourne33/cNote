@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4ce59c4-49cc-4d03-9a13-48199ced047f" name="Changes" comment="" />
+    <list default="true" id="b4ce59c4-49cc-4d03-9a13-48199ced047f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkins 尚硅谷.md" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins 尚硅谷.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/K8s.md" beforeDir="false" afterPath="$PROJECT_DIR$/K8s.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,6 +61,7 @@
       <workItem from="1660787642788" duration="78000" />
       <workItem from="1661839532451" duration="1375000" />
       <workItem from="1661844582329" duration="28000" />
+      <workItem from="1663032252350" duration="3928000" />
     </task>
     <servers />
   </component>
