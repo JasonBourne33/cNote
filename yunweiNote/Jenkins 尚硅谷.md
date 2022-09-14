@@ -2,90 +2,65 @@
 
 
 
-
-
-# Jenkins尚硅谷的安装方法 (master)
-
-[bili](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+# Dashboard
 
 ```sh
-把 F:\yunwei\Jenkins 尚硅谷\软件\jenkins.war 拖进 master
-java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
-# 初始密码位置
-/root/.jenkins/secrets/initialAdminPassword
-ced957d4e4b041c5b623df74fbbcc0d1
+#部署
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+vi dashboard.yaml 
+#把recommended.yaml的内容复制到 dashboard.yaml
+kubectl apply -f dashboard.yaml
+#如果要删除
+#kubectl delete -f dashboard.yaml
 
+#设置访问端口
+kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
+/type搜索，把值改了 type:NodePort
+kubectl get svc -A |grep kubernetes-dashboard
 
-# 装java 
-复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
-rpm -i jdk-11.0.14_linux-x64_bin.rpm
-# maven安装
-把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 node1
-tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
-vim /etc/profile
-MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
-export PATH=${MAVEN_HOME}/bin:${PATH}
-source  /etc/profile
-/usr/local/maven/apache-maven-3.8.6/bin/mvn
+#开放端口30753（云服务器在控制台也要操作）
+#firewall-cmd --zone=public --add-port=30753/tcp --permanent	
+firewall-cmd --zone=public --add-port=31522/tcp --permanent	
+systemctl restart firewalld.service
+firewall-cmd --reload 
+# 家  https://193.169.0.3:31642/#/login
+# comp		https://193.169.0.3:31522/#/login
+# advance ， 继续前往，提示要token
+# 在root目录下创建用户配置的yaml
+vi dash.yaml
+#内容
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+#创建
+kubectl apply -f dash.yaml
 
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+#复制token进去登录，我的是
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkJwU25DS1dvU01nSXRWUVM4ODNkSjRQZXRqZDhseHpNLVVsa25GYWxkWFUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWI5cnc5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI5MTcxOWFmZC05Y2ZjLTQwYTEtYmYxOC0xMjAzN2FmYmQyZDgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.TYMUrJ6yewEXqbqWPMzOEojotjqjGgBx3SEJ-55-uJjMxdOPvBKDQhZNEJ5TdMgPf2s4o57uhis13bgEOwZ27n0APEecoxT8p1pGi6hIrl79RWgt3x__IwxvTOf2MU9DcD2cvxFePYEFi4yz79-fEzjs8O_t1lK42eITUIrOsqk-le7DQtFEnKw7Qp0v6cbLxilv5o0Vyo0TFWFUrQJnl6FQIiAWCnA00eZoMuNFutFAkKN7AwvgcGpsiXGkQnGL9upLlnPkMXgiWqqKNiLQp2ufZdbetA9-xbxRmHr12_Mi5lhQzE3UHh6L7KHcJnWhQ43adXIutZVZim_yn9_Vcg
 
-# docker装 jenkins
-安装docker
-sudo yum install -y docker-ce-20.10.17 docker-ce-cli-20.10.17 containerd.io-1.6.6
-systemctl enable docker --now
-装jenkins
-docker pull jenkins/jenkins:lts-jdk11
-docker run --name myjenkins \
--p 8080:8080 -p 50000:50000 \
--v /var/jenkins_home jenkins/jenkins \
--v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
-
-sudo chown -R root /usr/local/maven/apache-maven-3.8.6
-sudo chown -R myjenkins /usr/local/maven/apache-maven-3.8.6
-
-如果要删掉
-docker ps -a
-docker rm c4271b32d37d
-
-#Bug java -jar jenkins.war 启动报错 Failed to bind to 0.0.0.0/0.0.0.0:8080
-lsof -i tcp:8080		查看占用了8080的应用
-kill -9 1720			杀掉应用 pid 1720
-
-访问
-193.169.0.3:8080
-创建账号 admin ， 9Z.
-看密码
-/var/jenkins_home/secrets/initialAdminPassword
-840bb3809b7a4a6295d6e672e81181bc
-
-#安装maven插件
-左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
-Install without restart, 
-创建
-返回到Dashboard，New Item, name is first, Maven project, 
-
-# 把 github 或 gitee 的项目放到 私人gitlab
-gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
-	https://gitee.com/jasonbourne233/yygh-parent.git
-github私人令牌 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
-	https://github.com/JasonBourne33/yygh-parent
-gitea 私人令牌	
-	https://try.gitea.io/JasonBourne233/yygh-parent.git
-
-#上传本地 yygh 到 gitlab
-在 F:\yunweiProject\gitlab yygh\yygh-parent 先
-git clone https://try.gitea.io/JasonBourne233/yygh-parent.git
-git clone http://193.169.0.4/root/java-project.git
-再把 java-project 里面的内容复制出来，覆盖
-git add .
-git commit -m first
-git push
-
-Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
-the tool configuration ， 拉下去 add maven， name is maven3, 
+kubectl describe pod jenkins-856b785ff9-lrh79
 ```
 
-[占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
+
+
+
 
 
 
@@ -125,6 +100,23 @@ spec:
       emptyDir: {}
 #应用上redis.yaml
 kubectl apply -f myjenkins.yaml
+
+http://193.169.0.3:30080/login
+查看密码
+kubectl get pod -A
+kubectl logs jenkins-89775958f-n2qbl -n devops
+
+
+虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+但是  -bash: /var/jenkins_home/secrets/initialAdminPassword: No such file or directory
+进到k8s的jenkins容器里又没权限
+bash: /var/jenkins_home/secrets/initialAdminPassword: Permission denied
+所以只能用 kubectl logs jenkins-89775958f-n9lp9 -n devops 看密码
+
+================================================
+用root进入jenkins
+docker ps
+docker exec -it -u root 'a105eb174e81' /bin/bash
 ```
 
 
@@ -358,6 +350,92 @@ docker pull 193.169.0.4/library/centos:v233
 
 ## 弃用分割线==============
 
+
+
+# Jenkins尚硅谷的安装方法 (master)
+
+[bili](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+把 F:\yunwei\Jenkins 尚硅谷\软件\jenkins.war 拖进 master
+java -jar jenkins.war --httpPort=8081	#因为8080端口可能被占用
+# 初始密码位置
+/root/.jenkins/secrets/initialAdminPassword
+ced957d4e4b041c5b623df74fbbcc0d1
+
+sudo chown -R root:jenkins /var/lib/jenkins/
+
+# 装java 
+复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
+rpm -i jdk-11.0.14_linux-x64_bin.rpm
+# maven安装
+把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 node1
+tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
+vim /etc/profile
+MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
+export PATH=${MAVEN_HOME}/bin:${PATH}
+source  /etc/profile
+/usr/local/maven/apache-maven-3.8.6/bin/mvn
+
+
+# docker装 jenkins
+安装docker
+sudo yum install -y docker-ce-20.10.17 docker-ce-cli-20.10.17 containerd.io-1.6.6
+systemctl enable docker --now
+装jenkins
+docker pull jenkins/jenkins:lts-jdk11
+docker run --name myjenkins \
+-p 8080:8080 -p 50000:50000 \
+-v /var/jenkins_home jenkins/jenkins \
+-v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
+
+sudo chown -R root /usr/local/maven/apache-maven-3.8.6
+sudo chown -R myjenkins /usr/local/maven/apache-maven-3.8.6
+
+如果要删掉
+docker ps -a
+docker rm c4271b32d37d
+
+#Bug java -jar jenkins.war 启动报错 Failed to bind to 0.0.0.0/0.0.0.0:8080
+lsof -i tcp:8080		查看占用了8080的应用
+kill -9 1720			杀掉应用 pid 1720
+
+访问
+193.169.0.3:8080
+创建账号 admin ， 9Z.
+看密码
+/var/jenkins_home/secrets/initialAdminPassword
+840bb3809b7a4a6295d6e672e81181bc
+
+#安装maven插件
+左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
+Install without restart, 
+创建
+返回到Dashboard，New Item, name is first, Maven project, 
+
+# 把 github 或 gitee 的项目放到 私人gitlab
+gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
+	https://gitee.com/jasonbourne233/yygh-parent.git
+github私人令牌 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
+	https://github.com/JasonBourne33/yygh-parent
+gitea 私人令牌	
+	https://try.gitea.io/JasonBourne233/yygh-parent.git
+
+#上传本地 yygh 到 gitlab
+在 F:\yunweiProject\gitlab yygh\yygh-parent 先
+git clone https://try.gitea.io/JasonBourne233/yygh-parent.git
+git clone http://193.169.0.4/root/java-project.git
+再把 java-project 里面的内容复制出来，覆盖
+git add .
+git commit -m first
+git push
+
+Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
+the tool configuration ， 拉下去 add maven， name is maven3, 
+```
+
+[占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
+
 # Jenkins Install
 
 [马士兵bili](https://www.bilibili.com/video/BV1DB4y1U7Gz?p=12&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	jenkins cn官网	[配置docker加速](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)	[尚硅谷的安装方法](https://www.bilibili.com/video/BV1bS4y1471A?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
@@ -365,7 +443,7 @@ docker pull 193.169.0.4/library/centos:v233
 ```sh
 #执行流程
 jenkins从gitlab把代码拉下来（clone） 
-Jenkins master把编译工作分成几个agent来执行(fenbushi )
+Jenkins master把编译工作分成几个agent来执行(分步式)
 04.55 agent（mvn）连接到nexus去下载依赖包，agent把编译好的jar包部署到web服务器
 
 

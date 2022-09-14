@@ -19,13 +19,16 @@ spec:
       name: jenkins
     spec:
       hostAliases:
-        - ip: "192.168.1.200"
+        - ip: "193.169.0.3"
           hostnames:
-            - "updates.jenkins-ci.org"
+            - "master"
+      nodeName: master
       containers:
         - name: jenkins
-          image: jenkins/jenkins:2.361
-          imagePullPolicy: IfNotPresent
+          image: jenkins/jenkins:latest
+#          image: jenkins/jenkins:2.361
+          imagePullPolicy: "Never"
+#          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 30080
               name: web
@@ -33,13 +36,13 @@ spec:
             - containerPort: 30081
               name: agent
               protocol: TCP
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 2Gi
-            requests:
-              cpu: 500m
-              memory: 512Mi
+#          resources:
+#            limits:
+#              cpu: 1000m
+#              memory: 2Gi
+#            requests:
+#              cpu: 500m
+#              memory: 512Mi
           livenessProbe:
             httpGet:
               path: /login
@@ -58,8 +61,8 @@ spec:
             - name: jenkins-home
               mountPath: /var/lib/jenkins
           env:
-            - name: JENKINS_HOME
-              value: /var/lib/jenkins
+#            - name: JENKINS_HOME
+#              value: /var/lib/jenkins
             - name: JENKINS_OPTS
               value: --httpPort=30080
             - name: JENKINS_SLAVE_AGENT_PORT

@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkins 尚硅谷.md" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins 尚硅谷.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/K8s.md" beforeDir="false" afterPath="$PROJECT_DIR$/K8s.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s yaml/myjenkins.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s yaml/myjenkins.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +63,7 @@
       <workItem from="1661839532451" duration="1375000" />
       <workItem from="1661844582329" duration="28000" />
       <workItem from="1663032252350" duration="4050000" />
+      <workItem from="1663116565479" duration="10164000" />
     </task>
     <servers />
   </component>
