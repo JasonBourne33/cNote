@@ -59,7 +59,10 @@ spec:
             failureThreshold: 12
           volumeMounts:
             - name: jenkins-home
-              mountPath: /var/lib/jenkins
+              mountPath: /var/lib/jenkins #pod里挂载的路径
+            - name: maven-home
+              mountPath: /var/lib/maven3
+
           env:
 #            - name: JENKINS_HOME
 #              value: /var/lib/jenkins
@@ -70,7 +73,11 @@ spec:
       volumes:
         - name: jenkins-home
           hostPath:
-            path: /data/devops/jenkins
+            path: /data/devops/jenkins  #宿主机（centos）的路径
+            type: Directory
+        - name: maven-home
+          hostPath:
+            path: /usr/local/maven/apache-maven-3.8.6
             type: Directory
       serviceAccountName: jenkins
 ---

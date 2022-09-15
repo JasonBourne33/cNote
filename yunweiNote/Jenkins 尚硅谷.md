@@ -2,6 +2,8 @@
 
 
 
+
+
 # Dashboard
 
 ```sh
@@ -16,7 +18,7 @@ kubectl apply -f dashboard.yaml
 
 #设置访问端口
 kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
-/type搜索，把值改了 type:NodePort
+/type搜索，把值改了 type: NodePort
 kubectl get svc -A |grep kubernetes-dashboard
 
 #开放端口30753（云服务器在控制台也要操作）
@@ -25,7 +27,7 @@ firewall-cmd --zone=public --add-port=31522/tcp --permanent
 systemctl restart firewalld.service
 firewall-cmd --reload 
 # 家  https://193.169.0.3:31642/#/login
-# comp		https://193.169.0.3:31522/#/login
+# comp		https://193.169.0.3:32233/#/login
 # advance ， 继续前往，提示要token
 # 在root目录下创建用户配置的yaml
 vi dash.yaml
@@ -53,9 +55,15 @@ kubectl apply -f dash.yaml
 
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 #复制token进去登录，我的是
-eyJhbGciOiJSUzI1NiIsImtpZCI6IkJwU25DS1dvU01nSXRWUVM4ODNkSjRQZXRqZDhseHpNLVVsa25GYWxkWFUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWI5cnc5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI5MTcxOWFmZC05Y2ZjLTQwYTEtYmYxOC0xMjAzN2FmYmQyZDgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.TYMUrJ6yewEXqbqWPMzOEojotjqjGgBx3SEJ-55-uJjMxdOPvBKDQhZNEJ5TdMgPf2s4o57uhis13bgEOwZ27n0APEecoxT8p1pGi6hIrl79RWgt3x__IwxvTOf2MU9DcD2cvxFePYEFi4yz79-fEzjs8O_t1lK42eITUIrOsqk-le7DQtFEnKw7Qp0v6cbLxilv5o0Vyo0TFWFUrQJnl6FQIiAWCnA00eZoMuNFutFAkKN7AwvgcGpsiXGkQnGL9upLlnPkMXgiWqqKNiLQp2ufZdbetA9-xbxRmHr12_Mi5lhQzE3UHh6L7KHcJnWhQ43adXIutZVZim_yn9_Vcg
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkJwU25DS1dvU01nSXRWUVM4ODNkSjRQZXRqZDhseHpNLVVsa25GYWxkWFUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXRrbTVnIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMzJlOWQwZS02ZDQzLTQ2OWUtOTczOC00MDM0N2I3Nzc3YzUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.tYvp9tgtxayVTczwBAdD3DubCvSV0WBGuMXXGhDrb9O8Nyktl4nZ4CF6iMZFgk1JNIS7indxfyKKBCg7SPMP1HbvKSvuj5hKSxkKX-hZQ5UA17u8a47wnhQkX89aBk-1s8V2KsLLKdV3xGOb07BEir2OL1Quv9Uxs3pC7d54_gq-gEO6vrFpKK8OVBl6UGC_qiujsMOevYa1mbmQflKRG8ZmWAjF8T6EvXQqNyZH2hFHBkbhsdn98p_qkds0vunCMUJ0ctWArzLGIGTMho_i42NTpp-0ub5holKipLdf-gMBMHlx3FC2XjvtM3caB70ZqP9i_dWHKVN3VrFyZFDCQQ
 
-kubectl describe pod jenkins-856b785ff9-lrh79
+
+
+kubectl describe -n devops pod jenkins-666c68d849-d9zd9
+kubectl get pod -A
+kubectl describe -n kubernetes-dashboard pod dashboard-metrics-scraper-79c5968bdc-tnwzm
+kubectl describe -n kubernetes-dashboard pod kubernetes-dashboard-658485d5c7-2j886
+kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-2j886
 ```
 
 
@@ -77,34 +85,32 @@ docker run --name myjenkins \
 -v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
 
 
+# 装java 
+复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
+rpm -i jdk-11.0.14_linux-x64_bin.rpm
+# maven安装
+把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 master
+tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
+vim /etc/profile
+MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
+export PATH=${MAVEN_HOME}/bin:${PATH}
+source  /etc/profile
+/usr/local/maven/apache-maven-3.8.6/bin/mvn
+
+
 vi myjenkins.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: jenkins
-spec:
-  containers:
-    - name: jenkins
-      image: jenkins
-      ports:
-        - containerPort: 8080
-      volumeMounts:                   #持久卷
-        - mountPath: /var/jenkins_home
-          name: jenkins-home
-        - mountPath: /usr/local/maven/apache-maven-3.8.6
-          name: maven-home
-  volumes:
-    - name: jenkins-home
-      emptyDir: {}
-    - name: maven-home
-      emptyDir: {}
-#应用上redis.yaml
+
+#应用上myjenkins.yaml
+kubectl create ns devops
+mkdir /data
+mkdir /data/devops
+mkdir /data/devops/jenkins
 kubectl apply -f myjenkins.yaml
 
 http://193.169.0.3:30080/login
 查看密码
 kubectl get pod -A
-kubectl logs jenkins-89775958f-n2qbl -n devops
+kubectl logs jenkins-666c68d849-2w5tx -n devops
 
 
 虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
@@ -117,6 +123,41 @@ bash: /var/jenkins_home/secrets/initialAdminPassword: Permission denied
 用root进入jenkins
 docker ps
 docker exec -it -u root 'a105eb174e81' /bin/bash
+
+下载完plugin后可能需要 重启jenkins http://193.169.0.3:30080/restart
+
+
+
+
+
+
+
+#安装maven插件
+左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
+Install without restart, 
+创建
+返回到Dashboard，New Item, name is first, Maven project, 
+
+# 把 github 或 gitee 的项目放到 私人gitlab
+gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
+	https://gitee.com/jasonbourne233/yygh-parent.git
+github私人令牌 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
+	https://github.com/JasonBourne33/yygh-parent
+gitea 私人令牌	
+	https://try.gitea.io/JasonBourne233/yygh-parent.git
+
+#上传本地 yygh 到 gitlab
+在 F:\yunweiProject\gitlab yygh\yygh-parent 先
+git clone https://try.gitea.io/JasonBourne233/yygh-parent.git
+git clone http://193.169.0.4/root/java-project.git
+再把 java-project 里面的内容复制出来，覆盖
+git add .
+git commit -m first
+git push
+
+yum install -y git
+Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
+the tool configuration ， 拉下去 add maven， name is maven3, /usr/local/maven
 ```
 
 
@@ -164,7 +205,7 @@ docker run --detach \
   
 如果端口被占用，停掉nginx，解决冲突
 systemctl stop nginx
-docker -ps a
+docker ps -a
 docker start gitlab
 docker exec -it gitlab /bin/bash
 
@@ -407,31 +448,7 @@ kill -9 1720			杀掉应用 pid 1720
 /var/jenkins_home/secrets/initialAdminPassword
 840bb3809b7a4a6295d6e672e81181bc
 
-#安装maven插件
-左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
-Install without restart, 
-创建
-返回到Dashboard，New Item, name is first, Maven project, 
 
-# 把 github 或 gitee 的项目放到 私人gitlab
-gitee 私人令牌	9e24dea4123f65d0851f76c66f52fb99
-	https://gitee.com/jasonbourne233/yygh-parent.git
-github私人令牌 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
-	https://github.com/JasonBourne33/yygh-parent
-gitea 私人令牌	
-	https://try.gitea.io/JasonBourne233/yygh-parent.git
-
-#上传本地 yygh 到 gitlab
-在 F:\yunweiProject\gitlab yygh\yygh-parent 先
-git clone https://try.gitea.io/JasonBourne233/yygh-parent.git
-git clone http://193.169.0.4/root/java-project.git
-再把 java-project 里面的内容复制出来，覆盖
-git add .
-git commit -m first
-git push
-
-Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
-the tool configuration ， 拉下去 add maven， name is maven3, 
 ```
 
 [占用8080端口的解决办法](https://stackoverflow.com/questions/38357981/could-not-bind-to-0-0-0-08080-it-may-be-in-use-or-require-sudo)	
