@@ -14,7 +14,7 @@ vi dashboard.yaml
 #把recommended.yaml的内容复制到 dashboard.yaml
 kubectl apply -f dashboard.yaml
 #如果要删除
-#kubectl delete -f dashboard.yaml
+# kubectl delete -f dashboard.yaml
 
 #设置访问端口
 kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
@@ -63,7 +63,7 @@ kubectl describe -n devops pod jenkins-666c68d849-d9zd9
 kubectl get pod -A
 kubectl describe -n kubernetes-dashboard pod dashboard-metrics-scraper-79c5968bdc-tnwzm
 kubectl describe -n kubernetes-dashboard pod kubernetes-dashboard-658485d5c7-2j886
-kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-2j886
+kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-mq26t
 ```
 
 
@@ -85,17 +85,7 @@ docker run --name myjenkins \
 -v /usr/local/maven/apache-maven-3.8.6:/usr/local/maven/apache-maven-3.8.6 
 
 
-# 装java 
-复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
-rpm -i jdk-11.0.14_linux-x64_bin.rpm
-# maven安装
-把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 master
-tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
-vim /etc/profile
-MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
-export PATH=${MAVEN_HOME}/bin:${PATH}
-source  /etc/profile
-/usr/local/maven/apache-maven-3.8.6/bin/mvn
+
 
 
 vi myjenkins.yaml
@@ -110,8 +100,8 @@ kubectl apply -f myjenkins.yaml
 http://193.169.0.3:30080/login
 查看密码
 kubectl get pod -A
-kubectl logs jenkins-666c68d849-2w5tx -n devops
-
+kubectl logs jenkins-666c68d849-gctfs -n devops
+3adb01e498c542c2a85ed5b46ef87817
 
 虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 但是  -bash: /var/jenkins_home/secrets/initialAdminPassword: No such file or directory
@@ -131,6 +121,36 @@ docker exec -it -u root 'a105eb174e81' /bin/bash
 
 
 
+
+
+```
+
+
+
+# Jenkins 配置 maven   安装java，maven
+
+[bili](https://www.bilibili.com/video/BV1bS4y1471A?p=10&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+# 装java 
+复制 F:\SSM\relevent soft\可用 jdk11 jre9 tomcat9\jdk-11.0.14_linux-x64_bin.rpm 到/root
+rpm -i jdk-11.0.14_linux-x64_bin.rpm
+# maven安装
+把 F:\yunwei\Jenkins 尚硅谷\软件\apache-maven-3.8.6-bin.tar.gz 拖进 master
+tar -zxvf apache-maven-3.8.6-bin.tar.gz -C /usr/local/maven
+vim /etc/profile
+MAVEN_HOME=/usr/local/maven/apache-maven-3.8.2
+export PATH=${MAVEN_HOME}/bin:${PATH}
+source  /etc/profile
+/usr/local/maven/apache-maven-3.8.6/bin/mvn
+#配置maven镜像
+在 /usr/local/maven/apache-maven-3.8.6/conf/settings.xml 里可以加镜像
+    <mirror>
+        <id>aliyunmaven</id>
+        <mirrorOf>*</mirrorOf>
+        <name>阿里云公共仓库</name>
+        <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
 
 #安装maven插件
 左边 Manage Jenkins，拉下去 Plugin Manager， Available，搜 maven ，勾选Maven Integration， 
@@ -156,9 +176,15 @@ git commit -m first
 git push
 
 yum install -y git
-Jenkins里 Source Code Management， 选git， http://193.169.0.4/root/java-project.git
-the tool configuration ， 拉下去 add maven， name is maven3, /usr/local/maven
+左边 Manage Jenkins, Global Tool Configuration, 拉下去 add maven， name is maven3, /var/lib/maven3	(因为k8s的jenkins里pod的挂载目录是 /var/lib/maven3)
+Jenkins里 New Item, Maven project,  Source Code Management， 
+选git， http://193.169.0.4/root/java-project.git ， Branches to build is */main
+the tool configuration ， 
 ```
+
+
+
+
 
 
 
@@ -208,6 +234,9 @@ systemctl stop nginx
 docker ps -a
 docker start gitlab
 docker exec -it gitlab /bin/bash
+
+访问
+http://193.169.0.4/
 
 root, 查看初始密码 cat /etc/gitlab/initial_root_password，登录进去
 右上角， edit profile， 左边password，改密码999Zzz...
