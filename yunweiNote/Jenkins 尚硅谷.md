@@ -105,7 +105,7 @@ kubectl apply -f myjenkins.yaml
 http://193.169.0.3:30080/login
 查看密码
 kubectl get pod -A
-kubectl logs jenkins-666c68d849-7hsbf -n devops
+kubectl logs jenkins-6c7fbcd97d-jflqm -n devops
 d99e20ff322c46ea8d9ca90c74c04a6f
 
 虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
