@@ -23,11 +23,11 @@ kubectl get svc -A |grep kubernetes-dashboard
 
 #开放端口30753（云服务器在控制台也要操作）
 #firewall-cmd --zone=public --add-port=30753/tcp --permanent	
-firewall-cmd --zone=public --add-port=31522/tcp --permanent	
+firewall-cmd --zone=public --add-port=31593/tcp --permanent	
 systemctl restart firewalld.service
 firewall-cmd --reload 
 # 家  https://193.169.0.3:31642/#/login
-# comp		https://193.169.0.3:32233/#/login
+# comp		https://193.169.0.3:30070/#/login
 # advance ， 继续前往，提示要token
 # 在root目录下创建用户配置的yaml
 vi dash.yaml
@@ -55,15 +55,20 @@ kubectl apply -f dash.yaml
 
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 #复制token进去登录，我的是
-eyJhbGciOiJSUzI1NiIsImtpZCI6IkJwU25DS1dvU01nSXRWUVM4ODNkSjRQZXRqZDhseHpNLVVsa25GYWxkWFUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXRrbTVnIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMzJlOWQwZS02ZDQzLTQ2OWUtOTczOC00MDM0N2I3Nzc3YzUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.tYvp9tgtxayVTczwBAdD3DubCvSV0WBGuMXXGhDrb9O8Nyktl4nZ4CF6iMZFgk1JNIS7indxfyKKBCg7SPMP1HbvKSvuj5hKSxkKX-hZQ5UA17u8a47wnhQkX89aBk-1s8V2KsLLKdV3xGOb07BEir2OL1Quv9Uxs3pC7d54_gq-gEO6vrFpKK8OVBl6UGC_qiujsMOevYa1mbmQflKRG8ZmWAjF8T6EvXQqNyZH2hFHBkbhsdn98p_qkds0vunCMUJ0ctWArzLGIGTMho_i42NTpp-0ub5holKipLdf-gMBMHlx3FC2XjvtM3caB70ZqP9i_dWHKVN3VrFyZFDCQQ
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkJwU25DS1dvU01nSXRWUVM4ODNkSjRQZXRqZDhseHpNLVVsa25GYWxkWFUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWJ6ZDhiIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmYzY0OGU4Yy05YzJmLTQ1MjgtYjhkYi1jODI0MjQ1ZDExOTgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.S8CmQrct7KvR_VQvtbkF-cjsTeIyTzk_fgitshGFlbydj7Epm1IhZcpXImqjzdrv3GpNXGTbmrfHB3T4LW4xuy-bnJ1AePUEokl6coYhj2Z-LLSNNK1_4e8d25WGho16qUeMMgNeVOmTEJIurOZr6ts6ayJypfCJn63dK33PPaCmwfRAOZ7khKzAGT5xt2VQ8QogtXwsbmuUUEmAy5iuC73lx5-VYHzIQbTn6_Zo0KyeLLfkPXvJhU85mJY6sw1iuvD27-y2dg6moEdu_gdTfW0PAweZDNO1ChSs5m0D-cDQgOj5I3Vv-EjZCd6ePXqUeyiOZ5jPRorhC2_6ONpDgQ
 
 
 
-kubectl describe -n devops pod jenkins-666c68d849-d9zd9
-kubectl get pod -A
-kubectl describe -n kubernetes-dashboard pod dashboard-metrics-scraper-79c5968bdc-tnwzm
-kubectl describe -n kubernetes-dashboard pod kubernetes-dashboard-658485d5c7-2j886
-kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-mq26t
+
+
+# 账号密码登录
+https://www.cnblogs.com/wenyang321/p/14149099.html
+https://www.jianshu.com/p/5dca6b639e62
+
+
+
+
+
 ```
 
 
@@ -100,8 +105,8 @@ kubectl apply -f myjenkins.yaml
 http://193.169.0.3:30080/login
 查看密码
 kubectl get pod -A
-kubectl logs jenkins-666c68d849-gctfs -n devops
-3adb01e498c542c2a85ed5b46ef87817
+kubectl logs jenkins-666c68d849-7hsbf -n devops
+d99e20ff322c46ea8d9ca90c74c04a6f
 
 虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 但是  -bash: /var/jenkins_home/secrets/initialAdminPassword: No such file or directory
@@ -112,11 +117,16 @@ bash: /var/jenkins_home/secrets/initialAdminPassword: Permission denied
 ================================================
 用root进入jenkins
 docker ps
-docker exec -it -u root 'a105eb174e81' /bin/bash
+docker exec -it -u root 'fd7e55ea5ef2' /bin/bash
 
 下载完plugin后可能需要 重启jenkins http://193.169.0.3:30080/restart
 
-
+装不了插件 UnknownHostException: updates.jenkins-ci.org
+	https://blog.csdn.net/gaobingjin/article/details/120821599
+cat /etc/resolv.conf
+kubectl get pod -n kube-system -o wide | grep coredns
+kubectl get svc -n kube-system -o wide
+kubectl get endpoints -n kube-system -o wide|grep kube-dns
 
 
 
@@ -175,11 +185,31 @@ git add .
 git commit -m first
 git push
 
+#
 yum install -y git
 左边 Manage Jenkins, Global Tool Configuration, 拉下去 add maven， name is maven3, /var/lib/maven3	(因为k8s的jenkins里pod的挂载目录是 /var/lib/maven3)
 Jenkins里 New Item, Maven project,  Source Code Management， 
 选git， http://193.169.0.4/root/java-project.git ， Branches to build is */main
 the tool configuration ， 
+
+Manage Jenkins, Manage plugins, 搜publish over SSH， 
+
+#尝试解决Jenkins 下载插件的问题
+kubectl describe -n devops pod jenkins-666c68d849-d9zd9
+kubectl get pod -A
+kubectl describe -n kubernetes-dashboard pod dashboard-metrics-scraper-79c5968bdc-tnwzm
+kubectl describe -n kubernetes-dashboard pod kubernetes-dashboard-658485d5c7-2j886
+kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-mq26t
+kubectl get pods -n devops -o wide
+kubectl describe pod jenkins-666c68d849-gctfs -n devops
+docker exec -it -u root 2c835eb1dd25ed443acab764992ab6aa42673d60d637d4fd417c3e5409396f29 /bin/bash
+
+https://blog.csdn.net/qq_37950196/article/details/125297203
+docker ps | grep jenkins
+docker cp 33a6c4213562:/etc/resolv.conf /root/
+docker cp /root/resolv.conf 33a6c4213562:/etc/
+报错Error response from daemon: Error processing tar file(exit status 1): device or resource busy
+下一步，尝试挂载, 直接改了myjenkins，加上了挂载 jenkins-resolv，果然可以了
 ```
 
 

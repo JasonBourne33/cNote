@@ -62,6 +62,8 @@ spec:
               mountPath: /var/lib/jenkins #pod里挂载的路径
             - name: maven-home
               mountPath: /var/lib/maven3
+            - name: jenkins-resolv
+              mountPath: /etc/resolv.conf
 
           env:
 #            - name: JENKINS_HOME
@@ -79,6 +81,10 @@ spec:
           hostPath:
             path: /usr/local/maven/apache-maven-3.8.6
             type: Directory
+        - name: jenkins-resolv
+          hostPath:
+            path: /root/resolv.conf
+            type: FileOrCreate
       serviceAccountName: jenkins
 ---
 apiVersion: v1

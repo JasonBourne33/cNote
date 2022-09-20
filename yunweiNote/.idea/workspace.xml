@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4ce59c4-49cc-4d03-9a13-48199ced047f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../bong/新建文本文档.TXT" beforeDir="false" afterPath="$PROJECT_DIR$/../bong/新建文本文档.TXT" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkins 尚硅谷.md" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins 尚硅谷.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s yaml/myjenkins.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s yaml/myjenkins.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +67,8 @@
       <workItem from="1663116565479" duration="10164000" />
       <workItem from="1663202895200" duration="3611000" />
       <workItem from="1663299040808" duration="2689000" />
+      <workItem from="1663569664525" duration="1886000" />
+      <workItem from="1663637975513" duration="8739000" />
     </task>
     <servers />
   </component>
