@@ -67,8 +67,13 @@ https://www.jianshu.com/p/5dca6b639e62
 
 
 
-
-
+http://193.169.0.3:30080/manage/pluginManager/advanced 拉下去 Update Site
+https://updates.jenkins.io/update-center.json
+http://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+http://updates.jenkins-ci.org/update-center.json
+https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+http://mirror.esuni.jp/jenkins/updates/update-center.json
+http://mirror.xmission.com/jenkins/updates/update-center.json
 ```
 
 
@@ -105,8 +110,9 @@ kubectl apply -f myjenkins.yaml
 http://193.169.0.3:30080/login
 查看密码
 kubectl get pod -A
-kubectl logs jenkins-6c7fbcd97d-jflqm -n devops
-d99e20ff322c46ea8d9ca90c74c04a6f
+kubectl logs jenkins-666c68d849-gctfs -n devops
+kubectl logs jenkins-86559d88fb-fc8vs -n devops
+48bc8e891dab4ba2b9c54bdb32b68e70
 
 虽然显示 This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 但是  -bash: /var/jenkins_home/secrets/initialAdminPassword: No such file or directory
@@ -202,7 +208,9 @@ kubectl describe -n kubernetes-dashboard pod kubernetes-dashboard-658485d5c7-2j8
 kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-658485d5c7-mq26t
 kubectl get pods -n devops -o wide
 kubectl describe pod jenkins-666c68d849-gctfs -n devops
+kubectl describe pod jenkins-86559d88fb-fc8vs -n devops
 docker exec -it -u root 2c835eb1dd25ed443acab764992ab6aa42673d60d637d4fd417c3e5409396f29 /bin/bash
+docker exec -it -u root 5724ed0c64c71c7b4925d5abe7bcd511bb518b5290143b20c18a97c30453b41e /bin/bash
 
 https://blog.csdn.net/qq_37950196/article/details/125297203
 docker ps | grep jenkins
@@ -210,6 +218,15 @@ docker cp 33a6c4213562:/etc/resolv.conf /root/
 docker cp /root/resolv.conf 33a6c4213562:/etc/
 报错Error response from daemon: Error processing tar file(exit status 1): device or resource busy
 下一步，尝试挂载, 直接改了myjenkins，加上了挂载 jenkins-resolv，果然可以了
+
+离线的办法（可行）
+https://www.cnblogs.com/happyuu-2019/p/11433502.html
+先在https://plugins.jenkins.io/ 搜索要下载的 publish over X， 点Release， 点 Download: direct link，
+下载到F:\yunwei\jenkins hpi 
+							搜索要下载的 publish over ssh， 点Release， 点 Download: direct link，
+下载到F:\yunwei\jenkins hpi 
+在 http://193.169.0.3:30080/manage/pluginManager/advanced , 拉下去Deploy Plugin，Choose file， 
+
 ```
 
 
