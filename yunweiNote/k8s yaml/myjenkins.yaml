@@ -19,12 +19,15 @@ spec:
       name: jenkins
     spec:
       hostAliases:
-        - ip: "192.168.1.200"
+        - ip: "193.169.0.3"
           hostnames:
-            - "updates.jenkins-ci.org"
+            - "master"
+      nodeName: master
       containers:
         - name: jenkins
-          image: jenkins/jenkins:2.361
+          image: jenkins/jenkins:latest
+#          image: jenkins/jenkins:2.361
+#          imagePullPolicy: "Never"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 30080
@@ -33,13 +36,13 @@ spec:
             - containerPort: 30081
               name: agent
               protocol: TCP
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 2Gi
-            requests:
-              cpu: 500m
-              memory: 512Mi
+#          resources:
+#            limits:
+#              cpu: 1000m
+#              memory: 2Gi
+#            requests:
+#              cpu: 500m
+#              memory: 512Mi
           livenessProbe:
             httpGet:
               path: /login
@@ -56,10 +59,17 @@ spec:
             failureThreshold: 12
           volumeMounts:
             - name: jenkins-home
-              mountPath: /var/lib/jenkins
+              mountPath: /var/jenkins_home   #pod里挂载的路径
+#            - name: jenkins-home
+#              mountPath: /var/lib/jenkins
+            - name: maven-home
+              mountPath: /var/lib/maven3
+            - name: jenkins-resolv
+              mountPath: /etc/resolv.conf
+
           env:
-            - name: JENKINS_HOME
-              value: /var/lib/jenkins
+#            - name: JENKINS_HOME
+#              value: /var/lib/jenkins
             - name: JENKINS_OPTS
               value: --httpPort=30080
             - name: JENKINS_SLAVE_AGENT_PORT
@@ -67,8 +77,16 @@ spec:
       volumes:
         - name: jenkins-home
           hostPath:
-            path: /data/devops/jenkins
-            type: Directory
+            path: /data/devops/jenkins  #宿主机（centos）的路径
+            type: DirectoryOrCreate
+        - name: maven-home
+          hostPath:
+            path: /usr/local/maven/apache-maven-3.8.6
+            type: DirectoryOrCreate
+        - name: jenkins-resolv
+          hostPath:
+            path: /root/resolv.conf
+            type: FileOrCreate
       serviceAccountName: jenkins
 ---
 apiVersion: v1
