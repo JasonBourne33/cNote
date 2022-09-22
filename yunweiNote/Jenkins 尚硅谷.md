@@ -6,6 +6,8 @@
 
 # Dashboard
 
+[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=40&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
 ```sh
 #部署
 # kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
@@ -227,11 +229,39 @@ https://www.cnblogs.com/happyuu-2019/p/11433502.html
 下载到F:\yunwei\jenkins hpi 
 在 http://193.169.0.3:30080/manage/pluginManager/advanced , 拉下去Deploy Plugin，Choose file， 
 
+# 配置node1连接，
+Manage Jenkins, Configure System, 下拉到底 Publish over SSH， SSH Servers 点Add， 
+Name：testserver， 193.169.0.4， root，点advanced， 点 Use password authentication，
+Passphrase / Password ： 123456
+first 里，Configure， Post Steps, 选 Send files or execute commands over SSH， 选testserver， 
+Transfer Set Source files is **/demo-1/*.jar, Exec command is echo 1， Save
+运行 first 测试
+
+
 ```
 
 
 
 
+
+## heima
+
+[bili p84](https://www.bilibili.com/video/BV1kJ411p7mV?p=84&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+cd /var/jenkins_home/updates
+sed -i 's/http:\/\/updates.jenkinsci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g' default.json && sed -i 's/http:\/\/www.google.com/https:\/\/www.baidu.com/g' default.json
+
+在http://193.169.0.3:30080/manage/pluginManager/advanced ， 拉到底， 
+https://updates.jenkins.io/update-center.json	改为
+https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+
+kubectl cp devops/jenkins-666c68d849-gctfs:/var/jenkins_home/updates/ /data/devops/jenkins
+报错： tar: Removing leading `/' from member names
+https://github.com/kubernetes/kubernetes/issues/58692
+
+
+```
 
 
 
