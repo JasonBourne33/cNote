@@ -3,9 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="b4ce59c4-49cc-4d03-9a13-48199ced047f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../bong/新建文本文档.TXT" beforeDir="false" afterPath="$PROJECT_DIR$/../bong/新建文本文档.TXT" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../prophecy/学魔法.md" beforeDir="false" afterPath="$PROJECT_DIR$/../prophecy/学魔法.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkins 尚硅谷.md" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins 尚硅谷.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/.idea/yunwei.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/cc_rsync" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/check_url_func.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/func3.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/my_func.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/my_rsync" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/mysql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/mysqlAuto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/mysql_test.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/nginx.service" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/test_mysql.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yunwei/test_python_mysql.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../yunweiProject/yygh-parent" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../yunwei/Jenkins资料 heima/资料/k8s-jenkins" />
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -71,7 +87,8 @@
       <workItem from="1663722420047" duration="4978000" />
       <workItem from="1663745943942" duration="3396000" />
       <workItem from="1663814688838" duration="1550000" />
-      <workItem from="1663837447898" duration="666000" />
+      <workItem from="1663837447898" duration="1309000" />
+      <workItem from="1663894844147" duration="8272000" />
     </task>
     <servers />
   </component>

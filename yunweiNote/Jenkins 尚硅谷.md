@@ -244,7 +244,7 @@ Transfer Set Source files is **/demo-1/*.jar, Exec command is echo 1， Save
 
 
 
-## heima
+# heima
 
 [bili p84](https://www.bilibili.com/video/BV1kJ411p7mV?p=84&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
@@ -252,13 +252,15 @@ Transfer Set Source files is **/demo-1/*.jar, Exec command is echo 1， Save
 cd /var/jenkins_home/updates
 sed -i 's/http:\/\/updates.jenkinsci.org\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g' default.json && sed -i 's/http:\/\/www.google.com/https:\/\/www.baidu.com/g' default.json
 
+sed -i 's/http:\/\/updates.jenkins.io\/download/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins/g' default.json && sed -i 's/http:\/\/www.google.com/https:\/\/www.baidu.com/g' default.json
+
 在http://193.169.0.3:30080/manage/pluginManager/advanced ， 拉到底， 
 https://updates.jenkins.io/update-center.json	改为
 https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 
-kubectl cp devops/jenkins-666c68d849-gctfs:/var/jenkins_home/updates/ /data/devops/jenkins
+kubectl cp devops/jenkins-666c68d849-gctfs:/var/jenkins_home/updates /data/devops/jenkins
 报错： tar: Removing leading `/' from member names
-https://github.com/kubernetes/kubernetes/issues/58692
+https://blog.csdn.net/zzq060143/article/details/112287358
 
 
 ```
