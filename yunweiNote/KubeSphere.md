@@ -86,12 +86,12 @@ sudo systemctl restart docker
 ```sh
 #设置每个机器自己的hostname
 #分别设置主机名
-hostnamectl set-hostname k8s-master
+hostnamectl set-hostname master
 hostnamectl set-hostname node1
 hostnamectl set-hostname node2
 
 vi /etc/hosts
-193.169.0.3 k8s-master
+193.169.0.3 master
 193.169.0.4 node1
 
 # 将 SELinux 设置为 permissive 模式（相当于将其禁用）
@@ -134,8 +134,10 @@ sudo yum install -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9
 #启动kubelet
 sudo systemctl enable --now kubelet
 
-#所有机器配置master域名
-echo "193.169.0.3  k8s-master" >> /etc/hosts
+#所有机器添加master域名映射，以下需要修改为自己的
+echo "193.169.0.3  cluster-endpoint" >> /etc/hosts
+#验证	（cluster-endpoint在下面init会用到，标记为主节点）
+ping cluster-endpoint
 
 ```
 
@@ -172,14 +174,15 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities
 and service account keys on each node and then running the following as root:
 
-  kubeadm join cluster-endpoint:6443 --token 6aqxpc.6k717mj74i7tvzg1 \
-    --discovery-token-ca-cert-hash sha256:0adf6e25641618850c54a35e6c5d9fe2472d853774b31e931ae0aacf0b7a5296 \
+  kubeadm join cluster-endpoint:6443 --token makb6h.xvh3t0h2xnbknt0r \
+    --discovery-token-ca-cert-hash sha256:a93c0992c96625645c6015644bc4831cbf35eb86e802054122b898454d0242d9 \
     --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join cluster-endpoint:6443 --token 6aqxpc.6k717mj74i7tvzg1 \
-    --discovery-token-ca-cert-hash sha256:0adf6e25641618850c54a35e6c5d9fe2472d853774b31e931ae0aacf0b7a5296
+kubeadm join cluster-endpoint:6443 --token makb6h.xvh3t0h2xnbknt0r \
+    --discovery-token-ca-cert-hash sha256:a93c0992c96625645c6015644bc4831cbf35eb86e802054122b898454d0242d9 
+
 
 
     

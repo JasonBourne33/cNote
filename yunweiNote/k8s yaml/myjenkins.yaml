@@ -18,7 +18,7 @@ spec:
       namespace: devops
       name: jenkins
     spec:
-      hostAliases:
+      hostAliases:      #指定在master创建
         - ip: "193.169.0.3"
           hostnames:
             - "master"
