@@ -110,3 +110,10 @@ sysctl net.ipv4.ip_forward  	看是否成功
 
 
 
+## 存储抽象
+
+[bili nfs](https://www.bilibili.com/video/BV13Q4y1C7hS?p=62&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+```
+

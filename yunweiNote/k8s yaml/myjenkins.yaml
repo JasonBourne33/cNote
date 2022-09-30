@@ -77,7 +77,8 @@ spec:
       volumes:
         - name: jenkins-home
           hostPath:
-            path: /data/devops/jenkins  #宿主机（centos）的路径
+#            path: /data/devops/jenkins  #宿主机（centos）的路径
+            path: /root/jenkinsVolume  #宿主机（centos）的路径
             type: DirectoryOrCreate
         - name: maven-home
           hostPath:

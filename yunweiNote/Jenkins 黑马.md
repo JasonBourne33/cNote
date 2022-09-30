@@ -165,6 +165,50 @@ kubeadm reset -y
 
 
 
+## nfs 测试 (尚硅谷)
+
+[bili 62](https://www.bilibili.com/video/BV13Q4y1C7hS?p=62)	[语雀笔记](https://www.yuque.com/leifengyang/oncloud/ctiwgo#Rk0Qj)	
+
+```sh
+1、所有节点
+#所有机器安装
+yum install -y nfs-utils
+
+2、主节点
+#nfs主节点
+echo "/nfs/data/ *(insecure,rw,sync,no_root_squash)" > /etc/exports
+mkdir -p /nfs/data
+systemctl enable rpcbind --now
+systemctl enable nfs-server --now
+#配置生效
+exportfs -r
+
+3、从节点
+showmount -e 193.169.0.3
+#执行以下命令挂载 nfs 服务器上的共享目录到本机路径 /root/nfsmount
+mkdir -p /nfs/data
+mount -t nfs 193.169.0.3:/nfs/data /nfs/data	#两个node都要
+# 写入一个测试文件
+echo "hello nfs server" > /nfs/data/test.txt
+ 测试
+cd /nfs/data/
+echo 1111 > a
+cat /nfs/data/a
+
+4、原生方式数据挂载
+mkdir /nfs/data/nginx-pv
+kubectl apply -f deploy.yaml
+kubectl delete -f deploy.yaml
+
+https://www.bilibili.com/video/BV13Q4y1C7hS?p=64&vd_source=ca1d80d51233e3cf364a2104dcf1b743
+```
+
+
+
+
+
+
+
 ## k8s装 jenkins
 
 [bili p83](https://www.bilibili.com/video/BV1kJ411p7mV?p=83&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[bili nfs](https://www.bilibili.com/video/BV1kJ411p7mV?p=82&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
@@ -174,7 +218,8 @@ kubeadm reset -y
 1）安装NFS服务（node1也需要安装）
 yum install -y nfs-utils
 2）创建共享目录
-mkdir -p /opt/nfs/jenkins
+mkdir -p /nfs/data
+# mkdir -p /opt/nfs/jenkins
 vi /etc/exports 编写NFS的共享配置
 内容如下:
 /opt/nfs/jenkins *(rw,no_root_squash) 	*代表对所有IP都开放此目录，rw是读写
@@ -206,6 +251,7 @@ https://blog.csdn.net/sqhren626232/article/details/93619602		解决
           effect: "NoSchedule"
 
 #装jenkins
+1)黑马的安装 失败了，一直pending
 kubectl create namespace kube-ops
 kubectl apply -f /root/k8s-jenkins/jenkins-master/.
 kubectl delete -f /root/k8s-jenkins/jenkins-master/.
@@ -213,10 +259,15 @@ kubectl describe -n kube-ops pod jenkins-0
 
 spec template spec containers volumeMounts name		#pod里挂载的路径
 				  volumes name hostPath path 	  #宿主机（centos）的路径
-				  
-
-#检查Deployment修改历史
-kubectl rollout history deployment/nginx-deployment --namespace test-hl
+2）我自己找的 myjenkins.yaml	
+kubectl create namespace devops
+mkdir /root/jenkinsVolume
+kubectl apply -f /root/myjenkins.yaml
+kubectl delete -f /root/myjenkins.yaml
+kubectl describe pod jenkins -n devops
+kubectl logs jenkins-5ddf79879-lzxgh -n devops
+kubectl get pod jenkins-5ddf79879-lzxgh -n devops
+kubectl -n devops get pods
 
 
 #pdf 20页 国内插件 
