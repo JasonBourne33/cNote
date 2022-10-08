@@ -180,6 +180,13 @@ echo "/nfs/data/ *(insecure,rw,sync,no_root_squash)" > /etc/exports
 mkdir -p /nfs/data
 systemctl enable rpcbind --now
 systemctl enable nfs-server --now
+
+报错 Failed to start rpcbind.service: Connection timed out
+See system logs and 'systemctl status rpcbind.service' for details.
+journalctl -u rpcbind.service
+systemctl disable rpcbind --now
+systemctl disable nfs-server --now
+
 #配置生效
 exportfs -r
 
@@ -188,6 +195,11 @@ showmount -e 193.169.0.3
 #执行以下命令挂载 nfs 服务器上的共享目录到本机路径 /root/nfsmount
 mkdir -p /nfs/data
 mount -t nfs 193.169.0.3:/nfs/data /nfs/data	#两个node都要
+
+执行mount 后卡住
+mount -t nfs -o soft 193.169.0.3:/nfs/data /nfs/data
+umount -t nfs 193.169.0.3:/nfs/data /nfs/data
+
 # 写入一个测试文件
 echo "hello nfs server" > /nfs/data/test.txt
  测试
