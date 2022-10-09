@@ -199,12 +199,13 @@ mount -t nfs 193.169.0.3:/nfs/data /nfs/data	#两个node都要
 执行mount 后卡住
 mount -t nfs -o soft 193.169.0.3:/nfs/data /nfs/data
 umount -t nfs 193.169.0.3:/nfs/data /nfs/data
+昨天卡了一天的bug，今天开机就好了，可能是开机的时候网络没初始化好，下次再遇到试试重启电脑
 
 # 写入一个测试文件
 echo "hello nfs server" > /nfs/data/test.txt
  测试
 cd /nfs/data/
-echo 1111 > a
+echo 1111 > /nfs/data/a
 cat /nfs/data/a
 
 4、原生方式数据挂载
