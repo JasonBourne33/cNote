@@ -11,13 +11,29 @@ https://pan.baidu.com/s/1UNNhilOsaJOX6EmqcyMhig?pwd=mzfx#list/path=%2Fsharelink4
 
 
 
-# PPT配色
+## PPT配色
 
 [baidupan 提取码：1234 ](https://pan.baidu.com/s/1PNj3xl4DsOlvAEQ3Ddtd4Q)	[bili](https://www.bilibili.com/video/BV1ES4y1T7S6?vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 
 
-# office2013 可以编辑pdf
+## office2013 可以编辑pdf
+
+
+
+## PowerDesigner
+
+[源csdn](https://blog.csdn.net/Very666/article/details/89838800)	[百度网盘](https://pan.baidu.com/s/1j26Z5TSiImtFNRD_XHrUxw)		提取码:	g77d
+
+```sh
+#下载到的压缩包
+E:\BaiduNetdiskDownload\PowerDesigner165_Evaluation.rar
+# 破解
+把 pdflm16.dll 复制到安装目录 F:\soft\powerdesigner ，替换掉
+```
+
+
+
 
 
 
