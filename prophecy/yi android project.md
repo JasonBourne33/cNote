@@ -31,3 +31,14 @@ New Model, Categories, Application, Class Diagram
 
 ```
 
+
+
+## UEStudio
+
+[bili 基础技巧](https://www.bilibili.com/video/BV1us41167Tk/?spm_id_from=333.337.search-card.all.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+F:\p破解
+ALT+C 列模式，直接编辑列
+```
+
