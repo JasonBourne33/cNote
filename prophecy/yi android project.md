@@ -69,7 +69,7 @@ getTime x2 === 1500476532756
 
 ## 年月日时 算法
 
-[bili](https://www.bilibili.com/video/BV18T4y1J7gU/?spm_id_from=333.880.my_history.page.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+[bili](https://www.bilibili.com/video/BV18T4y1J7gU/?spm_id_from=333.880.my_history.page.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[jjonline/calendar.js](https://github.com/jjonline/calendar.js/blob/master/calendar.js)	
 
 ```sh
 1）纪年法： (公元年-3)/60=取商，取余数
@@ -125,5 +125,55 @@ gethour 0	 12	  34	56	78	9,10 11,12
 	   子	丑	寅	卯	辰	巳	午	未	申	酉	戌	亥
 
 
+```
+
+
+
+
+
+# 位运算
+
+[cnblogs](https://www.cnblogs.com/tinys-top/p/11648535.html)	[bili](https://www.bilibili.com/video/BV1DC4y1s7L9/?spm_id_from=333.337.search-card.all.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+```sh
+位运算操作整数。但是是操作整数的位。
+# & 按位 与，
+两个位都是1，结果就是1，否则为0。
+1.清零（将一个单元与0进行位与运算结果为零）
+2.取一个数指定位（例如取num=1010 1101的低四位 则将num&0xF得到0000 1101）。
+3.判断奇偶性：用if ((a & 1) == 0) 代替 if (a % 2 == 0)来判断a是不是偶数。
+
+# | 按位 或，
+两个或一个位是1，结果是1，否则为0。
+使用场景：
+下面这个方法是摘自HashMap类，这个算法来修改用户使用构造器传进来的size的，这个算法是使用移位和或结合来实现的，性能上比循环判断要好。
+public static final int tableSizeFor(int cap) {
+    int n = cap - 1;
+    n |= n >>> 1;
+    n |= n >>> 2;
+    n |= n >>> 4;
+    n |= n >>> 8;
+    n |= n >>> 16;
+    return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+
+# ^ 按位 异或，
+两个位不同，结果是1，否则结果为0。
+使用 ^ 位运算符（装逼必备）
+a ^= b;
+b ^= a;
+a ^= b;
+
+# ~ 按位 非，
+操作一个数，对位取反，0变成1，1变成0。
+
+# << 按位 左移，
+被操作的数据<<被移位数，左移后右边会空，补0。
+一般用来表示 乘以2 的操作，比如  66>>1=33  22>>1=11   23>>1=11
+
+# >> 按位 右移 ， 
+被操作的数>>被移位数，右移后左边补0，无符号最左边一位是0，有符号最左边一位是1。
+一般用来表示 除以2 的操作，比如  66>>1=33  22>>1=11   23>>1=11
+12>>> 
 ```
 
