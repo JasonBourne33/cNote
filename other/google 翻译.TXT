@@ -1,0 +1,23 @@
+
+https://www.bilibili.com/video/BV1rR4y1X7mf/?vd_source=ca1d80d51233e3cf364a2104dcf1b743 
+
+1 搜在线ping 
+https://www.ping.cn/ping/www.google.cn
+
+2 贴上
+http://www.google.cn/ 
+www.googleadservices.com
+找时间最短的ip复制
+
+3 进入
+C:\Windows\System32\drivers\etc
+hosts，右键属性，安全， Users，编辑，完全控制，确定
+打开hosts，
+203.208.43.102   translate.googleapi.com
+203.208.43.102   translate.google.cn
+
+
+
+
+Idea里装
+设置，plugins，搜 translation，
