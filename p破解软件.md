@@ -1,5 +1,18 @@
 
 
+## AdobeAcrobat   编辑PDF
+
+[下载](http://www.downza.cn/soft/20562.html)	F:\p破解\adobeacrobatXpro_setup
+
+```sh
+去掉 页眉  中国六爻联盟 http://www.6yao.com
+https://blog.csdn.net/u012321131/article/details/102567380
+点击【工具】->【动作向导】,点击【新建动作】->【保护】,点击【新建动作】->【保护】
+然后点击【指定设置】 ,输入要删的文字
+```
+
+
+
 
 
 ## UltraEdit
