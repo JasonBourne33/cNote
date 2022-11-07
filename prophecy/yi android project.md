@@ -7,7 +7,14 @@
         getLunarMine("2014", "11", "12"); //getMonCyl===1390
         这两年的 MonCyl 都是一样 导致干支文体
 
+这一年 isLeap=== true ，可标识不用从 monCyl===1391 去 -1
+新历 2014 11 12  农历 甲午年  getMonCyl===1390 甲戌月 丁亥日  2014年 9月 20日
 
+在加上 if(!isLeap){ 后 新历 2014 12 12 和 2014 11 12 都是   getMonCyl===1391 
+出现了问题
+
+private static boolean leepCount=false; //解决闰月要到offset=0才归位的问题
+leepCount 在 2014 11 12 到 2015 10 12（isLeap是true后 到 offset是0之前） 都是true ，其他时候的值跟着 isLeap
 
 
 
