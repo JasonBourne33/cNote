@@ -202,16 +202,10 @@ ALT+C 列模式，直接编辑列
 1 在main方法的时候 SourceSet with name 'main' not found.
 在.idea里 gradle.xml里 <GradleProjectSettings>标签里加上 <option name="delegatedBuild" value="false" />
 2 在main方法的时候 Failed to find Build Tools revision 30.0.2
-快捷键 Ctrl Alt Shift + S ， Modules， Build Tools Version 找能用的 30.0.3
+快捷键 Ctrl Alt Shift + S ， Modules， Build Tools Version 找到能用的 30.0.3
 快捷键 Ctrl Alt + S , 搜SDK, SDK Tools, Show Package details, 安装30.0.3
 
-festival的
-nowaday=== Wed Jul 19 00:00:00 CST 2017
-nowadaygetTime=== 1500393600000
 
-我的
-getTime  === Wed Jul 19 23:02:12 CST 2017
-getTime x2 === 1500476532756
 
 ```
 
