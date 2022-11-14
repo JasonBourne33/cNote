@@ -1,6 +1,12 @@
 
 
 ```sh
+11.14
+修复六爻干支不会变，把 BaGuaInit.getInstance().initHexagram(); 拖到 FlashActivity
+
+
+
+
 2022.11.1
 清零政策 习 二十大功绩
 二十大后~2023春节 名义清零，实际“放开”
