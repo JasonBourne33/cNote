@@ -1,0 +1,3 @@
+
+1 ctrl alt+S，搜SDK，选最新sdk版本和 tools版本
+2 创建一个项目，看两个build.gradle  和   gradle/wrapper/gradle-wrapper.properties  
