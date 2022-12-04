@@ -21,6 +21,7 @@ F:\p破解\UltraEdit
 
 ```sh
 打开 F:\soft\UltraEdit\IDM_Universal_Patch_v5.8_By_DFoX
+选 UltraEdit v26.x-(x64)
 选 IDM_Universal_Patch_v5.8_By_DFoX ， patch， 选安装目录 F:\soft\UltraEdit\ProtectionPlusDLL.dll ，
 添加防火墙规则 + IDM Firewall Rules
 ```
