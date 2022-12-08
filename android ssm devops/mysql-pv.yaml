@@ -1,0 +1,16 @@
+# 定义持久卷信息
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # pv是没有namespace属性的，它是一种跨namespace的共享资源
+  name: pv-1gi
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  # 存储类，具有相同存储类名称的pv和pvc才能进行绑定
+  storageClassName: nfs
+  nfs:
+    path: /nfs/data/01
+    server: 193.169.0.3

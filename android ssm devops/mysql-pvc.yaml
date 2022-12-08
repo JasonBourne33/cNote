@@ -1,0 +1,14 @@
+# 定义mysql的持久卷声明信息
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: dev
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  # 存储类，具有相同存储类名称的pv和pvc才能进行绑定
+  storageClassName: nfs
