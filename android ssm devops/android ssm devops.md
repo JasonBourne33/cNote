@@ -3,6 +3,15 @@
 [知乎源](https://zhuanlan.zhihu.com/p/502731000)
 
 ```sh
+整理后的
+
+开始前先准备
+kubectl taint nodes --all node-role.kubernetes.io/master-
+yum install nfs-utils -y
+service nfs start
+echo "/nfs/data/01 *(insecure,rw,sync,no_root_squash)" > /etc/exports
+cat /etc/exports
+
 1.创建namespace，把mysql部署在单独的名称空间中
 kubectl create namespace dev
 
@@ -35,16 +44,30 @@ kubectl get secret mysql-root-password -o yaml -n dev
 service使用NodePort类型，指定暴露的nodePort端口为31234，我们会在宿主机使用navicat客户端对mysql进行访问
 （2）执行创建命令
 kubectl create -f mysql-svc.yaml
+kubectl delete -f mysql-svc.yaml
+（3）查看创建结果
+kubectl get pod,svc -n dev
+```
+
+
+
+```sh
+踩坑过程：
 （3）查看创建结果
 kubectl get pod,svc -n dev
 一直在pending
 kubectl describe pod,svc -n dev
-发现 1 node(s) had taint {node.kubernetes.io/unreachable: }, that the pod didn't tolerate.
-kubectl describe node k8s-master
-把node1 开了后显示
-NAME                         READY   STATUS              RESTARTS   AGE
-pod/mysql-8474cf8649-d9bx5   0/1     ContainerCreating   0          155m
-kubectl describe pod,svc -n dev
-
+发现 0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn‘t
+kubectl taint nodes --all node-role.kubernetes.io/master-
+继续 kubectl describe pod,svc -n dev
+发现 wrong fs type, bad option, bad superblock on 193.169.0.3:/nfs/data/01,
+yum install nfs-utils -y
+重新 卸载后按照
+kubectl delete -f mysql-svc.yaml
+kubectl create -f mysql-svc.yaml
+发现 mount.nfs: Connection refused
+service nfs start
+发现 Output: mount.nfs: access denied by server while mounting 193.169.0.3:/nfs/data/01
+echo "/nfs/data/01 *(insecure,rw,sync,no_root_squash)" > /etc/exports
 ```
 

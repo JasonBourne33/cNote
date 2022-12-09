@@ -231,15 +231,16 @@ https://www.bilibili.com/video/BV13Q4y1C7hS?p=64&vd_source=ca1d80d51233e3cf364a2
 1）安装NFS服务（node1也需要安装）
 yum install -y nfs-utils
 2）创建共享目录
-mkdir -p /nfs/data
-# mkdir -p /opt/nfs/jenkins
+mkdir -p /nfs/jenkins
 vi /etc/exports 编写NFS的共享配置
 内容如下:
-/opt/nfs/jenkins *(rw,no_root_squash) 	*代表对所有IP都开放此目录，rw是读写
+/nfs/jenkins *(rw,no_root_squash) 	*代表对所有IP都开放此目录，rw是读写
 3）启动服务
 systemctl enable nfs 
 systemctl start nfs 
+
 4）查看NFS共享目录
+systemctl restart nfs 
 showmount -e 193.169.0.3
 
 #装nfs
