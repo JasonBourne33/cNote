@@ -5,7 +5,7 @@
 ```sh
 整理后的
 
-开始前先准备
+开始前先准备 nfs
 kubectl taint nodes --all node-role.kubernetes.io/master-
 yum install nfs-utils -y
 service nfs start

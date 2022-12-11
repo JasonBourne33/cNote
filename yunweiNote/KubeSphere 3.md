@@ -287,12 +287,12 @@ kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=
 
 ## 单点部署(增加，删除节点)
 
-[文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[升级](https://kubesphere.io/zh/docs/v3.3/upgrade/upgrade-with-kubekey/)	
+[kubesphere文档](https://kubesphere.io/zh/docs/quick-start/all-in-one-on-linux/)	[bili](https://www.bilibili.com/video/BV13Q4y1C7hS?p=74&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	[升级](https://kubesphere.io/zh/docs/v3.3/upgrade/upgrade-with-kubekey/)	
 
 ```sh
 export KKZONE=cn
 #一定要最新版，现在是3.3.0，b站是旧的不能用
-curl -sfL https://get-kk.kubesphere.io | VERSION=v2.2.1 sh -
+curl -sfL https://get-kk.kubesphere.io | VERSION=v3.0.2 sh -
 chmod +x kk
 yum install -y conntrack
 
