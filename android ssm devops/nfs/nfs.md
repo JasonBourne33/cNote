@@ -35,6 +35,7 @@ exportfs
 kubectl delete -f nginx.yaml
 kubectl apply -f nginx.yaml
 
+kubectl get pod -A
 
 
 
