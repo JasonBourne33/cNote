@@ -24,3 +24,29 @@ http://193.169.0.3:31679/sample
 <NodeIP>:<NodePort>/sample
 ```
 
+
+
+在kubesphere的 tomcat
+
+```sh
+#创建目录
+mkdir /tomcatWebapp 
+
+#挂载出来
+Workloads， Edit YAML， 挂载出来
+spec:
+	template:
+		spec:
+			volumes:
+                - name: app-volume
+                  hostPath:
+                    path: /tomcatWebapp
+                    type: ''
+OK
+
+
+测试
+http://193.169.0.3:31679/ssm-crud-0.0.1-SNAPSHOT/
+http://193.169.0.3:31679/ssm-crud-0.0.1-SNAPSHOT/emps    
+```
+
