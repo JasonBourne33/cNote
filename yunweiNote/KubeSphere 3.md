@@ -453,12 +453,11 @@ collation-server=utf8mb4_unicode_ci
 skip-character-set-client-handshake
 skip-name-resolve
 
-Storage, Persistent Volume Claims, create, next, name is mysql-pvc,next, create
 
 #pod里的 配置文件目录/etc/mysql/conf.d
 Application Workloads, Workloads, Statefulsets, name is his-mysql, next, Add Contener, search mysql:5.7.35 , (1cpu,2000m memory),Use Default Ports,, enable Environment Variables, key is MYSQL_ROOT_PASSWORD , value is 123456, enable Synchronize Host Timezone, check,next, 
 Add Persistent Volume Claim Template , Read and write, Mount path is /var/lib/mysql, check, 
-Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d ,Select Specific Keys , next, create
+Mount Configmap or Secret, select mysql-conf, select Read-only, /etc/mysql/conf.d  , next, create
 
 #暴露给外网访问的service
 Services , create, Specify Workload, name is his-mysql, next, select Virtual IP Address, Specify Workload, Statefulsets, his-mysql, OK, Name is http-3306, Container is 3306, Service Port is 3306, next,
@@ -1030,4 +1029,4 @@ kubectl get pod -n kubesphere-monitoring-system  | grep Evicted | awk '{print $1
 
 ```
 
-``
+# ``
