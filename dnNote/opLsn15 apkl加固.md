@@ -1,7 +1,26 @@
 
 
+使用	Lsn11  p1  28.55 ， p2  42.40  49.05
+
+[谷歌文档](https://developer.android.google.cn/studio/command-line/apksigner?hl=zh-cn)	
+
 ```sh
-proxy_core 加密
+1）Yi项目里 右键，new， Module， Android Library， proxy_core
+右键，new， Module， Java or Kotlin Library， proxy_tools
+
+2）把Lsn15 的 proxy_core和 tools 的类分别复制到Yi里对应的 module下
+
+3）Yi的 Appllication 标签下，把名改了android:name="com.example.proxy_core.ProxyApplication"
+下面加入两个 meta-data 标签 app_name的value就是原来Application的name
+<!--真实的Application的全名-->
+        <meta-data android:name="app_name" android:value="com.example.administrator.lsn_11_demo.MyApplication"/>
+        <!--用于dex后的目录名_版本号-->
+        <meta-data android:name="app_version" android:value="\dexDir_1.0"/>
+        
+4）右边Gradle，proxy_core， build， assemble， build
+proxy_tools， 执行 main方法
+app包，build，outputs，apk，debug，temp下有发布的包
+
 
 ```
 
