@@ -1,4 +1,4 @@
-
+[github加固1](https://github.com/AndyGu/ProtectApp/tree/master/mylibrary/src/main)	[威超blog](https://weichao.io/a391c2121958/)	
 
 使用	Lsn11  p1  28.55 ， p2  42.40  49.05
 
@@ -21,6 +21,13 @@
 proxy_tools， 执行 main方法
 app包，build，outputs，apk，debug，temp下有发布的包
 
+zipalign -v -p -f 4 F:\AndroidProject\Yi\app\build\outputs\apk\debug\app-unsigned.apk F:\AndroidProject\Yi\app\build\outputs\apk\debug\app-unsigned-aligned.apk
+
+
+
+
+
+d8 --output F:\AndroidProject\Yi\proxy_tools\temp\classes.jar --release F:\AndroidProject\Yi\proxy_tools\temp\classes.dex
 
 ```
 
