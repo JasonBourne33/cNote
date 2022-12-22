@@ -29,3 +29,13 @@ implementation 'androidx.appcompat:appcompat:1.5.1'
 环境变量配置的名字必须是 ANDROID_HOME ， 改了名字AS就会报错
 ```
 
+
+
+日志乱码
+
+```sh
+1 编辑 D:\AS\bin\studio64.exe.vmoptions
+最后加上一句 -Dfile.encoding=UTF-8
+2 Setting， File Encodings, 设置三个地方utf-8
+```
+
