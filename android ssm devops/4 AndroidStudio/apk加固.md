@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 dx
 
 ```sh
@@ -17,7 +27,7 @@ d8
 原版dx的
 cmd.exe /C dx --dex --output=G:\AndroidProject\mProtectApp\JavaProtect\source\aar\temp\classes.dex G:\AndroidProject\mProtectApp\JavaProtect\source\aar\temp\classes.jar
 
-d8的
+我在 Terminal测试的d8的是
 cmd.exe /C d8 --output G:\AndroidProject\mProtectApp\JavaProtect\source\aar\temp G:\AndroidProject\mProtectApp\JavaProtect\source\aar\temp\classes.jar
 ```
 
@@ -36,7 +46,29 @@ d8 --output C:\Dev\MagicFoundation\Alcinoe\Tools\AddRJavaToClassesDex\tmp C:\Dev
 
 
 
+[how-to-sign-an-already-compiled-apk](https://stackoverflow.com/questions/10930331/how-to-sign-an-already-compiled-apk)
 
+```sh
+create a key using
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+
+then sign the apk using :
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore my_application.apk alias_name
+```
+
+
+
+Jett老师
+
+```sh
+cmd /c apksigner sign --ks proxy_tools/proxy2.jks --ks-key-alias jett --ks-pass pass:123456 --key-pass pass:123456 --out app/build/outputs/apk/debug/app-signed-aligned.apk app/build/outputs/apk/debug/app-unsigned-aligned.apk
+
+我的写进代码的应该是
+String cmd = "cmd /c apksigner sign --ks " + jks.getAbsolutePath() + " --ks-key-alias chao --ks-pass pass:123qwe --key-pass pass:123qwe --min-sdk-version 33 --out " + signedApk.getAbsolutePath() + " " + unsignedApk.getAbsolutePath();
+
+在 Terminal就是
+cmd /c apksigner sign --ks F:\AndroidProject\mProtectApp\JavaProtect\chaosKey.jks --ks-key-alias chao --ks-pass pass:123qwe --key-pass pass:123qwe --min-sdk-version 33 --out F:\AndroidProject\mProtectApp\JavaProtect\result\apk-signed.apk F:\AndroidProject\mProtectApp\JavaProtect\result\apk-unsigned.apk
+```
 
 
 
