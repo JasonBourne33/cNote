@@ -1,5 +1,23 @@
 
 
+Jett的 apksigner
+
+```sh
+cmd /c apksigner sign --ks F:\AndroidProject\mLsn11\JavaEncrypt\chaosKey.jks --ks-key-alias chao --ks-pass pass:123qwe --key-pass pass:123qwe --out F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-signed-aligned.apk F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-unsigned-aligned.apk
+```
+
+
+
+
+
+zipAlign
+
+```sh
+cmd /c zipalign -v -p -f 4 F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-unsigned.apk F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-unsigned-aligned.apk
+
+cmd /c zipalign -v -p 4 F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-unsigned.apk F:\AndroidProject\mLsn11\app\build\outputs\apk\debug\app-unsigned-aligned.apk
+```
+
 
 
 
