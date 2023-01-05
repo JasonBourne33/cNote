@@ -1,5 +1,22 @@
 
 
+
+
+mLsn11
+
+```sh
+1 app, build.gradle, dependencies, 加上 implementation project(':AndroidDecrypt')
+2 gradle, AndroidDecrypt, build, build
+3 gradle, app, build, build
+4 JavaEncrypt, Main, Run Main.main() 
+```
+
+
+
+
+
+
+
 Jett的 apksigner
 
 ```sh
