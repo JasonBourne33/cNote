@@ -6,9 +6,13 @@ mLsn11
 
 ```sh
 1 app, build.gradle, dependencies, 加上 implementation project(':AndroidDecrypt')
-2 gradle, AndroidDecrypt, build, build
-3 gradle, app, build, build
+ Menifest 改 Application name， 加meta-data
+2 gradle, app, build, build  ， 把chaosKey.jks 复制到JavaEncrypt
+3 gradle, AndroidDecrypt, build, build
 4 JavaEncrypt, Main, Run Main.main() 
+会报错，Terminal 执行 zipalignCmd
+cmd /c zipalign -v -p 4 F:\AndroidProject\Yi\app\build\outputs\apk\debug\app-unsigned.apk F:\AndroidProject\Yi\app\build\outputs\apk\debug\app-unsigned-aligned.apk
+再次执行 Run Main.main()
 ```
 
 
