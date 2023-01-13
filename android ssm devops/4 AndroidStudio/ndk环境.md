@@ -4,13 +4,23 @@
 
 [bili aes cpp](http://www.bilibili996.com/Course?id=4485172000021)	
 
-[as3.0 cmake](https://blog.csdn.net/laibowon/article/details/79939962)	
+[Android NDK 开发（五）AndroidStudio 2.2 NDK的开发环境搭建](https://blog.csdn.net/u011974987/article/details/52888864)	
 
 [github aes cpp](https://github.com/SergeyBel/AES)	
 
 [aes 的cbc模式和ecb模式](https://www.bilibili.com/video/BV1794y1X7Qh/?spm_id_from=333.788&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 [C++二进制byte转字符串char](https://blog.csdn.net/houwenbin1986/article/details/90231744)	
+
+[高级安卓NDK编程入门到精通之C/C++和Java相互调用](https://www.bilibili.com/video/BV1jg411m771/?spm_id_from=333.337.search-card.all.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
+[Android NDK开发扫盲及最新CMake的编译使用](https://cloud.tencent.com/developer/article/1906104)	
+
+
+
+[利用gradle插件，动态*加*载dex，以及*ndk*完成对sdk的*加**固*](https://github.com/kbjay/ReinforceSdk)	
+
+
 
 ```sh
 javac F:\AndroidProject\mLsn11\app\src\main\java\com\example\mlsn11\JNITest.java
