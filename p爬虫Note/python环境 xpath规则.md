@@ -3,7 +3,7 @@
 [xpath 匹配规则](https://www.bilibili.com/video/BV1Db4y1m7Ho/?p=70&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
-F:\pyProject\xpath.zip 拖到 chrome 的extension里
+E:\pyProject\xpath.zip 拖到 chrome 的extension里
 在任意网页按 ctrl+shift + x 打开
 在 F:\python3.9\Scripts 里打开cmd，安装lxml
 pip install lxml -i https://pypi.douban.com/simple
@@ -23,8 +23,8 @@ pip install lxml -i https://pypi.douban.com/simple
  如果要
  python -m pip install --upgrade pip
  安装tewisted
- pip install F:\pyProject\Twisted-20.3.0-cp39-cp39-win_amd64.whl
- 
+ pip install E:\pyProject\Twisted-20.3.0-cp39-cp39-win_amd64.whl
+ 安装scrapy
  pip install scrapy
  
  
@@ -101,7 +101,7 @@ System Interpreter，F:\python3.11\python.exe
 
 ```sh
 豆瓣250源项目  F:\pythonProject1
-forexfactory的 F:\pyForex
+外汇forexfactory的项目 F:\pyForex
 
 ```
 
