@@ -28,8 +28,8 @@ sonicglass 爬取
 F:\pyProject , 右键 cmd，
 scrapy startproject scrapy_sonic
 进入spider文件夹下
-scrapy genspider sonic https://sinoicglass.manufacturer.globalsources.com/showroom_6008854096487/glass-bong_115021-1.htm
-scrapy crawl sonicglass
+scrapy genspider ssonic https://sinoicglass.manufacturer.globalsources.com/showroom_6008854096487/glass-bong_115021-1.htm
+scrapy crawl ssonic
 
 
 
