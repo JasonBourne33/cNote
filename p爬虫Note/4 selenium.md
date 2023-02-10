@@ -2,6 +2,72 @@
 
 
 
+[驱动浏览器](https://www.jiubing.site/pages/c62e69/)	
+
+```sh
+chrome://version/
+```
+
+
+
+
+
+1 [告诉chrome去掉了webdriver痕迹](https://mp.weixin.qq.com/s/U45x8HCPpNe-22LRtXYaNQ)	https://bot.sannysoft.com/
+
+2 [关闭webrtc](https://mp.weixin.qq.com/s/zqW2cN2dNJoRjOfVsNUONA)	https://browserleaks.com/ip
+
+3 [加上日期和地理位置](https://mp.weixin.qq.com/s/bs4FHpWvh1VEhcylgcNUTA)	 https://whoer.net/
+
+4 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sonic网站检查出来
+
+```sh
+Your IP: 223.73.165.202
+Proxy IP: 107.154.197.39 (ID 10431-100)
+Incident ID: 431000910003523990-3718273475483336
+
+Your IP: 223.73.165.202
+Proxy IP: 107.154.197.39 (ID 10431-100)
+Incident ID: 431000910003533251-6068260536522441
+```
+
+
+
+
+
+安装
+
 ```sh
 
 找到chrome的版本 Help， about google chrome， 

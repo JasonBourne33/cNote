@@ -41,6 +41,7 @@ start_urls = ['https://sinoicglass.manufacturer.globalsources.com/showroom_60088
 #第一页标题 //div[@class="mod-prod-info"]/div[@class="tit"]/span/text()
 #第二页的链接  //div/ul[@class="product-list"]/li/a/@href
 #第二页的产品编号 //div[@id="Product" and @class="descriptions"]//table/tbody/tr[1]/td[@class="ant-descriptions-item-content"]/text()
+#//div[@class="tpl_txt_editor"]//strong/text()
 
 ```
 
