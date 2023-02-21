@@ -1,4 +1,7 @@
 
+雷狮公寓 
+龙巢海雾19-45扩展公寓4号
+
 报错
 GameDataService Error:Failed to initialize Lumina
 https://github.com/imchillin/Anamnesis/issues/978
