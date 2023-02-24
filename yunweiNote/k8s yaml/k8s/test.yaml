@@ -13,10 +13,10 @@ spec:
         app: hello-server
     spec:
       containers:
-      - name: hello-server
-        image: registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images/hello-server
-        ports:
-        - containerPort: 9000
+        - name: hello-server
+          image: registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images/hello-server
+          ports:
+            - containerPort: 9000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,8 +35,8 @@ spec:
         app: nginx-demo
     spec:
       containers:
-      - image: nginx
-        name: nginx
+        - image: nginx
+          name: nginx
 ---
 apiVersion: v1
 kind: Service
@@ -48,9 +48,9 @@ spec:
   selector:
     app: nginx-demo
   ports:
-  - port: 8000
-    protocol: TCP
-    targetPort: 80
+    - port: 8000
+      protocol: TCP
+      targetPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -62,6 +62,6 @@ spec:
   selector:
     app: hello-server
   ports:
-  - port: 8000
-    protocol: TCP
-    targetPort: 9000
+    - port: 8000
+      protocol: TCP
+      targetPort: 9000
