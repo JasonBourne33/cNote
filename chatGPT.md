@@ -3,6 +3,9 @@
 ```sh
 
 
+#bingchat
+git
+
 
 #微信原链接
 https://mp.weixin.qq.com/s/ihW7htmfsmSEvjexmwNnCQ
