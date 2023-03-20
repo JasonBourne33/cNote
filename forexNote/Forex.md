@@ -17,6 +17,13 @@
 
 
 
+加载模板
+
+```sh
+图表，模板，加载模板，
+C:\Users\Administrator\Desktop\cNote\forexNote tendrider
+```
+
 
 
 
