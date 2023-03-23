@@ -1,6 +1,6 @@
 
 
-[p25 公文](https://www.bilibili.com/video/BV1LT4y1F7NL?p=25&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	*会考
+## [p25 公文](https://www.bilibili.com/video/BV1LT4y1F7NL?p=25&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	*会考
 
 ```sh
 一 公文概述
@@ -74,7 +74,7 @@
 
 
 
-[p24宏观经济](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=24&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+## [p24宏观经济](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=24&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 一  宏观调控 国家的政府，人大（只考政府）
@@ -153,7 +153,8 @@
 
 
 
-[p22 社会主义市场经济](https://www.bilibili.com/video/BV1LT4y1F7NL?p=22&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+## [p22 社会主义市场经济](https://www.bilibili.com/video/BV1LT4y1F7NL?p=22&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+
 [p23 微观经济](https://www.bilibili.com/video/BV1LT4y1F7NL?p=23&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
@@ -256,7 +257,7 @@
 
 
 
-[p21 邓论](https://www.bilibili.com/video/BV1LT4y1F7NL?p=21&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+## [p21 邓论](https://www.bilibili.com/video/BV1LT4y1F7NL?p=21&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
 ```sh
 邓的活灵魂： 解放思想，实事求是
@@ -298,7 +299,7 @@
 
 
 
-[p20 毛概](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=20&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+## [p20 毛概](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=20&spm_id_from=pageDriver&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 重要级别： 习 > 邓  毛  可续发展和三个代表
@@ -376,9 +377,9 @@
 
 
 
-[p18 党史1](https://www.bilibili.com/video/BV1LT4y1F7NL?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	jiewei
+## [p18 党史1](https://www.bilibili.com/video/BV1LT4y1F7NL?p=9&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
-[p19 党史2](https://www.bilibili.com/video/BV1LT4y1F7NL?p=19&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	开始15分钟总结第一节课
+## [p19 党史2](https://www.bilibili.com/video/BV1LT4y1F7NL?p=19&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	开始15分钟总结第一节课
 
 ```sh
 重点考点：整数年份0和1jie'wei，当地事件有关，转折性事件
@@ -429,9 +430,9 @@
 
 
 
-[p16  马哲1](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=16&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+## [p16  马哲1](https://www.bilibili.com/video/BV1LT4y1F7NL/?p=16&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
-[p17 马哲2](https://www.bilibili.com/video/BV1LT4y1F7NL?p=17&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	1.51.54
+## [p17 马哲2](https://www.bilibili.com/video/BV1LT4y1F7NL?p=17&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	1.51.54
 
 ```sh
 哲学：系统化，理论化的世界观和方法论
@@ -564,7 +565,7 @@
 
 
 
-[p5 民法2	](https://www.bilibili.com/video/BV1LT4y1F7NL?p=5&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
+## [p5 民法2	](https://www.bilibili.com/video/BV1LT4y1F7NL?p=5&vd_source=ca1d80d51233e3cf364a2104dcf1b743)	
 
 ```sh
 一 监护的设定
@@ -591,7 +592,7 @@
 
 
 
-[p4 民法1 民事主体1](https://www.bilibili.com/video/BV1LT4y1F7NL?p=4&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+## [p4 民法1 民事主体1](https://www.bilibili.com/video/BV1LT4y1F7NL?p=4&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
 
 ```sh
 一 民法的概念
@@ -628,7 +629,7 @@
 
 
 
-[3 国家机构](https://www.bilibili.com/video/BV1LT4y1F7NL?p=3)
+## [3 国家机构](https://www.bilibili.com/video/BV1LT4y1F7NL?p=3)
 
 ```sh
 一 国家机构概述
@@ -641,7 +642,7 @@
 
 上级法院监督下级法院（只有监督，假设有领导关系那么二审终审制就无效了）
 
-二 人大职权
+二 人大职权 15个
 立法2	根本法，修宪：1/5提起 or 全人常委提议，再大于等于2/3通过
 	基本法：民事，刑事，国家机构	过半数同意才能通过
 选举5 主席副主席，中央军委主席，最高法院长，最高检察长，监察委主任
@@ -685,7 +686,7 @@
 
 
 
-[2 公民基本权利和义务](https://www.bilibili.com/video/BV1LT4y1F7NL)
+## [2 公民基本权利和义务](https://www.bilibili.com/video/BV1LT4y1F7NL)
 
 ```sh
 宪法的六大权利
@@ -718,7 +719,7 @@
 
 
 
-[1 公共基础知识](https://www.bilibili.com/video/BV1LT4y1F7NL)	
+## [p1 国家基本制度](https://www.bilibili.com/video/BV1LT4y1F7NL)	
 
 ```
 一 国体
@@ -728,16 +729,25 @@
 政体 根本政治制度
 人民代表大会
 
-政党制度
-中国共产党领导的 多党合作 和 政治协商制度
+二 政党制度
+中国共产党领导的 多党合作 和 政治协商制度 
+
+三 选举制度 *重要
+国省市 间接选举， 县乡 直接
+划分选区
+选民登记：本地区常驻人口 三大条件：中国公民，18周岁，未被剥夺政治权利（犯罪了，法院才有权剥夺）
 
 四 基本经济制度
+基本经济制度：公有制为主体，多种所有制经济共同发展
+基本分配制度：按劳分配为主体，多种分配方式并存
 宅基地，自留地/自留山 集体所有	（国有土地使用权证，房屋所有权证）
 居住用地70年，商业用地40年
 矿藏，水流，城市的土地归国家所有
+城市以外的土地默认归集体所有，除非特殊规定国家的
 
 五 自治制度 
     自治地方 只有 自治区，州，县 （民族乡不是自治地方）
+    区（省），州（市），县（区）
 
     四权 立法权高高在上，权力机关
          立法
@@ -760,9 +770,17 @@
 国务院 部， 省 厅， 市县 局， 乡政府没有办事部门
 
 
+
+```
+
+
+
+## [p1 宪法 刷题](https://www.bilibili.com/video/BV11L411R7R9/?spm_id_from=333.337.search-card.all.click&vd_source=ca1d80d51233e3cf364a2104dcf1b743)
+
+```sh
 刷题
 1 中 人 共和国根本制度：社会主义
-政体，根本政治制度:人民代表大会
+政体，根本政治制度:人民代表大会 
 国家机构的组织原则： 民主集中制度
 机关：有对外效力（公安局 ） 	机构：不具有对外效力，是机关的派出单位（派出所）
 2 宪法结构
@@ -774,5 +792,31 @@
 	邦联 欧盟 每个国家都是邦，独立国家
 	联邦 美国 独立主权
 4 政治协商制度核心： 共产党的领导
+5 宪法是反映 阶级 力量实际对比关系
+6 第一部社会主义类型宪法在 1954年制定
+7 中 人 共和国是工人阶级领导的，以工农联盟为基础的人民民主专政的社会主义国家
+8 《选举法》规定，少数民族应有人大代表 出发点是 实现民主平等
+9 乡县 直接选举，国省市 间接
+10 村委会 不行使政治权力，是通过 基层民主选举（海选）
+11 选民可书面委托其他选民代为投票，每一选民接受的委托最多不超过3人
+12 特别行政区（香港）有行政 立法 司法，没有国防和外交权
+13 自治地方有 立法权（人大） 和 行政权（政府） 自治机关没有人大常委
+	民族乡不是自治地方
+14 州 和 市 同一级别，区 县 
+15 特别行政区（香港）没有国防和外交权
+	国防权 由国务院（中央人民政府） 行使
+16 人大代表 兼职，人大常委委员 全职
+	四权不能重合，人大常委 立法权，教育厅厅长 行政权，最高检察院 和 最高法院 司法权
+	省总工会 社会组织 公益法人，民政部门指导监督
+17 国家机构 4+2 四权+中央军委，国家主席
+	全国政协 是 爱国统一战线组织，提案供参考
+	人大 可提交 议案
+18 人大 由 大会主席团 主持，由 人大常委会 召集
+	人大常委 还组织换届选举
+	大会主席团 还发布宪法修正案
+19 全国人大 决定 省级的建置，省政府 决定 乡的建置，其他国务院决定	
+	北京市直辖市 属于省级
+20 人大职权15个 国务院有外交部，国防部，卫计委（卫生健康）
+21
 ```
 
