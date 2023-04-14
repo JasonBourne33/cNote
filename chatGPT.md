@@ -5,6 +5,8 @@
 
 #bingchat
 git
+谷歌商店搜，安装插件 Bing Chat for All Browsers
+
 
 
 #微信原链接
