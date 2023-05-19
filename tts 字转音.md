@@ -19,3 +19,4 @@ Voice Settings
 
 [FlexClip 字幕生成](https://www.flexclip.com/cn/tools/auto-subtitle/)	
 
+chaos@gmail
