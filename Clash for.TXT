@@ -3,19 +3,10 @@ https://okz3.com/（正常）
 
 
 106
-1234
+lSo3
 
-表弟 2022/10/8
-2605218730@qq.com
-13432560876..
 
-聪哥
-https://suo.yt/kM3BQys
 
-华姐 2022/8/19 14:57:32 （炸了）
-2205863563@QQ.com
-Nadiafq1
-https://sub.okz2.xyz/api/v1/client/subscribe?token=2b7728a209fcf374952e0b3b1f946380
 
 
 
@@ -44,3 +35,19 @@ quick subscription- export to clash for android，右上角保存图标
 用yml
 profile- 右上角+号，import url，browse file
 点profile，再点右上角+号，点file，Browse Files，右边三点，import，选我发的这个文件
+
+
+
+
+
+
+
+表弟 2022/10/8
+2605218730@qq.com
+13432560876..
+
+
+华姐 2022/8/19 14:57:32 （炸了）
+2205863563@QQ.com
+Nadiafq1
+https://sub.okz2.xyz/api/v1/client/subscribe?token=2b7728a209fcf374952e0b3b1f946380
